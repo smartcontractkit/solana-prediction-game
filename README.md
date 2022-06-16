@@ -1,8 +1,8 @@
 <div align="center">
   
-# `Chainlink Prediction Game`
+# `Blockchain Prediction Game`
 
-This Project is a utilize [`moralis`](https://github.com/MoralisWeb3/Moralis-JS-SDK) and [`chainlink`](https://chain.link/) to demostrates how to build a simple Solana DeFi Dashboard App. This project works on both Solana Mainnet Beta, Testnet & Devnet.
+This Project is a utilize [`moralis`](https://github.com/MoralisWeb3/Moralis-JS-SDK) and [`chainlink`](https://chain.link/) to demostrates how to build a simple Prediction Game using Solana. This project works on both Solana Mainnet Beta, Testnet & Devnet. This is based of the the boilerplate [`solana-defi-dashboard`](https://github.com/YosephKS/solana-defi-dashboard)
   
 </div>
 
