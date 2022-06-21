@@ -4,7 +4,7 @@ import { Link, Box, Flex, Text, Button, Stack } from "@chakra-ui/react";
 import Logo from "./Logo";
 
 
-const NavBar = (props) => {
+const Header = (props) => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
@@ -75,20 +75,17 @@ const MenuLinks = ({ isOpen }) => {
         pt={[4, 4, 0, 0]}
       >
         <MenuItem to="/">Home</MenuItem>
-        <MenuItem to="/how">How It works </MenuItem>
-        <MenuItem to="/faetures">Features </MenuItem>
-        <MenuItem to="/pricing">Pricing </MenuItem>
-        <MenuItem to="/signup" isLast>
+        <MenuItem to="/" isLast>
           <Button
             size="sm"
             rounded="md"
-            color={["primary.500", "primary.500", "white", "white"]}
+            color={["primary.500", "primary.500", "black", "black"]}
             bg={["white", "white", "primary.500", "primary.500"]}
             _hover={{
               bg: ["primary.100", "primary.100", "primary.600", "primary.600"]
             }}
           >
-            Create Account
+            Connect Wallet
           </Button>
         </MenuItem>
       </Stack>
@@ -106,7 +103,7 @@ const NavBarContainer = ({ children, ...props }) => {
       w="100%"
       mb={8}
       p={8}
-      bg={["primary.500", "primary.500", "transparent", "transparent"]}
+      bg={["primary.500", "primary.500", "black", "black"]}
       color={["white", "white", "primary.700", "primary.700"]}
       {...props}
     >
@@ -115,4 +112,4 @@ const NavBarContainer = ({ children, ...props }) => {
   );
 };
 
-export default NavBar;
+export default Header;

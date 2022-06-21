@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { MoralisProvider } from "react-moralis";
+// import { MoralisProvider } from "react-moralis";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
@@ -8,15 +8,15 @@ import { ChakraProvider } from "@chakra-ui/react";
 
 ReactDOM.render(
   <React.StrictMode>
-    <MoralisProvider
+    {/* <MoralisProvider
       initializeOnMount
       appId={process.env.REACT_APP_MORALIS_APP_ID}
       serverUrl={process.env.REACT_APP_MORALIS_SERVER_URL}
-    >
+    > */}
       <ChakraProvider>
         <App />
       </ChakraProvider>
-    </MoralisProvider>
+    {/* </MoralisProvider> */}
   </React.StrictMode>,
   document.getElementById("root")
 );
