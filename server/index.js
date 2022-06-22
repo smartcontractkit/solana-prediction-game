@@ -1,22 +1,19 @@
 const express = require("express");
-const anchor = require("@project-serum/anchor");
-const chainlink = require("@chainlink/solana-sdk");
+const app = express();
+const http = require("http");
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const cors = require("cors");
 
-const provider = anchor.AnchorProvider.env();
+app.use(cors());
 
 const PORT = process.env.PORT || 3001;
 
-const app = express();
+const anchor = require("@project-serum/anchor");
+const chainlink = require("@chainlink/solana-sdk");
+const provider = anchor.AnchorProvider.env();
 
-
-app.listen(PORT, () => {
-  console.log(`Server listening on ${PORT}`);
-});
-
-app.get("/solana-feed", (req, res) => getSolanaFeed(req, res));
-
-
-async function getSolanaFeed(req, res){
+async function getSolanaFeed(socket){
   anchor.setProvider(provider);
 
   const CHAINLINK_FEED_ADDRESS="HgTtcbcmp5BeThax5AU8vg4VwK79qAvAKKFMs8txMLW6"
@@ -29,6 +26,25 @@ async function getSolanaFeed(req, res){
 
   //listen for events agains the price feed, and grab the latest rounds price data
   listener = dataFeed.onRound(feedAddress, (event) => {
-    res.write(JSON.stringify(event))
+    socket.broadcast.emit('receive_solana_data_feed', event)
   });
 }
+
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST", "DELETE", "PUT", "OPTIONS"],
+  }
+});
+
+io.on('connection', (socket) => {
+  socket.on('get_solana_data_feed', (data) => {
+    console.log(data);
+    console.log(`New User: ${socket.client.id}`);
+    getSolanaFeed(socket);
+  });
+});
+
+server.listen(PORT, () => {
+  console.log(`Server listening on ${PORT}`);
+});
