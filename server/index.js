@@ -13,15 +13,10 @@ app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });
 
-app.get("/solana-feed", (req, res) => {
-  getSolanaFeed().then(listener => {
-    console.log(listener.toString())
-    res.send(listener);
-  });
-});
+app.get("/solana-feed", (req, res) => getSolanaFeed(req, res));
 
 
-async function getSolanaFeed(){
+async function getSolanaFeed(req, res){
   anchor.setProvider(provider);
 
   const CHAINLINK_FEED_ADDRESS="HgTtcbcmp5BeThax5AU8vg4VwK79qAvAKKFMs8txMLW6"
@@ -34,10 +29,6 @@ async function getSolanaFeed(){
 
   //listen for events agains the price feed, and grab the latest rounds price data
   listener = dataFeed.onRound(feedAddress, (event) => {
-      console.log(event.answer.toNumber())
+    res.write(JSON.stringify(event))
   });
-
-  console.log("listener", listener)
-
-  return listener;
 }
