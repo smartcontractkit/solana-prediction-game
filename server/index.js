@@ -35,7 +35,8 @@ async function getSolanaFeed(socket, address){
       observationsTS: event.observationsTS,
       slot: event.slot,
     };
-    socket.to(feedAddress).emit('receive_solana_data_feed', eventData);
+    // socket.to(feedAddress).emit('receive_solana_data_feed', eventData); // TODO change to address
+    socket.broadcast.emit('receive_solana_data_feed', eventData);
   });
 }
 
@@ -50,7 +51,7 @@ io.on('connection', (socket) => {
   socket.on('get_solana_data_feed', (feedAddress) => {
     console.log(`feedAddress: ${feedAddress}`);
     console.log(`New User: ${socket.client.id}`);
-    socket.join(feedAddress);
+    // socket.join(feedAddress); // TODO change to address
     getSolanaFeed(socket);
   });
 });

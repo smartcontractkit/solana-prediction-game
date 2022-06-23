@@ -1,10 +1,11 @@
 import DataFeedTable from './components/DataFeedTable/DataFeedTable';
 import Header from './components/Header/Header';
-import { useSolanaDataFeed } from './hooks/useSolanaDataFeed';
+import { useSolanaAddressDataFeed } from './hooks/useSolanaAddressDataFeed';
+// import { useAddressDataFeed } from './hooks/useAddressDataFeed';
 
 function App() {
-  const solanaDataFeed = useSolanaDataFeed();
-  console.log(solanaDataFeed);
+  const solanaDataFeed = useSolanaAddressDataFeed();
+  // const solanaDataFeed = useAddressDataFeed();
 
   return (
     <>
