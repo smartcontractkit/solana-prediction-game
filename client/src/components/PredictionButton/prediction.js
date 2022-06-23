@@ -2,15 +2,17 @@ import { Button } from "@chakra-ui/react";
 import { useState } from "react";
 import { useMoralis, useNewMoralisObject } from "react-moralis";
 
-export default function PredictionButton({ prediction, answer, observationTs}) {
-  const { save } = useNewMoralisObject("Prediction");
+export default function PredictionButton( 
+  { prediction, answer, observationTs }
+  ) {
+  const { save } = useNewMoralisObject("Predictions");
   const [isSaving, setIsSaving] = useState(false);
 
   const {
     user,
   } = useMoralis();
 
-  const addPrediction = async () => {
+  const createPrediction = async () => {
     setIsSaving(true);
     const data = {
       owner: user.get("solAddress"),
@@ -45,7 +47,7 @@ export default function PredictionButton({ prediction, answer, observationTs}) {
         }}
         isLoading={isSaving}
         loadingText="Saving..."
-        onClick={addPrediction}
+        onClick={createPrediction}
         >
             Predict {prediction}
     </Button>);
