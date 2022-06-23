@@ -145,7 +145,7 @@ const MenuLinks = ({ isOpen }) => {
                   bg: ["primary.100", "primary.100", "primary.600", "primary.600"]
                 }}
                 isLoading={isAuthenticating}
-                loadingText="Connecting..."
+                loadingText="Disconnecting..."
                 onClick={logout}
               >
                 { user?.get("solAddress").slice(0, 6) }...{ user?.get("solAddress").slice(-4) }
