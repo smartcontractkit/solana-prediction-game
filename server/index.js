@@ -13,12 +13,13 @@ const anchor = require("@project-serum/anchor");
 const chainlink = require("@chainlink/solana-sdk");
 const provider = anchor.AnchorProvider.env();
 
-async function getSolanaFeed(socket){
+async function getSolanaFeed(socket, address){
   anchor.setProvider(provider);
 
-  const CHAINLINK_FEED_ADDRESS="HgTtcbcmp5BeThax5AU8vg4VwK79qAvAKKFMs8txMLW6"
+  // const CHAINLINK_FEED_ADDRESS = address; // getting base64 error
+  const CHAINLINK_FEED_ADDRESS = "HgTtcbcmp5BeThax5AU8vg4VwK79qAvAKKFMs8txMLW6"; // TODO change to address
   const CHAINLINK_PROGRAM_ID = new anchor.web3.PublicKey("cjg3oHmg9uuPsP8D6g29NWvhySJkdYdAo9D25PRbKXJ");
-  const feedAddress = new anchor.web3.PublicKey(CHAINLINK_FEED_ADDRESS); //SOL-USD Devnet Feed
+  const feedAddress = new anchor.web3.PublicKey(CHAINLINK_FEED_ADDRESS);
 
   //load the data feed account
   let dataFeed = await chainlink.OCR2Feed.load(CHAINLINK_PROGRAM_ID, provider);
@@ -26,7 +27,15 @@ async function getSolanaFeed(socket){
 
   //listen for events agains the price feed, and grab the latest rounds price data
   listener = dataFeed.onRound(feedAddress, (event) => {
-    socket.broadcast.emit('receive_solana_data_feed', event)
+    const eventData = {
+      feed: event.feed,
+      answer: event.answer,
+      answerToNumber: event.answer.toNumber(),
+      roundId: event.roundId,
+      observationsTS: event.observationsTS,
+      slot: event.slot,
+    };
+    socket.to(feedAddress).emit('receive_solana_data_feed', eventData);
   });
 }
 
@@ -38,9 +47,10 @@ const io = new Server(server, {
 });
 
 io.on('connection', (socket) => {
-  socket.on('get_solana_data_feed', (data) => {
-    console.log(data);
+  socket.on('get_solana_data_feed', (feedAddress) => {
+    console.log(`feedAddress: ${feedAddress}`);
     console.log(`New User: ${socket.client.id}`);
+    socket.join(feedAddress);
     getSolanaFeed(socket);
   });
 });

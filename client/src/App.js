@@ -1,27 +1,15 @@
-import { useEffect, useState } from 'react';
+import DataFeedTable from './components/DataFeedTable/DataFeedTable';
 import Header from './components/Header/Header';
-import io from 'socket.io-client';
-
-const socket = io("http://localhost:3001");
-
+import { useSolanaDataFeed } from './hooks/useSolanaDataFeed';
 
 function App() {
-  const [data, setData] = useState(null);
-
-  useEffect(() => {
-    socket.emit('get_solana_data_feed', 'Get Solana Data Feed');
-    socket.on('receive_solana_data_feed', (data) => {
-      console.log(data);
-      if(data) {
-        setData(data);
-      }
-    });
-  }, []);
+  const solanaDataFeed = useSolanaDataFeed();
+  console.log(solanaDataFeed);
 
   return (
     <>
       <Header />
-      {/* {data && <p>{data}</p>} */}
+      <DataFeedTable dataFeeds={solanaDataFeed}/>
     </>
   );
 }
