@@ -35,9 +35,8 @@ async function getSolanaFeed(socket, address){
       observationsTS: event.observationsTS,
       slot: event.slot,
     };
-    socket.to(feedAddress).emit('receive_data_feed', eventData); 
     console.log(`Received event ${address}: ${eventData.answerToNumber}`);
-    // socket.broadcast.emit('receive_data_feed', eventData);
+    socket.to(feedAddress).emit('receive_data_feed', eventData); 
   });
 }
 
@@ -54,18 +53,6 @@ io.on('connection', (socket) => {
     console.log(`User Id: ${socket.client.id}`);
     socket.join(feedAddress);
     getSolanaFeed(socket, feedAddress);
-    
-    // const eventData = {
-    //   feed: feedAddress,
-    //   answer: 123456,
-    //   answerToNumber: 123456,
-    //   roundId: 123456,
-    //   observationsTS: new Date(),
-    //   slot: 123456,
-    // };
-    // console.log(`Sending event ${feedAddress}: ${eventData.answerToNumber}`);
-    // // socket.to(feedAddress).emit('receive_data_feed', eventData); 
-    // socket.broadcast.emit('receive_data_feed', eventData);
   });
 });
 
