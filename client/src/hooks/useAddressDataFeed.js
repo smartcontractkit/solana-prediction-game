@@ -4,51 +4,55 @@ import io from 'socket.io-client';
 const socket = io("http://localhost:3001");
 
 export function useAddressDataFeed() {
-
     const [dataFeeds, setDataFeeds] = useState({
-        'BTC/USD': {
-            feedAddress: "CzZQBrJCLqjXRfMjRN3fhbxur2QYHUzkpaRwkWsiPqbz",
-            roundData: null
-        },
-        'ETH/USD': {
-            feedAddress: "2ypeVyYnZaW2TNYXXTaZq9YhYvnqcjCiifW1C6n8b7Go",
-            roundData: null
-        },
-        'LINK/USD': {
-            feedAddress: "6N2eCQv8hBkyZjSzN1pe5QtznZL9bGn6TZzcFhaYSLTs",
-            roundData: null
-        },
         'SOL/USD': {
-            feedAddress: "HgTtcbcmp5BeThax5AU8vg4VwK79qAvAKKFMs8txMLW6",
+            feedAddress: process.env.REACT_APP_SOL_USD,
             roundData: null
         },
-        'USDC/USD': {
-            feedAddress: "4NmRgDfAZrfBHQBuzstMP5Bu1pgBzVn8u1djSvNrNkrN",
-            roundData: null
-        },
-        'USDT/USD': {
-            feedAddress: "EkTcZ3StgQkahMtDBuREiaowjNUyeGnEDHnMbWgMGUJQ",
-            roundData: null
-        }
+        // 'BTC/USD': {
+        //     feedAddress: process.env.REACT_APP_BTC_USD,
+        //     roundData: null
+        // },
+        // 'ETH/USD': {
+        //     feedAddress: process.env.REACT_APP_ETH_USD,
+        //     roundData: null
+        // },
+        // 'LINK/USD': {
+        //     feedAddress: process.env.REACT_APP_LINK_USD,
+        //     roundData: null
+        // },
+        // 'USDC/USD': {
+        //     feedAddress: process.env.REACT_APP_USDC_USD,
+        //     roundData: null
+        // },
+        // 'USDT/USD': {
+        //     feedAddress: process.env.REACT_APP_USDT_USD,
+        //     roundData: null
+        // }
     });
+
+    const feeds = Object.keys(dataFeeds);
+    const feedAddresses = Object.values(dataFeeds).map(feed => feed.feedAddress); 
 
     useEffect(() => {
 
-        const feeds = Object.keys(dataFeeds);
-
-        feeds.map(feed => {
-            socket.emit('get_solana_data_feed', dataFeeds[feed].feedAddress);
-            socket.on('receive_solana_data_feed', (solanaDataFeedAddress) => {
-                if(solanaDataFeedAddress) {
-                    let newData = dataFeeds;
-                    newData[feed].roundData = solanaDataFeedAddress;
-                    setDataFeeds(newData);
+        feeds.map((feed, index) => {
+            socket.emit('request_data_feed', feedAddresses[index]);
+            socket.on('receive_data_feed', (data_feed) => {
+                if(data_feed) {
+                    setDataFeeds( previousData =>  { 
+                        const newData = previousData
+                        newData[feed].roundData = data_feed;
+                        return { ...previousData, ...newData } } 
+                    );
                 }
             });
-            return feed
+            return () => {
+                socket.off('receive_data_feed');
+            }
         })
 
-    }, [dataFeeds]);
+    }, [feeds, feedAddresses]);
 
     return dataFeeds;
 }

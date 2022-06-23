@@ -1,7 +1,8 @@
 import { Table, TableContainer, Tbody, Td,  Th, Thead, Tr } from "@chakra-ui/react"
+import { useAddressDataFeed } from '../../hooks/useAddressDataFeed';
 
-const DataFeedTable = (dataFeeds) => {
-    let df = dataFeeds.dataFeeds;
+const DataFeedTable = () => {
+    let df = useAddressDataFeed()
     const feeds = Object.keys(df);
 
     return (
@@ -13,7 +14,7 @@ const DataFeedTable = (dataFeeds) => {
                         <Th isNumeric>Round</Th>
                         <Th isNumeric>Slot</Th>
                         <Th isNumeric>Answer</Th>
-                        <Th>observations Time</Th>
+                        <Th>observation Time</Th>
                     </Tr>
                 </Thead>
                 <Tbody>

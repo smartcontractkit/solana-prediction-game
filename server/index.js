@@ -16,8 +16,8 @@ const provider = anchor.AnchorProvider.env();
 async function getSolanaFeed(socket, address){
   anchor.setProvider(provider);
 
-  // const CHAINLINK_FEED_ADDRESS = address; // getting base64 error
-  const CHAINLINK_FEED_ADDRESS = "HgTtcbcmp5BeThax5AU8vg4VwK79qAvAKKFMs8txMLW6"; // TODO change to address
+  // const CHAINLINK_FEED_ADDRESS = "HgTtcbcmp5BeThax5AU8vg4VwK79qAvAKKFMs8txMLW6"
+  const CHAINLINK_FEED_ADDRESS = address; 
   const CHAINLINK_PROGRAM_ID = new anchor.web3.PublicKey("cjg3oHmg9uuPsP8D6g29NWvhySJkdYdAo9D25PRbKXJ");
   const feedAddress = new anchor.web3.PublicKey(CHAINLINK_FEED_ADDRESS);
 
@@ -35,8 +35,9 @@ async function getSolanaFeed(socket, address){
       observationsTS: event.observationsTS,
       slot: event.slot,
     };
-    // socket.to(feedAddress).emit('receive_solana_data_feed', eventData); // TODO change to address
-    socket.broadcast.emit('receive_solana_data_feed', eventData);
+    socket.to(feedAddress).emit('receive_data_feed', eventData); 
+    console.log(`Received event ${address}: ${eventData.answerToNumber}`);
+    // socket.broadcast.emit('receive_data_feed', eventData);
   });
 }
 
@@ -48,11 +49,23 @@ const io = new Server(server, {
 });
 
 io.on('connection', (socket) => {
-  socket.on('get_solana_data_feed', (feedAddress) => {
+  socket.on('request_data_feed', (feedAddress) => {
     console.log(`feedAddress: ${feedAddress}`);
-    console.log(`New User: ${socket.client.id}`);
-    // socket.join(feedAddress); // TODO change to address
-    getSolanaFeed(socket);
+    console.log(`User Id: ${socket.client.id}`);
+    socket.join(feedAddress);
+    getSolanaFeed(socket, feedAddress);
+    
+    // const eventData = {
+    //   feed: feedAddress,
+    //   answer: 123456,
+    //   answerToNumber: 123456,
+    //   roundId: 123456,
+    //   observationsTS: new Date(),
+    //   slot: 123456,
+    // };
+    // console.log(`Sending event ${feedAddress}: ${eventData.answerToNumber}`);
+    // // socket.to(feedAddress).emit('receive_data_feed', eventData); 
+    // socket.broadcast.emit('receive_data_feed', eventData);
   });
 });
 
