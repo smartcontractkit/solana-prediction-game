@@ -1,5 +1,6 @@
 import { Table, TableContainer, Tbody, Td,  Th, Thead, Tr } from "@chakra-ui/react"
 import { useAddressDataFeed } from '../../hooks/useAddressDataFeed';
+import PredictionButton from "../PredictionButton/prediction";
 
 const DataFeedTable = () => {
     let df = useAddressDataFeed()
@@ -15,6 +16,7 @@ const DataFeedTable = () => {
                         <Th isNumeric>Slot</Th>
                         <Th isNumeric>Answer</Th>
                         <Th>observation Time</Th>
+                        <Th></Th>
                     </Tr>
                 </Thead>
                 <Tbody>
@@ -27,6 +29,13 @@ const DataFeedTable = () => {
                                 <Td isNumeric>{data?.slot}</Td>
                                 <Td isNumeric>{data?.answerToNumber}</Td>
                                 <Th>{data?.observationsTS}</Th>
+                                <Th>
+                                    <PredictionButton 
+                                        prediction={data?.prediction}
+                                        answer={data?.answerToNumber}
+                                        observationTs={data?.observationsTS}
+                                    />
+                                </Th>
                             </Tr>)
                         })
                     }
