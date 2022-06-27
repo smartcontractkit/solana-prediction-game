@@ -1,10 +1,10 @@
 import { Table, TableContainer, Tbody, Td,  Th, Thead, Tr } from "@chakra-ui/react"
 import { useAddressDataFeed } from '../../hooks/useAddressDataFeed';
-import PredictionButton from "../PredictionButton/prediction";
+import PredictionButton from "../PredictionButton/PredictionButton";
 
 const DataFeedTable = () => {
-    let df = useAddressDataFeed()
-    const feeds = Object.keys(df);
+    const dataFeeds = useAddressDataFeed();
+    const pairs = Object.keys(dataFeeds);
 
     return (
         <TableContainer>
@@ -21,8 +21,8 @@ const DataFeedTable = () => {
                 </Thead>
                 <Tbody>
                     {
-                        feeds.map(feed => {
-                            let data = df[feed]?.roundData;
+                        pairs.map(feed => {
+                            let data = dataFeeds[feed]?.roundData;
                             return (<Tr key={feed}>
                                 <Td>{feed}</Td>
                                 <Td isNumeric>{data?.roundId}</Td>
