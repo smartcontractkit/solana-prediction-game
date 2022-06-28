@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { Link, Box, Flex, Text, Button, Stack } from "@chakra-ui/react";
 
 import Logo from "./Logo";
-
 import {
   useMoralis,
   useMoralisSolanaApi,
@@ -103,7 +102,6 @@ const MenuLinks = ({ isOpen }) => {
   const round = (num) => {
     return Math.round(num * 1000) / 1000
   }
-
   return (
     <Box
       display={{ base: isOpen ? "block" : "none", md: "block" }}
