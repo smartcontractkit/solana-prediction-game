@@ -8,26 +8,26 @@ export function useAddressDataFeed() {
             feedAddress: process.env.REACT_APP_SOL_USD,
             roundData: null
         },
-        'BTC/USD': {
-            feedAddress: process.env.REACT_APP_BTC_USD,
-            roundData: null
-        },
-        'ETH/USD': {
-            feedAddress: process.env.REACT_APP_ETH_USD,
-            roundData: null
-        },
-        'LINK/USD': {
-            feedAddress: process.env.REACT_APP_LINK_USD,
-            roundData: null
-        },
-        'USDC/USD': {
-            feedAddress: process.env.REACT_APP_USDC_USD,
-            roundData: null
-        },
-        'USDT/USD': {
-            feedAddress: process.env.REACT_APP_USDT_USD,
-            roundData: null
-        }
+        // 'BTC/USD': {
+        //     feedAddress: process.env.REACT_APP_BTC_USD,
+        //     roundData: null
+        // },
+        // 'ETH/USD': {
+        //     feedAddress: process.env.REACT_APP_ETH_USD,
+        //     roundData: null
+        // },
+        // 'LINK/USD': {
+        //     feedAddress: process.env.REACT_APP_LINK_USD,
+        //     roundData: null
+        // },
+        // 'USDC/USD': {
+        //     feedAddress: process.env.REACT_APP_USDC_USD,
+        //     roundData: null
+        // },
+        // 'USDT/USD': {
+        //     feedAddress: process.env.REACT_APP_USDT_USD,
+        //     roundData: null
+        // }
     });
 
     const feeds = Object.keys(dataFeeds);
