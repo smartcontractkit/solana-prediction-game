@@ -40,6 +40,7 @@ export function useAddressDataFeed() {
                 pair: feed
             });
         });
+        // eslint-disable-next-line
     }, []);
 
     const useForceRender = () => {
