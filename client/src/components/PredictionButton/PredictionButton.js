@@ -1,33 +1,57 @@
 import { Button } from "@chakra-ui/react";
 import { useState } from "react";
-import { useMoralis } from "react-moralis";
-import { Prediction } from "../../models/prediction.model";
+import { useMoralis, useNewMoralisObject } from "react-moralis";
+import { validate } from "../../helpers/validate";
 
 export default function PredictionButton( 
-  { predictionData, pair, feedAddress, answer, observationTs }
+  { 
+    predictionData, 
+    pair, 
+    feedAddress, 
+    openingPredictionPrice, 
+    openingPredictionTime 
+  }
   ) {
   const [isSaving, setIsSaving] = useState(false);
+
+  const { save } = useNewMoralisObject("Prediction");
+  const [ prediction, setPrediction ] = useState(null);
 
   const {
     user,
   } = useMoralis();
 
-
-  const createPrediction = () => {
+  const createPrediction = async () => {
     setIsSaving(true);
-    const prediction = Prediction.createPrediction({
+
+    const data = {
       owner: user.get("solAddress"),
       account: feedAddress,
-      pair: pair,
+      pair,
       prediction: predictionData,
-      expiryTime: observationTs,
+      expiryTime: new Date() + 1000 * 60 * 60 * 24,
       predictionDeadline: new Date() + 1000 * 60 * 60 * 24,
-      openingPredictionPrice: answer,
+      openingPredictionPrice,
+      openingPredictionTime,
       status: true,
-    }, setIsSaving);
+    }
+    
+    validate(data)
+    
+    save(data, {
+        onSuccess: (predictionData) => {
+            setPrediction(predictionData);
+            setIsSaving(false);
+            alert("Prediction created: ", predictionData);
+        },
+        onError: (error) => {
+            setIsSaving(false);
+            alert("Error occured: " + error.message);
+        },
+    });
+    return prediction;    
+}
 
-    console.log("Prediction created: ", prediction);
-  }
 
   return (
     <Button

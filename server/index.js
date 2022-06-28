@@ -57,6 +57,9 @@ io.on('connection', (socket) => {
     //   pair: feed.pair,
     //   feed: feed.feedAddress,
     //   answerToNumber: 123456,
+    //   observationsTS: "2020-01-01T00:00:00.000Z",
+    //   roundId: 1,
+    //   slot: 1,
     // }); 
   });
 });

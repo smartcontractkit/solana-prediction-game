@@ -23,19 +23,21 @@ const DataFeedTable = () => {
                     </Thead>
                     <Tbody>
                         {
-                            pairs.map(feed => {
-                                let data = dataFeeds[feed]?.roundData;
-                                return (<Tr key={feed}>
-                                    <Td>{feed}</Td>
+                            pairs.map(pair => {
+                                let data = dataFeeds[pair]?.roundData;
+                                return (<Tr key={pair}>
+                                    <Td>{pair}</Td>
                                     <Td isNumeric>{data?.roundId}</Td>
                                     <Td isNumeric>{data?.slot}</Td>
                                     <Td isNumeric>{data?.answerToNumber}</Td>
                                     <Th>{data?.observationsTS}</Th>
                                     <Th>
                                         <PredictionButton 
-                                            prediction={data?.prediction}
-                                            answer={data?.answerToNumber}
-                                            observationTs={data?.observationsTS}
+                                            pair={pair}
+                                            feedAddress={data?.feed}
+                                            predictionData={3902929874} // will be user based
+                                            openingPredictionPrice={data?.answerToNumber}
+                                            openingPredictionTime={data?.observationsTS}
                                         />
                                     </Th>
                                 </Tr>)
