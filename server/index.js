@@ -85,24 +85,27 @@ getLatestDataRound = async (address, pair) => {
   let listener = null;
 
   //listen for events agains the price feed, and grab the latest rounds price data
-  listener = dataFeed.onRound(feedAddress, (event) => {
+  listener = await dataFeed.onRound(feedAddress, async (event) => {
     round = {
       pair: pair,
       answerToNumber: event.answer.toNumber(),
       ...event,
     };
-
-    if(round){
-      console.log(`Received event ${address}: ${round.answerToNumber}`);
-      res.send(round);
-      provider.connection.removeOnLogsListener(listener);
-    }
   });
+
+  if((round ?? undefined) !== undefined) {
+    console.log(round);
+    console.log(listener);
+    console.log(`Received event ${address}: ${round.answerToNumber}`);
+    provider.connection.removeOnLogsListener(listener);
+    return round;
+  }
 }
 
 app.get('/getLatestDataRound', async (req, res) => {
   const { address, pair } = req.body;
-  await getLatestDataRound(address, pair);
+  let latestRound = await getLatestDataRound(address, pair);
+  res.send(latestRound);
 });
 
 const cron = require('node-cron');
@@ -114,9 +117,7 @@ const serverUrl = process.env.MORALIS_SERVER_URL;
 const appId = process.env.MORALIS_APP_ID;
 const masterKey = process.env.MORALIS_MASTER_KEY;
 
-await Moralis.start({ serverUrl, appId, masterKey });
-
-createPrediction({ pair, answerToNumber, feed, observationsTS}, prediction) {
+createPrediction = async ({ pair, answerToNumber, feed, observationsTS}, predictionData) => {
 
   const Prediction = Moralis.Object.extend("Prediction");
   const prediction = new Prediction();
@@ -127,7 +128,7 @@ createPrediction({ pair, answerToNumber, feed, observationsTS}, prediction) {
     owner: "6hvdYCWxFH3bQHKAjXeheUee1HJbp382kQzySwd8LpRk",
     account: feed,
     pair,
-    prediction,
+    prediction: predictionData,
     expiryTime: new Date(date.setDate(date.getDate() + 1)),
     predictionDeadline: new Date(date.setDate(date.getDate() + 1)),
     openingPredictionPrice: answerToNumber,
@@ -137,18 +138,19 @@ createPrediction({ pair, answerToNumber, feed, observationsTS}, prediction) {
 }
 
 addPredictionsDaily = async (address, pair) => {
-  let latestRound = await getLatestDataRound(address, pair);
-
-  createPrediction(latestRound, latestRound.answerToNumber * 1.01);
-  createPrediction(latestRound, latestRound.answerToNumber * 0.99);
+  let latestRound = await getLatestDataRound(address, pair, res);
+  console.log(latestRound, address, pair);
+  await createPrediction(latestRound, latestRound.answerToNumber * 1.01);
+  await createPrediction(latestRound, latestRound.answerToNumber * 0.99);
   
-  cron.schedule('0 0 * * *', function() {
-    createPrediction(latestRound, latestRound.answerToNumber * 1.01);
-    createPrediction(latestRound, latestRound.answerToNumber * 0.99);
+  cron.schedule('0 0 * * *', async function() {
+    await createPrediction(latestRound, latestRound.answerToNumber * 1.01);
+    await createPrediction(latestRound, latestRound.answerToNumber * 0.99);
   });
 }
 
-app.get('/startDailyPrediction', async (req, res) => {
+app.get('/scheduleDailyPrediction', async (req, res) => {
   const { address, pair } = req.body;
+  await Moralis.start({ serverUrl, appId, masterKey });
   await addPredictionsDaily(address, pair);
 });
