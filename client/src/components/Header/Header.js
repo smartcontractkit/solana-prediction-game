@@ -1,11 +1,17 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import { Link, Box, Flex, Text, Button, Stack } from "@chakra-ui/react";
 
 import Logo from "./Logo";
 
+import {
+  useMoralis,
+  useMoralisSolanaApi,
+  useMoralisSolanaCall,
+} from "react-moralis";
+
 
 const Header = (props) => {
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
 
@@ -62,6 +68,42 @@ const MenuItem = ({ children, isLast, to = "/", ...rest }) => {
 };
 
 const MenuLinks = ({ isOpen }) => {
+  const network = "devnet"
+  const {
+    isAuthenticated,
+    authenticate,
+    user,
+    isAuthenticating,
+    logout,
+  } = useMoralis();
+  const { account } = useMoralisSolanaApi();
+  const { fetch, data, isLoading } = useMoralisSolanaCall(account.getPortfolio);
+
+  /**
+   * @description the function handles authentication with phantom wallet
+   */
+  const onConnectPhantomWallet = async () => {
+    await authenticate({
+      type: "sol",
+    });
+  };
+
+  useEffect(() => {
+    if (isAuthenticated && user.get("solAddress")) {
+      // Fetch only when authenticated
+      fetch({
+        params: {
+          address: user.get("solAddress"),
+          network,
+        },
+      });
+    }
+  }, [fetch, isAuthenticated, user, network]);
+
+  const round = (num) => {
+    return Math.round(num * 1000) / 1000
+  }
+
   return (
     <Box
       display={{ base: isOpen ? "block" : "none", md: "block" }}
@@ -75,19 +117,42 @@ const MenuLinks = ({ isOpen }) => {
         pt={[4, 4, 0, 0]}
       >
         <MenuItem to="/">Home</MenuItem>
-        <MenuItem to="/" isLast>
-          <Button
-            size="sm"
-            rounded="md"
-            color={["primary.500", "primary.500", "black", "black"]}
-            bg={["white", "white", "primary.500", "primary.500"]}
-            _hover={{
-              bg: ["primary.100", "primary.100", "primary.600", "primary.600"]
-            }}
-          >
-            Connect Wallet
-          </Button>
-        </MenuItem>
+        {
+          !isAuthenticated ? (
+            <Button
+              size="sm"
+              rounded="md"
+              color={["black", "black", "black", "black"]}
+              bg={["white", "white", "primary.500", "primary.500"]}
+              _hover={{
+                bg: ["primary.100", "primary.100", "primary.600", "primary.600"]
+              }}
+              isLoading={isAuthenticating}
+              loadingText="Connecting..."
+              onClick={onConnectPhantomWallet}
+            >
+              Connect Wallet
+            </Button>
+          ) : (
+            <>
+              { data && !isLoading && (<p>{round(data.nativeBalance?.solana)} SOL</p>)}
+              <Button
+                size="sm"
+                rounded="md"
+                color={["black", "black", "black", "black"]}
+                bg={["white", "white", "primary.500", "primary.500"]}
+                _hover={{
+                  bg: ["primary.100", "primary.100", "primary.600", "primary.600"]
+                }}
+                isLoading={isAuthenticating}
+                loadingText="Disconnecting..."
+                onClick={logout}
+              >
+                { user?.get("solAddress").slice(0, 6) }...{ user?.get("solAddress").slice(-4) }
+              </Button>
+            </>
+          )
+        }
       </Stack>
     </Box>
   );
@@ -103,7 +168,7 @@ const NavBarContainer = ({ children, ...props }) => {
       w="100%"
       mb={8}
       p={8}
-      bg={["primary.500", "primary.500", "black", "black"]}
+      bg={["black", "black", "black", "black"]}
       color={["white", "white", "primary.700", "primary.700"]}
       {...props}
     >
