@@ -8,6 +8,12 @@ import {
   useMoralisSolanaCall,
 } from "react-moralis";
 
+import {
+  useMoralis,
+  useMoralisSolanaApi,
+  useMoralisSolanaCall,
+} from "react-moralis";
+
 
 const Header = (props) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -102,6 +108,7 @@ const MenuLinks = ({ isOpen }) => {
   const round = (num) => {
     return Math.round(num * 1000) / 1000
   }
+
   return (
     <Box
       display={{ base: isOpen ? "block" : "none", md: "block" }}
