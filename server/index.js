@@ -6,6 +6,8 @@ const { Server } = require("socket.io");
 const cors = require("cors");
 
 app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));  
 
 const PORT = process.env.PORT || 3001;
 
@@ -69,10 +71,8 @@ server.listen(PORT, () => {
 });
 
 app.get('/getLatestDataFeed', async (req, res) => {
-  // let address = req.params.feedAddress;
-  let address = 'HgTtcbcmp5BeThax5AU8vg4VwK79qAvAKKFMs8txMLW6';
+  const { address, pair } = req.body;
   let round = null;
-
   anchor.setProvider(provider);
 
   const CHAINLINK_FEED_ADDRESS = address; 
@@ -86,7 +86,7 @@ app.get('/getLatestDataFeed', async (req, res) => {
   //listen for events agains the price feed, and grab the latest rounds price data
   listener = dataFeed.onRound(feedAddress, (event) => {
     round = {
-      pair: 'SOL/USD',
+      pair: pair,
       answerToNumber: event.answer.toNumber(),
       ...event,
     };
