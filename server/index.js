@@ -67,3 +67,34 @@ io.on('connection', (socket) => {
 server.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });
+
+app.get('/getLatestDataFeed', async (req, res) => {
+  // let address = req.params.feedAddress;
+  let address = 'HgTtcbcmp5BeThax5AU8vg4VwK79qAvAKKFMs8txMLW6';
+  let round = null;
+
+  anchor.setProvider(provider);
+
+  const CHAINLINK_FEED_ADDRESS = address; 
+  const CHAINLINK_PROGRAM_ID = new anchor.web3.PublicKey("cjg3oHmg9uuPsP8D6g29NWvhySJkdYdAo9D25PRbKXJ");
+  const feedAddress = new anchor.web3.PublicKey(CHAINLINK_FEED_ADDRESS);
+
+  //load the data feed account
+  let dataFeed = await chainlink.OCR2Feed.load(CHAINLINK_PROGRAM_ID, provider);
+  let listener = null;
+
+  //listen for events agains the price feed, and grab the latest rounds price data
+  listener = dataFeed.onRound(feedAddress, (event) => {
+    round = {
+      pair: 'SOL/USD',
+      answerToNumber: event.answer.toNumber(),
+      ...event,
+    };
+
+    if(round){
+      console.log(`Received event ${address}: ${round.answerToNumber}`);
+      res.send(round);
+      provider.connection.removeOnLogsListener(listener);
+    }
+  });
+});
