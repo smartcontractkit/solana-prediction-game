@@ -2,6 +2,11 @@ import { useState, useEffect } from "react";
 import { Link, Box, Flex, Text, Button, Stack } from "@chakra-ui/react";
 
 import Logo from "./Logo";
+import {
+  useMoralis,
+  useMoralisSolanaApi,
+  useMoralisSolanaCall,
+} from "react-moralis";
 
 import {
   useMoralis,
