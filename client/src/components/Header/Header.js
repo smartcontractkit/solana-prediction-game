@@ -8,12 +8,6 @@ import {
   useMoralisSolanaCall,
 } from "react-moralis";
 
-import {
-  useMoralis,
-  useMoralisSolanaApi,
-  useMoralisSolanaCall,
-} from "react-moralis";
-
 
 const Header = (props) => {
   const [isOpen, setIsOpen] = useState(false);
