@@ -24,13 +24,15 @@ export default function PredictionButton(
   const createPrediction = async () => {
     setIsSaving(true);
 
+    var date = new Date();
+
     const data = {
       owner: user.get("solAddress"),
       account: feedAddress,
       pair,
       prediction: predictionData,
-      expiryTime: new Date() + 1000 * 60 * 60 * 24,
-      predictionDeadline: new Date() + 1000 * 60 * 60 * 24,
+      expiryTime: new Date(date.setDate(date.getDate() + 1)),
+      predictionDeadline: new Date(date.setDate(date.getHours() + 1)),
       openingPredictionPrice,
       openingPredictionTime,
       status: true,

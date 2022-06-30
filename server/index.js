@@ -56,15 +56,7 @@ io.on('connection', (socket) => {
     console.log(`feedAddress: ${feed.feedAddress}`);
     console.log(`User Id: ${socket.client.id}`);
     socket.join(feed.feedAddress);
-    getSolanaFeed(io, feed); 
-    // io.in(feed.feedAddress).emit('receive_data_feed', {
-    //   pair: feed.pair,
-    //   feed: feed.feedAddress,
-    //   answerToNumber: 123456,
-    //   observationsTS: "2020-01-01T00:00:00.000Z",
-    //   roundId: 1,
-    //   slot: 1,
-    // }); 
+    getSolanaFeed(io, feed);
   });
 });
 
@@ -85,21 +77,25 @@ getLatestDataRound = async (address, pair) => {
   let listener = null;
 
   //listen for events agains the price feed, and grab the latest rounds price data
-  listener = await dataFeed.onRound(feedAddress, async (event) => {
-    round = {
-      pair: pair,
-      answerToNumber: event.answer.toNumber(),
-      ...event,
-    };
+  return new Promise((resolve, reject) => {
+    listener = dataFeed.onRound(feedAddress, (event) => {
+      round = {
+        pair: pair,
+        feed: address,
+        answer: event.answer,
+        answerToNumber: event.answer.toNumber(),
+        roundId: event.roundId,
+        observationsTS: event.observationsTS,
+        slot: event.slot,
+      };
+      if((round ?? undefined) !== undefined) {
+        console.log(`Received event ${address}: ${round.answerToNumber}`);
+        provider.connection.removeOnLogsListener(listener);
+        resolve(round);
+      }
+    });
   });
 
-  if((round ?? undefined) !== undefined) {
-    console.log(round);
-    console.log(listener);
-    console.log(`Received event ${address}: ${round.answerToNumber}`);
-    provider.connection.removeOnLogsListener(listener);
-    return round;
-  }
 }
 
 app.get('/getLatestDataRound', async (req, res) => {
@@ -108,8 +104,6 @@ app.get('/getLatestDataRound', async (req, res) => {
   res.send(latestRound);
 });
 
-const cron = require('node-cron');
-
 const Moralis = require("moralis/node");
 
 /* Moralis init code */
@@ -117,40 +111,62 @@ const serverUrl = process.env.MORALIS_SERVER_URL;
 const appId = process.env.MORALIS_APP_ID;
 const masterKey = process.env.MORALIS_MASTER_KEY;
 
-createPrediction = async ({ pair, answerToNumber, feed, observationsTS}, predictionData) => {
+createPrediction = async (latestRound, predictionData, expiryTime, predictionDeadline) => {
 
   const Prediction = Moralis.Object.extend("Prediction");
   const prediction = new Prediction();
+  const { pair, answerToNumber, feed, observationsTS } = latestRound;
 
-  var date = new Date();
-
-  await prediction.save({
-    owner: "6hvdYCWxFH3bQHKAjXeheUee1HJbp382kQzySwd8LpRk",
-    account: feed,
-    pair,
-    prediction: predictionData,
-    expiryTime: new Date(date.setDate(date.getDate() + 1)),
-    predictionDeadline: new Date(date.setDate(date.getDate() + 1)),
-    openingPredictionPrice: answerToNumber,
-    openingPredictionTime: observationsTS,
-    status: true,
+  return new Promise(async (resolve, reject) => {
+    await prediction.save({
+      owner: "6hvdYCWxFH3bQHKAjXeheUee1HJbp382kQzySwd8LpRk",
+      account: feed,
+      pair,
+      prediction: predictionData,
+      expiryTime,
+      predictionDeadline,
+      openingPredictionPrice: answerToNumber,
+      openingPredictionTime: observationsTS,
+      status: true,
+    })
+    .then(
+      (prediction) => {
+        // Execute any logic that should take place after the object is saved.
+        console.log("New object created with objectId: " + prediction.id);
+        resolve(prediction.id);
+      },
+      (error) => {
+        // Execute any logic that should take place if the save fails.
+        // error is a Moralis.Error with an error code and message.
+        console.log("Failed to create new object, with error code: " + error.message);
+      }
+    );
   });
 }
 
 addPredictionsDaily = async (address, pair) => {
-  let latestRound = await getLatestDataRound(address, pair, res);
-  console.log(latestRound, address, pair);
-  await createPrediction(latestRound, latestRound.answerToNumber * 1.01);
-  await createPrediction(latestRound, latestRound.answerToNumber * 0.99);
-  
-  cron.schedule('0 0 * * *', async function() {
-    await createPrediction(latestRound, latestRound.answerToNumber * 1.01);
-    await createPrediction(latestRound, latestRound.answerToNumber * 0.99);
-  });
+  let latestRound = await getLatestDataRound(address, pair);
+
+  var date = new Date();
+  let plusOnePercent = await createPrediction(
+    latestRound, 
+    latestRound.answerToNumber * 1.01,
+    new Date(date.setDate(date.getDate() + 1)),
+    new Date(date.setDate(date.getHours() + 1)),
+  );
+  let minusOnePercent = await await createPrediction(
+    latestRound, 
+    latestRound.answerToNumber * 0.99,
+    new Date(date.setDate(date.getDate() + 1)),
+    new Date(date.setDate(date.getHours() + 1)),
+  );
+
+  return [plusOnePercent, minusOnePercent];
 }
 
-app.get('/scheduleDailyPrediction', async (req, res) => {
+app.get('/scheduleDailyPredictions', async (req, res) => {
   const { address, pair } = req.body;
   await Moralis.start({ serverUrl, appId, masterKey });
-  await addPredictionsDaily(address, pair);
+  const predictions = await addPredictionsDaily(address, pair)
+  res.send(predictions);
 });
