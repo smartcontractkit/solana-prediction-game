@@ -52,13 +52,14 @@ const ActivePredictions = () => {
                             predictions.map(predictionData => {
                                 const { id, attributes } = predictionData;
                                 const { account, pair, prediction, predictionDeadline } = attributes;
+                                console.log(attributes);
                                 return (
                                     <Tr key={id}>
                                         <Td>{id}</Td>
                                         <Td>{pair}</Td>
                                         <Td>{account}</Td>
                                         <Td>{prediction}</Td>
-                                        <Td>{predictionDeadline}</Td>
+                                        <Td>{predictionDeadline.toDateString()}</Td>
                                     </Tr>
                                 )
                             })
