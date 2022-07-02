@@ -1,20 +1,18 @@
 import { Button } from "@chakra-ui/react";
 import { useState } from "react";
-import { useMoralis, useNewMoralisObject } from "react-moralis";
+import { useMoralis } from "react-moralis";
 import { validate } from "../../helpers/validate";
 
 export default function PredictionButton( 
   { 
     predictionData, 
     pair, 
-    feedAddress, 
-    openingPredictionPrice, 
-    openingPredictionTime 
+    feedAddress,
+    openingPredictionPrice,
+    openingPredictionTime,
   }
   ) {
   const [isSaving, setIsSaving] = useState(false);
-
-  const { save } = useNewMoralisObject("Prediction");
   const [ prediction, setPrediction ] = useState(null);
 
   const {
@@ -25,7 +23,6 @@ export default function PredictionButton(
     setIsSaving(true);
 
     var date = new Date();
-
     const data = {
       owner: user.get("solAddress"),
       account: feedAddress,
@@ -38,19 +35,29 @@ export default function PredictionButton(
       status: true,
     }
     
-    validate(data)
-    
-    save(data, {
-        onSuccess: (predictionData) => {
-            setPrediction(predictionData);
-            setIsSaving(false);
-            alert("Prediction created: ", predictionData);
-        },
-        onError: (error) => {
-            setIsSaving(false);
-            alert("Error occured: " + error.message);
-        },
+    validate(data, setIsSaving);
+
+    fetch(`${process.env.REACT_APP_SERVER_URL}/addPrediction`,{
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, PATCH, PUT, DELETE, OPTIONS",
+        "Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token"
+      },
+      body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(data => {
+      setPrediction(data);
+      setIsSaving(false);
+      alert("Prediction created");
+    })
+    .catch(err => {
+      setIsSaving(false);
+      alert("Error occured: " + err.message);
     });
+    
     return prediction;    
 }
 

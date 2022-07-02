@@ -35,7 +35,7 @@ const DataFeedTable = () => {
                                         <PredictionButton 
                                             pair={pair}
                                             feedAddress={data?.feed}
-                                            predictionData={3902929874} // will be user based
+                                            predictionData={ Math.floor(data?.answerToNumber * (1 + (Math.floor(Math.random()*10))/100))} // will be user based
                                             openingPredictionPrice={data?.answerToNumber}
                                             openingPredictionTime={data?.observationsTS}
                                         />

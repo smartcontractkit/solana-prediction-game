@@ -111,29 +111,18 @@ const serverUrl = process.env.MORALIS_SERVER_URL;
 const appId = process.env.MORALIS_APP_ID;
 const masterKey = process.env.MORALIS_MASTER_KEY;
 
-createPrediction = async (latestRound, predictionData, expiryTime, predictionDeadline) => {
+createPrediction = async (prediction) => {
 
   const Prediction = Moralis.Object.extend("Prediction");
-  const prediction = new Prediction();
-  const { pair, answerToNumber, feed, observationsTS } = latestRound;
+  const predictionObject = new Prediction();
 
   return new Promise(async (resolve, reject) => {
-    await prediction.save({
-      owner: "6hvdYCWxFH3bQHKAjXeheUee1HJbp382kQzySwd8LpRk",
-      account: feed,
-      pair,
-      prediction: predictionData,
-      expiryTime,
-      predictionDeadline,
-      openingPredictionPrice: answerToNumber,
-      openingPredictionTime: observationsTS,
-      status: true,
-    })
+    await predictionObject.save(prediction)
     .then(
-      (prediction) => {
+      (data) => {
         // Execute any logic that should take place after the object is saved.
-        console.log("New object created with objectId: " + prediction.id);
-        resolve(prediction.id);
+        console.log("New object created with objectId: " + data.id);
+        resolve(data);
       },
       (error) => {
         // Execute any logic that should take place if the save fails.
@@ -144,22 +133,52 @@ createPrediction = async (latestRound, predictionData, expiryTime, predictionDea
   });
 }
 
+app.post('/addPrediction', async (req, res) => {
+  const prediction  = req.body;
+
+  await Moralis.start({ serverUrl, appId, masterKey });
+  
+  const predictionData = await createPrediction({
+    ...prediction,
+    expiryTime: new Date(prediction.expiryTime),
+    predictionDeadline: new Date(prediction.predictionDeadline),
+    openingPredictionTime: new Date(prediction.openingPredictionTime),
+  });
+
+  res.send(predictionData);
+});
+
 addPredictionsDaily = async (address, pair) => {
   let latestRound = await getLatestDataRound(address, pair);
 
+  const { answerToNumber, feed, observationsTS } = latestRound;
+
   var date = new Date();
-  let plusOnePercent = await createPrediction(
-    latestRound, 
-    latestRound.answerToNumber * 1.01,
-    new Date(date.setDate(date.getDate() + 1)),
-    new Date(date.setDate(date.getHours() + 1)),
-  );
-  let minusOnePercent = await await createPrediction(
-    latestRound, 
-    latestRound.answerToNumber * 0.99,
-    new Date(date.setDate(date.getDate() + 1)),
-    new Date(date.setDate(date.getHours() + 1)),
-  );
+
+  let predictionData = {
+    owner: process.env.OWNER_PUBLIC_ADDRESS,
+    account: feed,
+    pair,
+    prediction: null,
+    expiryTime: null,
+    predictionDeadline: null,
+    openingPredictionPrice: answerToNumber,
+    openingPredictionTime: observationsTS,
+    status: true,
+  };
+
+  let plusOnePercent = await createPrediction({
+    ...predictionData,
+    prediction: latestRound.answerToNumber * 1.01,
+    expiryTime: new Date(date.setDate(date.getDate() + 1)),
+    predictionDeadline: new Date(date.setDate(date.getHours() + 1)),
+  });
+  let minusOnePercent = await createPrediction({
+    ...predictionData,
+    prediction: latestRound.answerToNumber * 0.99,
+    expiryTime: new Date(date.setDate(date.getDate() + 1)),
+    predictionDeadline: new Date(date.setDate(date.getHours() + 1)),
+  });
 
   return [plusOnePercent, minusOnePercent];
 }

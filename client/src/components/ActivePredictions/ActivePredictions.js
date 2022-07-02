@@ -11,8 +11,9 @@ const ActivePredictions = () => {
         { status: true },
         { autoFetch: false }
     );
-    
-    const getActivePredictions = () =>
+
+
+    useEffect(() => {
         fetch({
             onSuccess: (result) => {
                 setPredictions(result);
@@ -23,10 +24,7 @@ const ActivePredictions = () => {
                 setIsFetching(false);
             }
         });
-
-    useEffect(() => {
-        getActivePredictions();
-    }, []);
+    }, [fetch]);
 
     if(isFetching) {
         return <div>Loading...</div>
