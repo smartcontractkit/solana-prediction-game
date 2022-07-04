@@ -1,20 +1,19 @@
 import { useEffect, useState } from "react";
 import { Table, TableContainer, Tbody, Td,  Th, Thead, Tr } from "@chakra-ui/react";
-import { useMoralisQuery } from "react-moralis";
+import { useMoralisCloudFunction } from "react-moralis";
 
 const ActivePredictions = () => {
     const [ isFetching, setIsFetching ] = useState(true);
     const [ predictions, setPredictions ] = useState([]);
 
-    const { fetch } = useMoralisQuery(
-        "Prediction",
-        (query) =>
-          query.equalTo("status", true),
-        [],
+    const { fetch } = useMoralisCloudFunction(
+        "getPredictions",
+        { status: true },
         { autoFetch: false }
     );
-    
-    const singleQuery = () =>
+
+
+    useEffect(() => {
         fetch({
             onSuccess: (result) => {
                 setPredictions(result);
@@ -25,9 +24,6 @@ const ActivePredictions = () => {
                 setIsFetching(false);
             }
         });
-
-    useEffect(() => {
-        singleQuery();
     }, []);
 
     if(isFetching) {
@@ -60,7 +56,7 @@ const ActivePredictions = () => {
                                         <Td>{pair}</Td>
                                         <Td>{account}</Td>
                                         <Td>{prediction}</Td>
-                                        <Td>{predictionDeadline}</Td>
+                                        <Td>{predictionDeadline.toString()}</Td>
                                     </Tr>
                                 )
                             })
