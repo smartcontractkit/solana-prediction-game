@@ -6,6 +6,8 @@ const DataFeedTable = () => {
     const dataFeeds = useAddressDataFeed();
     const pairs = Object.keys(dataFeeds);
 
+    const prediction = Math.floor(data?.answerToNumber * (1 + (Math.floor(Math.random()*10))/100)); 
+
     return (
         <div>
             <h1>Chainlink Solana feeds</h1>
@@ -35,7 +37,7 @@ const DataFeedTable = () => {
                                         <PredictionButton 
                                             pair={pair}
                                             feedAddress={data?.feed}
-                                            predictionData={ Math.floor(data?.answerToNumber * (1 + (Math.floor(Math.random()*10))/100))} // will be user based
+                                            predictionData={ prediction } // will be user based
                                             openingPredictionPrice={data?.answerToNumber}
                                             openingPredictionTime={data?.observationsTS}
                                         />

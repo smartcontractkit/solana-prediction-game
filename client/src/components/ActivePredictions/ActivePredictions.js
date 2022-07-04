@@ -24,7 +24,7 @@ const ActivePredictions = () => {
                 setIsFetching(false);
             }
         });
-    }, [fetch]);
+    }, []);
 
     if(isFetching) {
         return <div>Loading...</div>
