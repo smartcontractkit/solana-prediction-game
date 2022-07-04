@@ -2,7 +2,7 @@ import { clusterApiUrl, Connection, Keypair, PublicKey, sendAndConfirmTransactio
 import { useCallback } from 'react';
 import { useMoralis } from 'react-moralis';
 
-export const SendOneLamportFromEscrowAddress = () => {
+export const SendFromEscrowAddress = () => {
     const  { user } = useMoralis();
 
     const onClick = useCallback(async () => {
@@ -36,7 +36,7 @@ export const SendOneLamportFromEscrowAddress = () => {
 
     return (
         <button onClick={onClick}>
-            Send 0.5 SOL
+            Send 0.5 SOL from escrow
         </button>
     );
 };

@@ -7,7 +7,6 @@ import {
   useMoralisSolanaApi,
   useMoralisSolanaCall,
 } from "react-moralis";
-import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 
 
 const Header = (props) => {
@@ -117,7 +116,7 @@ const MenuLinks = ({ isOpen }) => {
         pt={[4, 4, 0, 0]}
       >
         <MenuItem to="/">Home</MenuItem>
-        <WalletMultiButton />
+        {/* <WalletMultiButton /> */}
         {
           !isAuthenticated ? (
             <Button
