@@ -33,69 +33,28 @@ export const SendFromClientAddress = () => {
 
         const latestBlockHash = await connection.getLatestBlockhash();
 
-        console.log(await connection.getAccountInfo(publicKey));
-        console.log(await connection.getAccountInfo(escrowKeyPair.publicKey));
-
         const transaction = new Transaction({
             feePayer: publicKey,
             blockhash: latestBlockHash.blockhash,
             lastValidBlockHeight: latestBlockHash.lastValidBlockHeight
         })
-        console.log(
-            publicKey,
-            escrowKeyPair.publicKey,
-            1);
-        debugger;
+
         transaction.add(
             SystemProgram.transfer({
                 fromPubkey: publicKey,
                 toPubkey: escrowKeyPair.publicKey,
-                lamports: LAMPORTS_PER_SOL * 1,
+                lamports: LAMPORTS_PER_SOL * 0.5,
             })
         );
 
         const signed = await provider.signTransaction(transaction);
-        const signature = connection.sendRawTransaction(transaction.serialize());
-        await connection.confirmTransaction(signature);
-        console.log(signed, signature);
-
-        // connection.sendRawTransaction(transaction.serialize())
-        // .then(id => {
-        //     connection.confirmTransaction({
-        //         blockhash: latestBlockHash.blockhash,
-        //         lastValidBlockHeight: latestBlockHash.lastValidBlockHeight
-        //     })
-        // })
-        // .catch(console.error);
-
-        // const createTransferTransaction = async () => {
-        //     if (!provider.publicKey) return;
-        //     let transaction = new Transaction().add(
-        //       SystemProgram.transfer({
-        //         fromPubkey: provider.publicKey,
-        //         toPubkey: provider.publicKey,
-        //         lamports: 100,
-        //       })
-        //     );
-        //     transaction.feePayer = provider.publicKey;
-        //     const anyTransaction = transaction;
-        //     anyTransaction.recentBlockhash = (
-        //       await connection.getLatestBlockhash()
-        //     ).blockhash;
-        //     return transaction;
-        //   };
-        
-        // const sendTransaction = async () => {
-        //     try {
-        //         const transaction = await createTransferTransaction();
-        //         if (!transaction) return;
-        //         let signed = await provider.signTransaction(transaction);
-        //         let signature = await connection.sendRawTransaction(signed.serialize());
-        //         await connection.confirmTransaction(signature);
-        //     } catch (err) {
-        //         console.warn(err);
-        //     }
-        // };
+        const signature = await connection.sendRawTransaction(transaction.serialize());
+        await connection.confirmTransaction({
+            blockhash: latestBlockHash.blockhash,
+            lastValidBlockHeight: latestBlockHash.lastValidBlockHeight,
+            signature: signature,
+        });
+        console.log(signed);
 
     }, [user, provider]);
 

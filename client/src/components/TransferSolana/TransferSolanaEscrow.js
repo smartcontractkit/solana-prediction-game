@@ -30,7 +30,7 @@ export const SendFromEscrowAddress = () => {
             console.log("response", response);
         })
         .catch(error => {
-            console.log("error", error);
+            console.error("error", error);
         })
     }, [user]);
 
