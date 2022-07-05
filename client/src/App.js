@@ -13,11 +13,14 @@ function App() {
       <Header />
       <DataFeedTable />
       {
-        isInitialized && <ActivePredictions />
+        isInitialized && (
+          <>
+            <ActivePredictions />
+            <SendFromEscrowAddress />
+            <SendFromClientAddress />
+          </>
+        )
       }
-      <SendFromEscrowAddress />
-      <br />
-      <SendFromClientAddress />
     </>
   );
 }

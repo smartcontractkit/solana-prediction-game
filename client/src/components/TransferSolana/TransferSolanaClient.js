@@ -1,3 +1,4 @@
+import { Button } from '@chakra-ui/react';
 import { clusterApiUrl, Connection, Keypair, PublicKey, SystemProgram, Transaction, LAMPORTS_PER_SOL } from '@solana/web3.js';
 import { useCallback, useEffect, useState } from 'react';
 import { useMoralis } from 'react-moralis';
@@ -5,11 +6,11 @@ import { useMoralis } from 'react-moralis';
 export const SendFromClientAddress = () => {
     const  { user } = useMoralis();
     const  [ provider, setProvider ] = useState(null);
+    const [ isSending, setIsSending ] = useState(false);
 
     useEffect( ()=>{
         if ("solana" in window) {
             const solWindow = window;
-            console.log(solWindow?.solana)
             if (solWindow?.solana?.isPhantom) {
                 setProvider(solWindow?.solana);
                 // Attemp an eager connection
@@ -24,6 +25,7 @@ export const SendFromClientAddress = () => {
         if (!provider) {
             window.open("https://www.phantom.app/", "_blank");
         }
+        setIsSending(true);
 
         const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
         const publicKey = new PublicKey(user.get("solAddress"));
@@ -54,13 +56,25 @@ export const SendFromClientAddress = () => {
             lastValidBlockHeight: latestBlockHash.lastValidBlockHeight,
             signature: signature,
         });
-        console.log(signed);
+
+        setIsSending(false);
 
     }, [user, provider]);
 
     return provider && (
-        <button onClick={onClick} >
+        <Button
+            size="sm"
+            rounded="md"
+            color={["white", "white", "white", "white"]}
+            bg={["black", "black", "black", "black"]}
+            _hover={{
+                bg: ["primary.700", "primary.700", "primary.700", "primary.700"]
+            }}
+            isLoading={isSending}
+            loadingText="Sending..."
+            onClick={onClick}
+            >
             Send 0.5 SOL from client
-        </button>
+        </Button>
     );
 };
