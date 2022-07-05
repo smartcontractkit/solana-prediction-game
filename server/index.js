@@ -102,7 +102,7 @@ app.get('/getBet/:betId', async (req, res) => {
     res.status(400).send('Missing betId');
     return;
   }
-  await bets.retrieveBet(betId);
+  const betData = await bets.retrieveBet(betId);
   res.send(betData);
 });
 
