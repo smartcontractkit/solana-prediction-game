@@ -32,3 +32,7 @@ escrowTransferSOL = async (toAddress, amount) => {
     console.error("error", error);  
   })
 }
+
+module.exports = {
+  escrowTransferSOL
+}

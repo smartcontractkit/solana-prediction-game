@@ -62,3 +62,8 @@ const getLatestDataRound = async (address, pair) => {
   });
 
 }
+
+module.exports = {
+  getChainlinkFeed,
+  getLatestDataRound
+}

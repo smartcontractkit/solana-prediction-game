@@ -57,3 +57,8 @@ const addPredictionsDaily = async (address, pair) => {
 
   return [plusOnePercent, minusOnePercent];
 }
+
+module.exports = {
+  addPredictionsDaily,
+  createPrediction,
+}
