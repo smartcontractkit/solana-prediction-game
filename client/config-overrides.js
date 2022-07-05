@@ -1,7 +1,8 @@
+const webpack = require("webpack")
+
 module.exports = function override (config, env) {
   console.log('override loader fallbacks')
-  let loaders = config.resolve
-  loaders.fallback = {
+  config.resolve.fallback = {
       "fs": false,
       "tls": false,
       "net": false,
@@ -13,7 +14,15 @@ module.exports = function override (config, env) {
       "util": require.resolve("util/"),
       "crypto": require.resolve("crypto-browserify"),
       "os": require.resolve("os-browserify/browser"),
+      buffer: require.resolve("buffer"),
   }
+  
+  config.plugins = [
+    ...config.plugins,
+    new webpack.ProvidePlugin({
+        Buffer: ["buffer", "Buffer"],
+    }),
+  ]
   
   return config
 }

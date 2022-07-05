@@ -36,7 +36,7 @@ const DataFeedTable = () => {
                                         <PredictionButton 
                                             pair={pair}
                                             feedAddress={data?.feed}
-                                            predictionData={ prediction } // will be user based
+                                            predictionData={prediction} 
                                             openingPredictionPrice={data?.answerToNumber}
                                             openingPredictionTime={data?.observationsTS}
                                         />
