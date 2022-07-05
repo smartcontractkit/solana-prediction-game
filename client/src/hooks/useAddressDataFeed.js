@@ -56,6 +56,7 @@ export function useAddressDataFeed() {
     }
 
     useEffect(() => {
+        getDataFeeds();
         window.interval3min = setInterval(
             () => getDataFeeds(),
             180000 // 3 minutes
