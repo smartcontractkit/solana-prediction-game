@@ -25,6 +25,7 @@ const DataFeedTable = () => {
                         {
                             pairs.map(pair => {
                                 let data = dataFeeds[pair]?.roundData;
+                                const prediction = Math.floor(data?.answerToNumber * (1 + (Math.floor(Math.random()*10))/100)); 
                                 return (<Tr key={pair}>
                                     <Td>{pair}</Td>
                                     <Td isNumeric>{data?.roundId}</Td>
@@ -35,7 +36,7 @@ const DataFeedTable = () => {
                                         <PredictionButton 
                                             pair={pair}
                                             feedAddress={data?.feed}
-                                            predictionData={ Math.floor(data?.answerToNumber * (1 + (Math.floor(Math.random()*10))/100))} // will be user based
+                                            predictionData={prediction} 
                                             openingPredictionPrice={data?.answerToNumber}
                                             openingPredictionTime={data?.observationsTS}
                                         />
