@@ -54,7 +54,6 @@ const UserBetsTable = () => {
                     <Tbody>
                         {
                             bets.map(bet => {
-                                console.log(bet);
                                 return (
                                     <Tr key={bet?.objectId}>
                                         <Td>{bet?.objectId}</Td>
