@@ -12,7 +12,6 @@ const ActivePredictions = () => {
         { autoFetch: false }
     );
 
-
     useEffect(() => {
         fetch({
             onSuccess: (result) => {
@@ -24,6 +23,7 @@ const ActivePredictions = () => {
                 setIsFetching(false);
             }
         });
+    // eslint-disable-next-line
     }, []);
 
     if(isFetching) {

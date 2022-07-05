@@ -5,7 +5,6 @@ import { useMoralis } from 'react-moralis';
 export const SendFromEscrowAddress = () => {
     const { user } = useMoralis();
     const [ isSending, setIsSending ] = useState(false);
-    const [ data, setData ] = useState(null);
 
 
     const onClick = useCallback(async () => {
@@ -29,9 +28,8 @@ export const SendFromEscrowAddress = () => {
           })
           .then(res => res.json())
           .then(res => {
-            setData(res);
             setIsSending(false);
-            alert("Transfer successful: " + data?.transactionId);
+            alert("Transfer successful: " + res?.transactionId);
           })
           .catch(err => {
             setIsSending(false);
