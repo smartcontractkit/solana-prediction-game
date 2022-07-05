@@ -4,7 +4,6 @@ import PredictionButton from "../PredictionButton/PredictionButton";
 
 const DataFeedTable = () => {
     const dataFeeds = useAddressDataFeed();
-    const pairs = Object.keys(dataFeeds);
 
     return (
         <div>
@@ -23,22 +22,21 @@ const DataFeedTable = () => {
                     </Thead>
                     <Tbody>
                         {
-                            pairs.map(pair => {
-                                let data = dataFeeds[pair]?.roundData;
-                                const prediction = Math.floor(data?.answerToNumber * (1 + (Math.floor(Math.random()*10))/100)); 
-                                return (<Tr key={pair}>
-                                    <Td>{pair}</Td>
-                                    <Td isNumeric>{data?.roundId}</Td>
-                                    <Td isNumeric>{data?.slot}</Td>
-                                    <Td isNumeric>{data?.answerToNumber}</Td>
-                                    <Th>{data?.observationsTS}</Th>
+                            dataFeeds.map(data => {
+                                const prediction = Math.floor(data.answerToNumber * (1 + (Math.floor(Math.random()*10))/100)); 
+                                return (<Tr key={data.pair}>
+                                    <Td>{data.pair}</Td>
+                                    <Td isNumeric>{data.roundId}</Td>
+                                    <Td isNumeric>{data.slot}</Td>
+                                    <Td isNumeric>{data.answerToNumber}</Td>
+                                    <Th>{data.observationsTS}</Th>
                                     <Th>
                                         <PredictionButton 
-                                            pair={pair}
-                                            feedAddress={data?.feed}
+                                            pair={data.pair}
+                                            feedAddress={data.feed}
                                             predictionData={prediction} 
-                                            openingPredictionPrice={data?.answerToNumber}
-                                            openingPredictionTime={data?.observationsTS}
+                                            openingPredictionPrice={data.answerToNumber}
+                                            openingPredictionTime={data.observationsTS}
                                         />
                                     </Th>
                                 </Tr>)

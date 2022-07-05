@@ -1,68 +1,63 @@
-
-import { useEffect, useReducer, useRef, useState } from 'react';
-import io from 'socket.io-client';
+import { useEffect, useState } from 'react';
 
 export function useAddressDataFeed() {
-    const socketRef = useRef();
-    const [dataFeeds, setDataFeeds] = useState({
-        'SOL/USD': {
-            feedAddress: process.env.REACT_APP_SOL_USD,
-            roundData: null
-        },
-        // 'BTC/USD': {
-        //     feedAddress: process.env.REACT_APP_BTC_USD,
-        //     roundData: null
-        // },
-        // 'ETH/USD': {
-        //     feedAddress: process.env.REACT_APP_ETH_USD,
-        //     roundData: null
-        // },
-        // 'LINK/USD': {
-        //     feedAddress: process.env.REACT_APP_LINK_USD,
-        //     roundData: null
-        // },
-        // 'USDC/USD': {
-        //     feedAddress: process.env.REACT_APP_USDC_USD,
-        //     roundData: null
-        // },
-        // 'USDT/USD': {
-        //     feedAddress: process.env.REACT_APP_USDT_USD,
-        //     roundData: null
-        // }
-    });
 
-    const feeds = Object.keys(dataFeeds);
+    const [dataFeeds, setDataFeeds] = useState([]);
 
-    useEffect(() => {
-        socketRef.current = io("http://localhost:3001");
-        feeds.forEach(feed => {
-            socketRef.current.emit('request_data_feed', {
-                feedAddress: dataFeeds[feed].feedAddress,
-                pair: feed
+    const getDataFeeds = () => {
+
+        const pairs = [
+            {
+                pair: 'SOL/USD',
+                feedAddress: process.env.REACT_APP_SOL_USD
+            },
+            {
+                pair: 'BTC/USD',
+                feedAddress: process.env.REACT_APP_BTC_USD
+            },
+            {
+                pair: 'ETH/USD',
+                feedAddress: process.env.REACT_APP_ETH_USD
+            },
+            {
+                pair: 'LINK/USD',
+                feedAddress: process.env.REACT_APP_LINK_USD
+            },
+            {
+                pair: 'USDC/USD',
+                feedAddress: process.env.REACT_APP_USDC_USD
+            },
+            {
+                pair: 'USDT/USD',
+                feedAddress: process.env.REACT_APP_USDT_USD
+            }
+        ];
+
+        let promises = pairs.map(pair => {
+            let queryParams = new URLSearchParams({
+                pair: pair.pair,
+                address: pair.feedAddress
             });
-        });
-        // eslint-disable-next-line
-    }, []);
-
-    const useForceRender = () => {
-        const [, forceRender] = useReducer(x => !x, true)
-        return forceRender
+            return fetch(`${process.env.REACT_APP_SERVER_URL}/getLatestDataRound?` + queryParams , {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Methods": "GET, POST",
+                    "Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token"
+                }
+            })
+            .then(res => res.json());
+        })
+        Promise.all(promises).then(data => {
+            setDataFeeds(data);
+        })
+        .catch(console.error);
     }
 
-    const forceRender = useForceRender()
-
     useEffect(() => {
-        socketRef.current.on('receive_data_feed', (data_feed) => {
-            if(data_feed) {
-                setDataFeeds(previousData => {
-                    let newDataFeeds = previousData;
-                    newDataFeeds[data_feed.pair].roundData = data_feed;
-                    return newDataFeeds;
-                });
-                forceRender();
-                console.log(`Updated feed: ${dataFeeds[data_feed.pair]}`); // TODO find fix for forcing re-render
-            }
-        });
-    }, [dataFeeds, forceRender]);
+        getDataFeeds();
+    }, []);
+
     return dataFeeds;
 }

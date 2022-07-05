@@ -37,7 +37,7 @@ server.listen(PORT, () => {
 });
 
 app.get('/getLatestDataRound', async (req, res) => {
-  const { address, pair } = req.body;
+  const { address, pair } = req.query;
   let latestRound = await dataFeed.getLatestDataRound(address, pair);
   res.send(latestRound);
 });
