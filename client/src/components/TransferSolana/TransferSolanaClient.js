@@ -49,7 +49,7 @@ export const SendFromClientAddress = () => {
             })
         );
 
-        const signed = await provider.signTransaction(transaction);
+        await provider.signTransaction(transaction);
         const signature = await connection.sendRawTransaction(transaction.serialize());
         await connection.confirmTransaction({
             blockhash: latestBlockHash.blockhash,
