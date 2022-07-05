@@ -190,7 +190,8 @@ app.get('/scheduleDailyPredictions', async (req, res) => {
   res.send(predictions);
 });
 
-import { clusterApiUrl, Connection, Keypair, PublicKey, sendAndConfirmTransaction, SystemProgram, Transaction, LAMPORTS_PER_SOL } from '@solana/web3.js';
+const solanaWeb3 = require("@solana/web3.js");
+const { clusterApiUrl, Connection, Keypair, PublicKey, sendAndConfirmTransaction, SystemProgram, Transaction, LAMPORTS_PER_SOL } = solanaWeb3;
 
 escrowTransferSOL = async (toAddress, amount) => {
 
@@ -215,7 +216,9 @@ escrowTransferSOL = async (toAddress, amount) => {
   )
   .then(response => {
     console.log("response", response);
-    return response;
+    return {
+      transactionId: response
+    };
   })
   .catch(error => {
     console.error("error", error);  
