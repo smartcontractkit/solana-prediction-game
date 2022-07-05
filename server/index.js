@@ -86,7 +86,7 @@ app.post('/escrowTransferSOL', async (req, res) => {
   res.send(solTransfer);
 });
 
-app.post('/createBet', async (req, res) => {
+app.post('/addBet', async (req, res) => {
   const bet = req.body;
   if(!bet.user || !bet.status || !bet.predictionId || !bet.amount) {
     res.status(400).send('Missing valid bet');
