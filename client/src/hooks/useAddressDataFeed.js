@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import io from 'socket.io-client';
+import { pairs } from '../lib/constants';
 
 export function useAddressDataFeed() {
 
@@ -7,38 +8,12 @@ export function useAddressDataFeed() {
     const [refresh, setRefresh] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const socketRef = useRef();
-
-    const pairs = [
-        {
-            pair: 'SOL/USD',
-            feedAddress: process.env.REACT_APP_SOL_USD
-        },
-        {
-            pair: 'BTC/USD',
-            feedAddress: process.env.REACT_APP_BTC_USD
-        },
-        {
-            pair: 'ETH/USD',
-            feedAddress: process.env.REACT_APP_ETH_USD
-        },
-        {
-            pair: 'LINK/USD',
-            feedAddress: process.env.REACT_APP_LINK_USD
-        },
-        {
-            pair: 'USDC/USD',
-            feedAddress: process.env.REACT_APP_USDC_USD
-        },
-        {
-            pair: 'USDT/USD',
-            feedAddress: process.env.REACT_APP_USDT_USD
-        }
-    ];
+    const feedPairs = pairs();
 
     useEffect(() => {
         
         socketRef.current = io("http://localhost:3001");
-        pairs.forEach(pair => {
+        feedPairs.forEach(pair => {
             socketRef.current.emit('request_data_feed', {
                 feedAddress: pair.feedAddress,
                 pair: pair.pair
@@ -65,7 +40,7 @@ export function useAddressDataFeed() {
     }, [refresh]);
     
     useEffect(() => {
-        if(dataFeeds.length === pairs.length) {
+        if(dataFeeds.length === feedPairs.length) {
             setIsLoading(false);
         }
         // eslint-disable-next-line 
