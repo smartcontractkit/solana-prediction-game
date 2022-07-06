@@ -1,4 +1,5 @@
 import { Table, TableContainer, Tbody, Td,  Th, Thead, Tr } from "@chakra-ui/react"
+import { randomisePrediction } from "../../helpers/randomisePrediction";
 import { useAddressDataFeed } from '../../hooks/useAddressDataFeed';
 import PredictionButton from "../PredictionButton/PredictionButton";
 
@@ -27,7 +28,7 @@ const DataFeedTable = () => {
                     <Tbody>
                         {
                             dataFeeds.map(data => {
-                                const prediction = Math.floor(data.answerToNumber * (1 + (Math.floor(Math.random()*10))/100)); 
+                                const prediction = randomisePrediction(data.answerToNumber);
                                 return (<Tr key={data.pair}>
                                     <Td>{data.pair}</Td>
                                     <Td isNumeric>{data.roundId}</Td>

@@ -1,4 +1,4 @@
-export const validate = (data, setIsSaving) => {
+export const validatePrediction = (data, setIsSaving) => {
     if (!data.owner) {
         alert("Login is required")
         setIsSaving(false);
