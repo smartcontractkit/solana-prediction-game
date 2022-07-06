@@ -1,10 +1,11 @@
 import React from "react";
 import ReactDOM from 'react-dom/client';
 import { MoralisProvider } from "react-moralis";
-import "./index.css";
+import "./styles.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { ChakraProvider } from "@chakra-ui/react";
+import theme from './theme';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -15,7 +16,7 @@ root.render(
       appId={process.env.REACT_APP_MORALIS_APP_ID}
       serverUrl={process.env.REACT_APP_MORALIS_SERVER_URL}
     >
-      <ChakraProvider>
+      <ChakraProvider theme={theme}>
         <App />
       </ChakraProvider>
     </MoralisProvider>
