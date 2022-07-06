@@ -3,7 +3,11 @@ import { useAddressDataFeed } from '../../hooks/useAddressDataFeed';
 import PredictionButton from "../PredictionButton/PredictionButton";
 
 const DataFeedTable = () => {
-    const dataFeeds = useAddressDataFeed();
+    const { dataFeeds, isLoading } = useAddressDataFeed();
+
+    if(isLoading) {
+        return <div>Loading...</div>
+    }
 
     return (
         <div>
