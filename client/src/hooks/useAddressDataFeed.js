@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import io from 'socket.io-client';
-import { pairs } from '../lib/constants';
+import { CURRENCY_PAIRS } from '../lib/constants';
 
 export function useAddressDataFeed() {
 
@@ -8,7 +8,7 @@ export function useAddressDataFeed() {
     const [refresh, setRefresh] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const socketRef = useRef();
-    const feedPairs = pairs();
+    const feedPairs = CURRENCY_PAIRS;
 
     useEffect(() => {
         

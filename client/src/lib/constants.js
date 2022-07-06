@@ -1,4 +1,4 @@
-export const pairs = () => [
+export const CURRENCY_PAIRS = [
     {
         pair: 'SOL/USD',
         feedAddress: process.env.REACT_APP_SOL_USD
