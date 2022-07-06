@@ -29,14 +29,14 @@ const createBet = async (bet) => {
 }
 
 const retrieveBet = async (betId) => {
-    const bet = await BetQuery.get(betId);    
+    const bet = await BetQuery.get(betId);
     const prediction = bet.get("parent");
     await prediction.fetch();
     return bet
 }
 
 const retrieveUserBets = async (user) => {
-    BetQuery.equalTo("user", user);
+    BetQuery.equalTo("user", user); // TODO: Investigate way to retrieve predictions within the query without having to do a for loop
 
     const bets = await BetQuery.find();
 

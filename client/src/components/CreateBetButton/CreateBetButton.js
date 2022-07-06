@@ -39,11 +39,11 @@ export default function CreateBetButton(
         .then(data => {
             setBet(data);
             setIsSaving(false);
-            alert("Bet created");
+            console.log("Bet created");
         })
         .catch(err => {
             setIsSaving(false);
-            alert("Error occured: " + err.message);
+            console.log("Error occured: " + err.message);
         });
         
         return bet;    
