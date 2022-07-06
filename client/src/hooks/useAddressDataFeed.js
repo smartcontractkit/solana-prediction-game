@@ -23,7 +23,6 @@ export function useAddressDataFeed() {
     }, []);
 
     useEffect(() => {
-<<<<<<< HEAD
         socketRef.current.on('receive_data_feed', (data_feed) => {
             if(data_feed) {
                 setDataFeeds(previousData => {
@@ -43,15 +42,6 @@ export function useAddressDataFeed() {
     useEffect(() => {
         if(dataFeeds.length === feedPairs.length) {
             setIsLoading(false);
-=======
-        getDataFeeds();
-        window.interval3min = setInterval(
-            () => getDataFeeds(),
-            180000 // 3 minutes
-        )
-        return () => {
-            clearInterval(window.interval3min)
->>>>>>> 20c2b088f1dcb581074f96ea50629019eebbe42c
         }
         // eslint-disable-next-line 
     },[dataFeeds]);
