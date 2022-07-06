@@ -12,6 +12,9 @@ const theme = extendTheme(
                     bg: 'gray.900',
                     color: 'gray.100',
                 },
+                p: {
+                    fontSize: '14px',
+                }
             },
         },
         colors: {
