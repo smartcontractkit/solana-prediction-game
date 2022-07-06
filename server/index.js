@@ -16,6 +16,11 @@ const transactions = require("./transactions");
 
 const PORT = process.env.PORT || 3001;
 
+const Moralis = require("moralis/node");
+const serverUrl = process.env.MORALIS_SERVER_URL;
+const appId = process.env.MORALIS_APP_ID;
+const masterKey = process.env.MORALIS_MASTER_KEY;
+
 const io = new Server(server, {
   cors: {
     origin: "http://localhost:3000",
@@ -32,8 +37,9 @@ io.on('connection', (socket) => {
   });
 });
 
-server.listen(PORT, () => {
+server.listen(PORT, async() => {
   console.log(`Server listening on ${PORT}`);
+  await Moralis.start({ serverUrl, appId, masterKey });
 });
 
 app.get('/getLatestDataRound', async (req, res) => {
@@ -44,8 +50,6 @@ app.get('/getLatestDataRound', async (req, res) => {
 
 app.post('/addPrediction', async (req, res) => {
   const prediction  = req.body;
-
-  await Moralis.start({ serverUrl, appId, masterKey });
   
   const predictionData = await predictions.createPrediction({
     ...prediction,
@@ -57,14 +61,8 @@ app.post('/addPrediction', async (req, res) => {
   res.send(predictionData);
 });
 
-/* Moralis init code */
-const serverUrl = process.env.MORALIS_SERVER_URL;
-const appId = process.env.MORALIS_APP_ID;
-const masterKey = process.env.MORALIS_MASTER_KEY;
-
 app.get('/scheduleDailyPredictions', async (req, res) => {
   const { address, pair } = req.body;
-  await Moralis.start({ serverUrl, appId, masterKey });
   const predictions = await predictions.addPredictionsDaily(address, pair)
   res.send(predictions);
 });
