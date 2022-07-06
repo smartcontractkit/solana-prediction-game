@@ -16,10 +16,7 @@ const Header = (props) => {
 
   return (
     <NavBarContainer {...props}>
-      <Logo
-        w="100px"
-        color={["white", "white", "primary.500", "primary.500"]}
-      />
+      <Logo />
       <MenuToggle toggle={toggle} isOpen={isOpen} />
       <MenuLinks isOpen={isOpen} />
     </NavBarContainer>
