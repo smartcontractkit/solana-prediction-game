@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const http = require("http");
 const server = http.createServer(app);
+const { Server } = require("socket.io");
 const cors = require("cors");
 require('dotenv').config();
 
@@ -14,6 +15,22 @@ const predictions = require("./predictions");
 const transactions = require("./transactions");
 
 const PORT = process.env.PORT || 3001;
+
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST", "DELETE", "PUT", "OPTIONS"],
+  }
+});
+
+io.on('connection', (socket) => {
+  socket.on('request_data_feed', (feed) => {
+    console.log(`feedAddress: ${feed.feedAddress}`);
+    console.log(`User Id: ${socket.client.id}`);
+    socket.join(feed.feedAddress);
+    dataFeed.getChainlinkFeed(io, feed);
+  });
+});
 
 server.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
