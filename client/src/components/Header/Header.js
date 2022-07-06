@@ -7,6 +7,7 @@ import {
   useMoralisSolanaApi,
   useMoralisSolanaCall,
 } from "react-moralis";
+import CountdownTimer from "./CountdownTimer";
 
 
 const Header = (props) => {
@@ -17,6 +18,7 @@ const Header = (props) => {
   return (
     <NavBarContainer {...props}>
       <Logo />
+      <MenuNextPrediction />
       <MenuToggle toggle={toggle} isOpen={isOpen} />
       <MenuLinks isOpen={isOpen} />
     </NavBarContainer>
@@ -62,6 +64,22 @@ const MenuItem = ({ children, isLast, to = "/", ...rest }) => {
     </Link>
   );
 };
+
+const MenuNextPrediction = () => {
+  const predictionTime = new Date().setUTCHours(24,0,0,0); // TODO to be changed to next prediction time
+
+  return (
+    <Flex>
+      <Text>
+        Next prediction in:&nbsp;
+      </Text>
+      <CountdownTimer 
+        targetDate={predictionTime} 
+        color={"yellow.400"} 
+        fontWeight={"bold"} />
+    </Flex>
+  );
+}
 
 const MenuLinks = ({ isOpen }) => {
   const network = "devnet"
