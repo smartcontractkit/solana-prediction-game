@@ -1,11 +1,12 @@
 import React from "react";
 import ReactDOM from 'react-dom/client';
 import { MoralisProvider } from "react-moralis";
-import "./index.css";
+import "./styles.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { ChakraProvider } from "@chakra-ui/react";
 import SocketProvider from "./providers/SocketProvider";
+import theme from './theme';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
