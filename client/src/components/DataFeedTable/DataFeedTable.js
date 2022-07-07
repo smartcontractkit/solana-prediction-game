@@ -1,7 +1,6 @@
 import { Table, TableContainer, Tbody, Td,  Th, Thead, Tr } from "@chakra-ui/react"
 import { useContext } from "react";
 import { randomisePrediction } from "../../helpers/randomisePrediction";
-import { CURRENCY_PAIRS } from "../../lib/constants";
 import { SocketContext } from "../../providers/SocketProvider";
 import PredictionButton from "../PredictionButton/PredictionButton";
 
