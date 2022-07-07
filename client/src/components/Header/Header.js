@@ -50,7 +50,7 @@ const MenuWallet = () => {
     logout,
   } = useMoralis();
   const { account } = useMoralisSolanaApi();
-  const { fetch, data, isLoading } = useMoralisSolanaCall(account.getPortfolio);
+  const { fetch, data } = useMoralisSolanaCall(account.getPortfolio);
 
   /**
    * @description the function handles authentication with phantom wallet
@@ -106,9 +106,16 @@ const MenuWallet = () => {
             borderRadius="12px"
             onClick={logout}
           > 
-            <Text fontWeight="bold">
-              { data && !isLoading && (`${roundOff(data.nativeBalance?.solana, 3)} SOL`) }
-            </Text>
+            {
+              data && 
+              (
+                <Show above="sm">
+                  <Text fontWeight="bold">
+                    { `${roundOff(data.nativeBalance?.solana, 3)} SOL` }
+                  </Text>
+                </Show>
+              )
+            }
             <HStack>
               <Text color="gray.400">
                 { getTruncatedAddress(user.get("solAddress")) }
