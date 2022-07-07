@@ -1,7 +1,6 @@
-import { useState, useEffect } from "react";
-import { Box, Flex, Text, Button, Stack, HStack, Avatar } from "@chakra-ui/react";
-import { ChevronDownIcon } from '@chakra-ui/icons'
-
+import { useEffect } from "react";
+import { Box, Flex, Text, Button, Stack, HStack, Avatar, Show } from "@chakra-ui/react";
+import { ChevronDownIcon } from '@chakra-ui/icons';
 import Logo from "./Logo";
 import {
   useMoralis,
@@ -9,6 +8,7 @@ import {
   useMoralisSolanaCall,
 } from "react-moralis";
 import CountdownTimer from "./CountdownTimer";
+import { getTruncatedAddress, roundOff } from "../../helpers/sol_helpers";
 
 
 const Header = (props) => {
@@ -16,7 +16,9 @@ const Header = (props) => {
   return (
     <NavBarContainer {...props}>
       <Logo />
-      <MenuNextPrediction />
+      <Show above="sm">
+        <MenuNextPrediction />
+      </Show>
       <MenuWallet />
     </NavBarContainer>
   );
@@ -70,9 +72,7 @@ const MenuWallet = () => {
     }
   }, [fetch, isAuthenticated, user, network]);
 
-  const round = (num) => {
-    return Math.round(num * 1000) / 1000;
-  }
+  
 
   return (
     <Box>
@@ -107,11 +107,11 @@ const MenuWallet = () => {
             onClick={logout}
           > 
             <Text fontWeight="bold">
-              { data && (`${round(data.nativeBalance?.solana)} SOL`) }
+              { data && !isLoading && (`${roundOff(data.nativeBalance?.solana, 3)} SOL`) }
             </Text>
             <HStack>
               <Text color="gray.400">
-              { user?.get("solAddress").slice(0, 6) }...{ user?.get("solAddress").slice(-4) }
+                { getTruncatedAddress(user.get("solAddress")) }
               </Text>
               <Avatar size="xs" bg='red.500' />
               <ChevronDownIcon />
