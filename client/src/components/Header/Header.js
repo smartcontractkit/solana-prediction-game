@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Box, Flex, Text, Button, Stack, HStack, Avatar, Show } from "@chakra-ui/react";
+import { Box, Flex, Text, Button, Stack, HStack, Avatar, Show, Menu, MenuButton, MenuList, MenuItem, MenuDivider } from "@chakra-ui/react";
 import { ChevronDownIcon } from '@chakra-ui/icons';
 import Logo from "./Logo";
 import {
@@ -40,6 +40,22 @@ const MenuNextPrediction = () => {
   );
 }
 
+const MenuItemM = ({ children, ...props }) => {
+  return (
+    <MenuItem  
+      bg="gray.900"
+      _hover={{
+        bg: "gray.800",
+      }}
+      _focus={{
+        bg: "gray.900",
+      }}
+    {...props}>
+      {children}
+    </MenuItem>
+  );
+}
+
 const MenuWallet = () => {
   const network = "devnet"
   const {
@@ -72,8 +88,6 @@ const MenuWallet = () => {
     }
   }, [fetch, isAuthenticated, user, network]);
 
-  
-
   return (
     <Box>
       {
@@ -94,36 +108,58 @@ const MenuWallet = () => {
             Connect Wallet
           </Button>
         ) : (
-          <Stack
-            spacing={[2, 4, 8, 8]}
-            align="center"
-            justify="space-between"
-            direction="row"
-            py="8px"
-            px="14px"
-            border="1px solid"
-            borderColor="whiteAlpha.300"
-            borderRadius="12px"
-            onClick={logout}
-          > 
-            {
-              data && 
-              (
-                <Show above="sm">
-                  <Text fontWeight="bold">
+          <Menu >
+            <MenuButton 
+              as={Button}
+              size="sm"
+              rounded="md"
+              border="1px solid"
+              borderColor="whiteAlpha.300"
+              bg="transparent"
+              _hover={{
+                bg: "whiteAlpha.300",
+              }}
+            >
+              <Stack
+                spacing={[2, 4, 8, 8]}
+                align="center"
+                justify="space-between"
+                direction="row"
+              >
+                {
+                data && 
+                (
+                  <Show above="sm">
+                    <Text fontWeight="bold">
+                      { `${roundOff(data.nativeBalance?.solana, 3)} SOL` }
+                    </Text>
+                  </Show>
+                  )
+                }
+                <HStack>
+                  <Text color="gray.400">
+                    { getTruncatedAddress(user.get("solAddress")) }
+                  </Text>
+                  <Avatar size="xs" bg='red.500' />
+                  <ChevronDownIcon />
+                </HStack>
+              </Stack>
+            </MenuButton>
+            <MenuList 
+              rounded="md"
+              border="1px solid"
+              borderColor="whiteAlpha.300"
+              bg="gray.900"
+            >
+              <Show below="sm">
+                  <Text fontWeight="bold" py="0.4rem" px="0.8rem">
                     { `${roundOff(data.nativeBalance?.solana, 3)} SOL` }
                   </Text>
-                </Show>
-              )
-            }
-            <HStack>
-              <Text color="gray.400">
-                { getTruncatedAddress(user.get("solAddress")) }
-              </Text>
-              <Avatar size="xs" bg='red.500' />
-              <ChevronDownIcon />
-            </HStack>
-          </Stack>
+                  <MenuDivider />
+              </Show>
+              <MenuItemM onClick={logout}>Disconnect</MenuItemM>
+            </MenuList>
+          </Menu>
         )
       }
     </Box>
