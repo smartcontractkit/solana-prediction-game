@@ -7,10 +7,6 @@ const cors = require("cors");
 const Moralis = require("moralis/node");
 require('dotenv').config();
 
-const serverUrl = process.env.MORALIS_SERVER_URL;
-const appId = process.env.MORALIS_APP_ID;
-const masterKey = process.env.MORALIS_MASTER_KEY;
-
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -21,6 +17,10 @@ const transactions = require("./transactions");
 const bets = require("./bets");
 
 const PORT = process.env.PORT || 3001;
+
+const serverUrl = process.env.MORALIS_SERVER_URL;
+const appId = process.env.MORALIS_APP_ID;
+const masterKey = process.env.MORALIS_MASTER_KEY;
 
 const io = new Server(server, {
   cors: {
@@ -39,12 +39,12 @@ io.on('connection', (socket) => {
 });
 
 server.listen(PORT, async () => {
-  await Moralis.start({ serverUrl, appId, masterKey });
   console.log(`Server listening on ${PORT}`);
+  await Moralis.start({ serverUrl, appId, masterKey });
 });
 
 app.get('/getLatestDataRound', async (req, res) => {
-  const { address, pair } = req.body;
+  const { address, pair } = req.query;
   if(!address || !pair) {
     res.status(400).send('Missing address or pair');
     return;
