@@ -8,7 +8,7 @@ const SocketProvider = (props) => {
         dataFeeds: []
     });
 
-    useEffect(() => initSockets({ setValue }), [initSockets]);
+    useEffect(() => initSockets({ setValue }), []);
 
     return(
         <SocketContext.Provider value={ value }>
