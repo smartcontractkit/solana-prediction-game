@@ -18,7 +18,6 @@ const bets = require("./bets");
 
 const PORT = process.env.PORT || 3001;
 
-const Moralis = require("moralis/node");
 const serverUrl = process.env.MORALIS_SERVER_URL;
 const appId = process.env.MORALIS_APP_ID;
 const masterKey = process.env.MORALIS_MASTER_KEY;
