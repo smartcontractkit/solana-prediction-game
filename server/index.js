@@ -7,10 +7,6 @@ const cors = require("cors");
 const Moralis = require("moralis/node");
 require('dotenv').config();
 
-const serverUrl = process.env.MORALIS_SERVER_URL;
-const appId = process.env.MORALIS_APP_ID;
-const masterKey = process.env.MORALIS_MASTER_KEY;
-
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
