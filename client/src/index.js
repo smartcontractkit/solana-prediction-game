@@ -5,7 +5,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { ChakraProvider } from "@chakra-ui/react";
-import SocketProvider from './components/SocketProvider';
+import SocketProvider from "./providers/SocketProvider";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 

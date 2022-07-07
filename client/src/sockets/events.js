@@ -1,10 +1,9 @@
 import { socket } from './index';
 
 export const socketEvents = ({ setValue }) => {
-
     socket.on('receive_data_feed', (data_feed) => {
-        if(data_feed) {
-            setValue(state => {
+        setValue(state => {
+            if(data_feed) {
                 const { dataFeeds } = state;
 
                 const objIndex = dataFeeds.findIndex((obj => obj.pair ===  data_feed.pair));
@@ -14,7 +13,8 @@ export const socketEvents = ({ setValue }) => {
                 }
                 dataFeeds.splice(objIndex, 1, data_feed);
                 return { ...state, dataFeeds };
-            });
-        }
+            }
+            return state;
+        });
     });
 };
