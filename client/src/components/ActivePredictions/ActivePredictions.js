@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Table, TableContainer, Tbody, Td,  Th, Thead, Tr } from "@chakra-ui/react";
 import { useMoralisCloudFunction } from "react-moralis";
+import CreateBetButton from "../CreateBetButton/CreateBetButton";
 
 const ActivePredictions = () => {
     const [ isFetching, setIsFetching ] = useState(true);
@@ -43,13 +44,15 @@ const ActivePredictions = () => {
                             <Th>Feed</Th>
                             <Th>Prediction</Th>
                             <Th>Deadline</Th>
+                            <Th>Status</Th>
+                            <Th></Th>
                         </Tr>
                     </Thead>
                     <Tbody>
                         {
                             predictions.map(predictionData => {
                                 const { id, attributes } = predictionData;
-                                const { account, pair, prediction, predictionDeadline } = attributes;
+                                const { account, pair, prediction, predictionDeadline, status } = attributes;
                                 return (
                                     <Tr key={id}>
                                         <Td>{id}</Td>
@@ -57,6 +60,15 @@ const ActivePredictions = () => {
                                         <Td>{account}</Td>
                                         <Td>{prediction}</Td>
                                         <Td>{predictionDeadline.toString()}</Td>
+                                        <Td>{status ? 'open' : 'closed'}</Td>
+                                        <Td>
+                                            {status && (
+                                                <CreateBetButton 
+                                                   predictionId={id}
+                                                   status={status}
+                                                />
+                                            )}
+                                        </Td>
                                     </Tr>
                                 )
                             })

@@ -5,6 +5,7 @@ import "./styles.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { ChakraProvider } from "@chakra-ui/react";
+import SocketProvider from "./providers/SocketProvider";
 import theme from './theme';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -16,8 +17,10 @@ root.render(
       appId={process.env.REACT_APP_MORALIS_APP_ID}
       serverUrl={process.env.REACT_APP_MORALIS_SERVER_URL}
     >
-      <ChakraProvider theme={theme}>
-        <App />
+      <ChakraProvider>
+        <SocketProvider>
+          <App/>
+        </SocketProvider>
       </ChakraProvider>
     </MoralisProvider>
   </React.StrictMode>
