@@ -40,7 +40,7 @@ io.on('connection', (socket) => {
 
 server.listen(PORT, async () => {
   console.log(`Server listening on ${PORT}`);
-  // await Moralis.start({ serverUrl, appId, masterKey });
+  await Moralis.start({ serverUrl, appId, masterKey });
 });
 
 app.get('/getLatestDataRound', async (req, res) => {
