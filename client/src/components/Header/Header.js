@@ -127,8 +127,8 @@ const MenuWallet = () => {
                 direction="row"
               >
                 {
-                data && 
-                (
+                  data && 
+                  (
                   <Show above="sm">
                     <Text fontWeight="bold">
                       { `${roundOff(data.nativeBalance?.solana, 3)} SOL` }
@@ -151,12 +151,16 @@ const MenuWallet = () => {
               borderColor="whiteAlpha.300"
               bg="gray.900"
             >
-              <Show below="sm">
-                  <Text fontWeight="bold" py="0.4rem" px="0.8rem">
-                    { `${roundOff(data.nativeBalance?.solana, 3)} SOL` }
-                  </Text>
-                  <MenuDivider />
-              </Show>
+              {
+                data && (
+                  <Show below="sm">
+                      <Text fontWeight="bold" py="0.4rem" px="0.8rem">
+                        { `${roundOff(data.nativeBalance?.solana, 3)} SOL` }
+                      </Text>
+                      <MenuDivider />
+                  </Show>
+                )
+              }
               <MenuItemM onClick={logout}>Disconnect</MenuItemM>
             </MenuList>
           </Menu>
