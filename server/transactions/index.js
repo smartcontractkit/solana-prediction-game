@@ -1,7 +1,7 @@
 const solanaWeb3 = require("@solana/web3.js");
 const { clusterApiUrl, Connection, Keypair, PublicKey, sendAndConfirmTransaction, SystemProgram, Transaction, LAMPORTS_PER_SOL } = solanaWeb3;
 
-escrowTransferSOL = async (toAddress, amount) => {
+transferSOL = async (toAddress, amount, fromSecret) => {
 
   const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
   const toPubkey = new PublicKey(toAddress);
@@ -34,5 +34,5 @@ escrowTransferSOL = async (toAddress, amount) => {
 }
 
 module.exports = {
-  escrowTransferSOL
+  transferSOL
 }

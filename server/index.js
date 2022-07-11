@@ -82,7 +82,7 @@ app.post('/escrowTransferSOL', async (req, res) => {
     res.status(400).send('Missing toAddress or amount');
     return;
   }
-  const solTransfer = await transactions.escrowTransferSOL(toAddress, amount)
+  const solTransfer = await transactions.transferSOL(toAddress, amount)
   res.send(solTransfer);
 });
 
