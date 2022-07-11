@@ -7,7 +7,7 @@ import { SendFromClientAddress } from './components/TransferSolana/TransferSolan
 import UserBetsTable from './components/UserBetsTable/UserBetsTable';
 
 function App() {
-  const { isInitialized } = useMoralis();
+  const { isInitialized, isAuthenticated } = useMoralis();
 
   return (
     <>
@@ -17,9 +17,15 @@ function App() {
         isInitialized && (
           <>
             <ActivePredictions />
-            <SendFromEscrowAddress />
-            <SendFromClientAddress />
-            <UserBetsTable />
+            {
+              isAuthenticated && (
+                <>
+                  <SendFromEscrowAddress />
+                  <SendFromClientAddress />
+                  <UserBetsTable />
+                </>
+              ) 
+            }
           </>
         )
       }
