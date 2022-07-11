@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { Table, TableContainer, Tbody, Td,  Th, Thead, Tr } from "@chakra-ui/react";
-import { useMoralisCloudFunction } from "react-moralis";
+import { useMoralisCloudFunction, useMoralis } from "react-moralis";
 import CreateBetButton from "../CreateBetButton/CreateBetButton";
 
 const ActivePredictions = () => {
     const [ isFetching, setIsFetching ] = useState(true);
     const [ predictions, setPredictions ] = useState([]);
+    const { isAuthenticated } = useMoralis();
 
     const { fetch } = useMoralisCloudFunction(
         "getPredictions",
@@ -61,14 +62,16 @@ const ActivePredictions = () => {
                                         <Td>{prediction}</Td>
                                         <Td>{predictionDeadline.toString()}</Td>
                                         <Td>{status ? 'open' : 'closed'}</Td>
-                                        <Td>
-                                            {status && (
+                                        {
+                                            status && isAuthenticated && (
+                                            <Td>
                                                 <CreateBetButton 
                                                    predictionId={id}
                                                    status={status}
                                                 />
-                                            )}
-                                        </Td>
+                                            </Td>
+                                            )
+                                        }
                                     </Tr>
                                 )
                             })
