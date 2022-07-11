@@ -1,7 +1,7 @@
 import { Button } from "@chakra-ui/react";
 import { useState } from "react";
 import { useMoralis } from "react-moralis";
-import { validate } from "../../helpers/validate";
+import { validatePrediction } from "../../helpers/validatePrediction";
 
 export default function PredictionButton( 
   { 
@@ -35,7 +35,7 @@ export default function PredictionButton(
       status: true,
     }
     
-    validate(data, setIsSaving);
+    validatePrediction(data, setIsSaving);
 
     fetch(`${process.env.REACT_APP_SERVER_URL}/addPrediction`,{
       method: "POST",

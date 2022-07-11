@@ -1,14 +1,18 @@
-import { Table, TableContainer, Tbody, Td,  Th, Thead, Tr } from "@chakra-ui/react"
-import { useAddressDataFeed } from '../../hooks/useAddressDataFeed';
+import { Table, TableContainer, Tbody, Td,  Text,  Th, Thead, Tr } from "@chakra-ui/react"
+import { useContext } from "react";
+import { randomisePrediction } from "../../helpers/randomisePrediction";
+import { SocketContext } from "../../providers/SocketProvider";
 import PredictionButton from "../PredictionButton/PredictionButton";
 
 const DataFeedTable = () => {
-    const dataFeeds = useAddressDataFeed();
-    const pairs = Object.keys(dataFeeds);
+    const { dataFeeds } = useContext(SocketContext);
 
     return (
         <div>
             <h1>Chainlink Solana feeds</h1>
+            {
+                dataFeeds.length === 0 && <Text> Loading... </Text>
+            }
             <TableContainer>
                 <Table variant='simple'>
                     <Thead>
@@ -23,22 +27,21 @@ const DataFeedTable = () => {
                     </Thead>
                     <Tbody>
                         {
-                            pairs.map(pair => {
-                                let data = dataFeeds[pair]?.roundData;
-                                const prediction = Math.floor(data?.answerToNumber * (1 + (Math.floor(Math.random()*10))/100)); 
-                                return (<Tr key={pair}>
-                                    <Td>{pair}</Td>
-                                    <Td isNumeric>{data?.roundId}</Td>
-                                    <Td isNumeric>{data?.slot}</Td>
-                                    <Td isNumeric>{data?.answerToNumber}</Td>
-                                    <Th>{data?.observationsTS}</Th>
+                            dataFeeds.map(data => {
+                                const prediction = randomisePrediction(data.answerToNumber);
+                                return (<Tr key={data.pair}>
+                                    <Td>{data.pair}</Td>
+                                    <Td isNumeric>{data.roundId}</Td>
+                                    <Td isNumeric>{data.slot}</Td>
+                                    <Td isNumeric>{data.answerToNumber}</Td>
+                                    <Th>{data.observationsTS}</Th>
                                     <Th>
                                         <PredictionButton 
-                                            pair={pair}
-                                            feedAddress={data?.feed}
+                                            pair={data.pair}
+                                            feedAddress={data.feed}
                                             predictionData={prediction} 
-                                            openingPredictionPrice={data?.answerToNumber}
-                                            openingPredictionTime={data?.observationsTS}
+                                            openingPredictionPrice={data.answerToNumber}
+                                            openingPredictionTime={data.observationsTS}
                                         />
                                     </Th>
                                 </Tr>)
