@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Box, Flex, Text, Button, Stack, HStack, Avatar, Show, Menu, MenuButton, MenuList, MenuItem, MenuDivider } from "@chakra-ui/react";
+import { Box, Flex, Text, Button, Stack, HStack, Avatar, Show, Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react";
 import { ChevronDownIcon } from '@chakra-ui/icons';
 import Logo from "./Logo";
 import {
@@ -40,7 +40,7 @@ const MenuNextPrediction = () => {
   );
 }
 
-const MenuItemM = ({ children, ...props }) => {
+const CustomMenuItem = ({ children, ...props }) => {
   return (
     <MenuItem  
       bg="gray.900"
@@ -113,9 +113,7 @@ const MenuWallet = () => {
               as={Button}
               size="sm"
               rounded="md"
-              border="1px solid"
-              borderColor="whiteAlpha.300"
-              bg="transparent"
+              bg="whiteAlpha.50"
               _hover={{
                 bg: "whiteAlpha.300",
               }}
@@ -129,17 +127,17 @@ const MenuWallet = () => {
                 {
                   data && 
                   (
-                  <Show above="sm">
-                    <Text fontWeight="bold">
-                      { `${roundOff(data.nativeBalance?.solana, 3)} SOL` }
-                    </Text>
-                  </Show>
+                  <Text fontWeight="bold">
+                    { `${roundOff(data.nativeBalance?.solana, 3)} SOL` }
+                  </Text>
                   )
                 }
                 <HStack>
-                  <Text color="gray.400">
-                    { getTruncatedAddress(user.get("solAddress")) }
-                  </Text>
+                  <Show above="sm">
+                    <Text color="gray.400" fontWeight={400}>
+                      { getTruncatedAddress(user.get("solAddress")) }
+                    </Text>
+                  </Show>
                   <Avatar size="xs" bg='red.500' />
                   <ChevronDownIcon />
                 </HStack>
@@ -151,17 +149,7 @@ const MenuWallet = () => {
               borderColor="whiteAlpha.300"
               bg="gray.900"
             >
-              {
-                data && (
-                  <Show below="sm">
-                      <Text fontWeight="bold" py="0.4rem" px="0.8rem">
-                        { `${roundOff(data.nativeBalance?.solana, 3)} SOL` }
-                      </Text>
-                      <MenuDivider />
-                  </Show>
-                )
-              }
-              <MenuItemM onClick={logout}>Disconnect</MenuItemM>
+              <CustomMenuItem onClick={logout}>Disconnect</CustomMenuItem>
             </MenuList>
           </Menu>
         )
