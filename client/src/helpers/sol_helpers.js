@@ -8,3 +8,10 @@ export const roundOff = (num, precision) => {
     }
     return parseFloat(num.toFixed(precision));
 }
+
+export const getCurrenciesFromPairs = (pair) => {
+    return {
+        firstCurrency: pair.split('/')[0],
+        secondCurrency: pair.split('/')[1]
+    }
+} 

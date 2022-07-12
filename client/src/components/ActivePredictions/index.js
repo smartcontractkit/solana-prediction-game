@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import { Table, TableContainer, Tbody, Td,  Th, Thead, Tr } from "@chakra-ui/react";
-import { useMoralisCloudFunction, useMoralis } from "react-moralis";
-import CreateBetButton from "../CreateBetButton/CreateBetButton";
+// import {  } from "@chakra-ui/react";
+import { useMoralisCloudFunction } from "react-moralis";
+import BetCard from "../BetCard";
 
 const ActivePredictions = () => {
     const [ isFetching, setIsFetching ] = useState(true);
     const [ predictions, setPredictions ] = useState([]);
-    const { isAuthenticated } = useMoralis();
 
     const { fetch } = useMoralisCloudFunction(
         "getPredictions",
@@ -25,7 +24,6 @@ const ActivePredictions = () => {
                 setIsFetching(false);
             }
         });
-    // eslint-disable-next-line
     }, []);
 
     if(isFetching) {
@@ -34,9 +32,18 @@ const ActivePredictions = () => {
     
     return (
         <div>
-            <h1>Active Predictions: {predictions.length}</h1>
-
-            <TableContainer>
+            {
+                predictions.map(prediction => {
+                    const { id, attributes, createdAt, updatedAt } = prediction;
+                    return <BetCard 
+                        key={id} 
+                        attributes={attributes}
+                        createdAt={createdAt}
+                        updatedAt={updatedAt}
+                        />
+                })
+            }
+            {/* <TableContainer>
                 <Table variant='simple'>
                     <Thead>
                         <Tr>
@@ -45,15 +52,13 @@ const ActivePredictions = () => {
                             <Th>Feed</Th>
                             <Th>Prediction</Th>
                             <Th>Deadline</Th>
-                            <Th>Status</Th>
-                            <Th></Th>
                         </Tr>
                     </Thead>
                     <Tbody>
                         {
                             predictions.map(predictionData => {
                                 const { id, attributes } = predictionData;
-                                const { account, pair, prediction, predictionDeadline, status } = attributes;
+                                const { account, pair, prediction, predictionDeadline } = attributes;
                                 return (
                                     <Tr key={id}>
                                         <Td>{id}</Td>
@@ -61,24 +66,13 @@ const ActivePredictions = () => {
                                         <Td>{account}</Td>
                                         <Td>{prediction}</Td>
                                         <Td>{predictionDeadline.toString()}</Td>
-                                        <Td>{status ? 'open' : 'closed'}</Td>
-                                        {
-                                            status && isAuthenticated && (
-                                            <Td>
-                                                <CreateBetButton 
-                                                   predictionId={id}
-                                                   status={status}
-                                                />
-                                            </Td>
-                                            )
-                                        }
                                     </Tr>
                                 )
                             })
                         }
                     </Tbody>
                 </Table>
-            </TableContainer>
+            </TableContainer> */}
         </div>
     )
 }
