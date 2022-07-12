@@ -36,6 +36,7 @@ const ActivePredictions = () => {
             padding={8}
             gap={8}
             flexWrap="wrap"
+            justifyContent={["center", "center", "flex-start"]}
         >
             {
                 predictions.map(prediction => {

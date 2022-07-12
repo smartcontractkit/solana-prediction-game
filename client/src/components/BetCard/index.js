@@ -7,7 +7,7 @@ import { SocketContext } from "../../providers/SocketProvider";
 import { ArrowDownIcon, ArrowUpIcon } from "@chakra-ui/icons";
 import CreateBetButton from "../CreateBetButton";
 
-const BetCard = ({ id, attributes, createdAt, updatedAt }) => {
+const BetCard = ({ id, attributes, createdAt }) => {
     const { pair, prediction, predictionDeadline, expiryTime, status } = attributes;
     const { firstCurrency, secondCurrency } = getCurrenciesFromPairs(pair);
 
