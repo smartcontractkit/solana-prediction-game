@@ -4,7 +4,7 @@ import ActivePredictions from './components/ActivePredictions';
 import { useMoralis } from 'react-moralis';
 
 function App() {
-  const { isInitialized, isAuthenticated } = useMoralis();
+  const { isInitialized } = useMoralis();
 
   return (
     <>
