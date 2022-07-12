@@ -1,3 +1,4 @@
+import { Flex } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 // import {  } from "@chakra-ui/react";
 import { useMoralisCloudFunction } from "react-moralis";
@@ -31,7 +32,11 @@ const ActivePredictions = () => {
     }
     
     return (
-        <div>
+        <Flex
+            padding={8}
+            gap={8}
+            flexWrap="wrap"
+        >
             {
                 predictions.map(prediction => {
                     const { id, attributes, createdAt, updatedAt } = prediction;
@@ -43,37 +48,7 @@ const ActivePredictions = () => {
                         />
                 })
             }
-            {/* <TableContainer>
-                <Table variant='simple'>
-                    <Thead>
-                        <Tr>
-                            <Th>ID</Th>
-                            <Th>Pair</Th>
-                            <Th>Feed</Th>
-                            <Th>Prediction</Th>
-                            <Th>Deadline</Th>
-                        </Tr>
-                    </Thead>
-                    <Tbody>
-                        {
-                            predictions.map(predictionData => {
-                                const { id, attributes } = predictionData;
-                                const { account, pair, prediction, predictionDeadline } = attributes;
-                                return (
-                                    <Tr key={id}>
-                                        <Td>{id}</Td>
-                                        <Td>{pair}</Td>
-                                        <Td>{account}</Td>
-                                        <Td>{prediction}</Td>
-                                        <Td>{predictionDeadline.toString()}</Td>
-                                    </Tr>
-                                )
-                            })
-                        }
-                    </Tbody>
-                </Table>
-            </TableContainer> */}
-        </div>
+        </Flex>
     )
 }
 export default ActivePredictions;
