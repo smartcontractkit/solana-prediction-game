@@ -1,13 +1,14 @@
-import { Wrap, Flex, HStack, Text, VStack, WrapItem, Center, Box } from "@chakra-ui/react";
+import { Flex, HStack, Text, VStack, Avatar } from "@chakra-ui/react";
 import { getCurrenciesFromPairs } from "../../helpers/sol_helpers";
 import { DIVISOR } from "../../lib/constants";
 import { roundOff } from "../../helpers/sol_helpers";
 import { useContext } from "react";
 import { SocketContext } from "../../providers/SocketProvider";
 import { ArrowDownIcon, ArrowUpIcon } from "@chakra-ui/icons";
+import CreateBetButton from "../CreateBetButton";
 
 const BetCard = ({ id, attributes, createdAt, updatedAt }) => {
-    const { account, pair, prediction, predictionDeadline, expiryTime } = attributes;
+    const { pair, prediction, predictionDeadline, expiryTime, status } = attributes;
     const { firstCurrency, secondCurrency } = getCurrenciesFromPairs(pair);
     // console.log(attributes);
 
@@ -58,7 +59,7 @@ const BetCard = ({ id, attributes, createdAt, updatedAt }) => {
                         {predictionPrice}  {secondCurrency}
                     </Text>
                     <Text fontWeight={500} fontSize="xs" color="gray.500">
-                        at {new Date(expiryTime).toLocaleString()}
+                        at {new Date(createdAt).toLocaleString()}
                     </Text>
                 </VStack>
                 <Flex
@@ -85,28 +86,70 @@ const BetCard = ({ id, attributes, createdAt, updatedAt }) => {
                     }
                 </Flex>
             </HStack>
+                    
+            <VStack
+                alignItems="flex-start"    
+            >
+                <VStack
+                    alignItems="flex-start"
+                >   
+                    <HStack>
+                        <Text fontWeight={500} fontSize="xs" color="gray.500">
+                            Prediction ROI
+                        </Text>
+                        <Text fontWeight={700} fontSize="xs" color="blue.200">
+                            2x
+                        </Text>
+                    </HStack>
+                    <Text fontWeight={500} fontSize="xs" color="gray.500">
+                        Closing at {new Date(expiryTime).toLocaleString()}
+                    </Text>
+                </VStack>
+
+                <HStack
+                    py="4px"
+                    px="12px"
+                    bg="whiteAlpha.50"
+                    borderRadius="6px"
+                    alignItems="center"
+                    justify="space-between"
+                >
+                    <Avatar size="xs" bg='red.500'/>
+                    <HStack
+                        width="180px"
+                        justify="space-between"
+                    >
+                        <Text fontWeight={500} fontSize="xs" color="gray.500">
+                            {pair}
+                        </Text>
+                        <Text fontWeight={500} textDecorationLine="underline" fontSize="xs" color="gray.500">
+                            {feed.answerToNumber / DIVISOR}
+                        </Text>
+                    </HStack>
+                    <ArrowUpIcon size="xs" color="gray.500" transform="rotate(45deg)" />
+                </HStack>
+
+                <CreateBetButton
+                    as="button" 
+                    predictionId={id}
+                    width="100%"
+                    rounded="md"
+                    color="blue.200"
+                    border="1px solid"
+                    borderColor="blue.200"
+                    _hover={{
+                        bg: "blue.200",
+                        color: "gray.900",
+                    }}
+                    _click={{
+                        bg: "blue.200",
+                        color: "gray.900",
+                    }}
+                    disabled={!status && predictionDeadline < Date.now()}
+                />
+            </VStack>
 
         </Flex>
-        // <VStack>
-        //     <Text>
-        //         {`${firstCurrency} will settle above ${price}${secondCurrency}`}
-        //     </Text>
-        //     <Text>
-        //         at {new Date(createdAt).toLocaleString()}
-        //     </Text>
-
-        //     <Text>
-        //         Prediction ROI: x2
-        //     </Text>
-        //     <Text>
-        //         Closing at {new Date(predictionDeadline).toLocaleString()}
-        //     </Text>
-        //     <HStack>
-        //         <Text>Hey: {pair} {feed.answerToNumber / DIVISOR}</Text>
-        //     </HStack>
-
-
-        // </VStack>
     )
 }
 export default BetCard;

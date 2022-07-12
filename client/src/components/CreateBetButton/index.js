@@ -5,7 +5,7 @@ import { useMoralis } from "react-moralis";
 export default function CreateBetButton( 
     { 
         predictionId,
-        status
+        ...props
     }
     ) {
     const [isSaving, setIsSaving] = useState(false);
@@ -52,19 +52,12 @@ export default function CreateBetButton(
 
     return (
         <Button
-            size="sm"
-            rounded="md"
-            color={["white", "white", "white", "white"]}
-            bg={["black", "black", "black", "black"]}
-            _hover={{
-                bg: ["primary.700", "primary.700", "primary.700", "primary.700"]
-            }}
             isLoading={isSaving}
-            loadingText="Saving..."
+            loadingText="Betting..."
             onClick={createBet}
-            disabled={!status}
-            >
-            Add Bet
+            {...props}
+        >
+            Make Bet
         </Button>
     );
 }
