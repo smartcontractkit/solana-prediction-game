@@ -10,7 +10,6 @@ import CreateBetButton from "../CreateBetButton";
 const BetCard = ({ id, attributes, createdAt, updatedAt }) => {
     const { pair, prediction, predictionDeadline, expiryTime, status } = attributes;
     const { firstCurrency, secondCurrency } = getCurrenciesFromPairs(pair);
-    // console.log(attributes);
 
     const { dataFeeds } = useContext(SocketContext);
     const feed = dataFeeds.find(data => data.pair === pair);
@@ -21,7 +20,7 @@ const BetCard = ({ id, attributes, createdAt, updatedAt }) => {
         return null;
     }
 
-    let isIncrease = feed.price > predictionPrice;
+    let isIncrease = feed.answerToNumber <= prediction;
 
     return (
         <Flex
@@ -87,7 +86,8 @@ const BetCard = ({ id, attributes, createdAt, updatedAt }) => {
             </HStack>
                     
             <VStack
-                alignItems="flex-start"    
+                alignItems="flex-start"
+                width="100%"    
             >
                 <VStack
                     alignItems="flex-start"
@@ -112,6 +112,7 @@ const BetCard = ({ id, attributes, createdAt, updatedAt }) => {
                     borderRadius="6px"
                     alignItems="center"
                     justify="space-between"
+                    width="100%"
                 >
                     <Avatar size="xs" bg='red.500'/>
                     <HStack
