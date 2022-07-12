@@ -13,8 +13,6 @@ const BetCard = ({ id, attributes, createdAt, updatedAt }) => {
 
     const { dataFeeds } = useContext(SocketContext);
     const feed = dataFeeds.find(data => data.pair === pair);
-
-    const predictionPrice = roundOff((prediction / DIVISOR), 2);
     
     if(!feed) {
         return null;
@@ -54,7 +52,7 @@ const BetCard = ({ id, attributes, createdAt, updatedAt }) => {
                         </Text>
                     </HStack>
                     <Text as="span" mt="0px!important" fontWeight={700} fontSize="md" >
-                        {predictionPrice}  {secondCurrency}
+                        {roundOff((prediction / DIVISOR), 2)}  {secondCurrency}
                     </Text>
                     <Text fontWeight={500} fontSize="xs" color="gray.500">
                         at {new Date(createdAt).toLocaleString()}
@@ -123,7 +121,7 @@ const BetCard = ({ id, attributes, createdAt, updatedAt }) => {
                             {pair}
                         </Text>
                         <Text fontWeight={500} textDecorationLine="underline" fontSize="xs" color="gray.500">
-                            {feed.answerToNumber / DIVISOR}
+                            {roundOff((feed.answerToNumber / DIVISOR), 4)}
                         </Text>
                     </HStack>
                     <ArrowUpIcon size="xs" color="gray.500" transform="rotate(45deg)" />
