@@ -24,3 +24,5 @@ export const CURRENCY_PAIRS = [
         feedAddress: process.env.REACT_APP_USDT_USD
     }
 ];
+
+export const DIVISOR = 100000000;
