@@ -32,8 +32,7 @@ const ActivePredictions = () => {
     
     return (
         <Flex
-            padding={8}
-            gap={8}
+            gap={4}
             flexWrap="wrap"
             justifyContent={["center", "center", "flex-start"]}
         >
