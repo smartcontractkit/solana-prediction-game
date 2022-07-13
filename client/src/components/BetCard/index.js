@@ -33,7 +33,7 @@ const BetCard = ({ id, attributes, createdAt }) => {
             direction="column"    
         >
             <HStack
-                padding={["0px", "36px", "0px", "0px"]}
+                padding="0px"
                 gap="4px"
                 isolation="isolate"
                 alignSelf="stretch"
