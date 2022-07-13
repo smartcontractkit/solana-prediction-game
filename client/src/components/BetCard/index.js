@@ -1,4 +1,4 @@
-import { Flex, HStack, Text, VStack, Avatar } from "@chakra-ui/react";
+import { Flex, HStack, Text, VStack, Image } from "@chakra-ui/react";
 import { getCurrenciesFromPairs } from "../../helpers/sol_helpers";
 import { DIVISOR } from "../../lib/constants";
 import { roundOff } from "../../helpers/sol_helpers";
@@ -6,10 +6,12 @@ import { useContext } from "react";
 import { SocketContext } from "../../providers/SocketProvider";
 import { ArrowDownIcon, ArrowUpIcon } from "@chakra-ui/icons";
 import CreateBetButton from "../CreateBetButton";
+import placeholder from "../../assets/logos/placeholder.png";
 
 const BetCard = ({ id, attributes, createdAt }) => {
     const { pair, prediction, predictionDeadline, expiryTime, status } = attributes;
     const { firstCurrency, secondCurrency } = getCurrenciesFromPairs(pair);
+    const logoImage = require(`../../assets/logos/${firstCurrency.toLowerCase()}.png`);
 
     const { dataFeeds } = useContext(SocketContext);
     const feed = dataFeeds.find(data => data.pair === pair);
@@ -112,7 +114,13 @@ const BetCard = ({ id, attributes, createdAt }) => {
                     justify="space-between"
                     width="100%"
                 >
-                    <Avatar size="xs" bg='red.500'/>
+                    <Image
+                        borderRadius='full'
+                        boxSize='24px'
+                        src={logoImage}
+                        fallbackSrc={placeholder}
+                        alt={pair}
+                    />
                     <HStack
                         width="180px"
                         justify="space-between"
