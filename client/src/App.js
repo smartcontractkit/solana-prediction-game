@@ -2,9 +2,10 @@ import Header from './components/Header/Header';
 import DataFeedTable from './components/DataFeedTable/DataFeedTable';
 import ActivePredictions from './components/ActivePredictions';
 import { useMoralis } from 'react-moralis';
+import BetSidebar from './components/BetSidebar';
 
 function App() {
-  const { isInitialized } = useMoralis();
+  const { isInitialized, isAuthenticated } = useMoralis();
 
   return (
     <>
@@ -14,15 +15,13 @@ function App() {
         isInitialized && (
           <>
             <ActivePredictions />
-            {/* {
+            {
               isAuthenticated && (
                 <>
-                  <SendFromEscrowAddress />
-                  <SendFromClientAddress />
-                  <UserBetsTable />
+                  <BetSidebar />
                 </>
               ) 
-            } */}
+            }
           </>
         )
       }

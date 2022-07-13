@@ -1,6 +1,5 @@
 import { Flex } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-// import {  } from "@chakra-ui/react";
 import { useMoralisCloudFunction } from "react-moralis";
 import BetCard from "../BetCard";
 
