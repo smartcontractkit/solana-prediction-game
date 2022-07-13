@@ -1,6 +1,8 @@
 const web3 = require('@solana/web3.js');
-const splToken = require('@solana/spl-token');
+var bs58 = require('bs58');
 let keypair;
+const memoProgramId = "MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr";
+const memoProgramKey = new web3.PublicKey(memoProgramId);
 const programId = new web3.PublicKey("7bAt59dk7gSgxTG4pqMFKGuPcvV541NT9k1MnkbahFsm"); //privKey = 2i3TCLe1yWAWFT6wYVp7igmDEVXRrayEzyD9JsPxQR42hUbnXC8Fj1FpJitv8PEVv4hWcQjJJn1jt46svb8HAb8b
 let pdaAccount;
 let connection;
@@ -57,7 +59,7 @@ const getBalance = async (pubKey) => {
 }
 
 const withdrawBet = async (address, isWon, amount, ROI) => {
-    let clientPubKey = new web3.PublicKey(address);
+    const clientPubKey = new web3.PublicKey(address);
 
     const recentBH = await connection.getLatestBlockhash();
 
@@ -96,11 +98,13 @@ const withdrawBet = async (address, isWon, amount, ROI) => {
 
         transferTransaction.add(amountInstruction);
 
-        await web3.sendAndConfirmTransaction(
+        const transcationHash = await web3.sendAndConfirmTransaction(
             connection, 
             transferTransaction, 
             [pdaAccount, keypair]
         );
+
+        return transcationHash;
 
     }else{
         let amountInstruction = web3.SystemProgram.transfer({
@@ -112,64 +116,32 @@ const withdrawBet = async (address, isWon, amount, ROI) => {
 
         transferTransaction.add(amountInstruction);
 
-        await web3.sendAndConfirmTransaction(
+        const transcationHash =  await web3.sendAndConfirmTransaction(
             connection, 
             transferTransaction, 
-            [keypair, pdaAccount]
+            [keypair]
         );
+       
+        return transcationHash;
     }
-
-    // let secret = new Uint8Array([44,103,173,91,23,56,13,22,109,7,88,175,221,86,227,68,135,219,29,171,131,14,52,86,188,124,140,247,34,58,19,216,20,116,36,144,35,248,28,184,254,89,145,55,158,192,11,55,86,159,62,136,76,54,6,29,118,10,197,179,102,101,51,195])
-    // let clientPubKey = web3.Keypair.fromSecretKey(secret);
-
-    // const recentBH = await connection.getLatestBlockhash();
-    
-    // const transaction = new web3.Transaction({
-    //     feePayer: keypair.publicKey,
-    //     signatures: [{
-    //         pubkey: keypair.publicKey,
-    //         signature: {
-    //             type: 'buffer',
-    //             data: [44,103,173,91,23,56,13,22,109,7,88,175,221,86,227,68,135,219,29,171,131,14,52,86,188,124,140,247,34,58,19,216,20,116,36,144,35,248,28,184,254,89,145,55,158,192,11,55,86,159,62,136,76,54,6,29,118,10,197,179,102,101,51,195],
-    //             publicKey: keypair.publicKey,
-    //         }
-    //     }],
-    //     blockhash: recentBH,
-    //     lastValidBlockHeight: recentBH.height,
-    // }).add(
-    //     web3.SystemProgram.transfer({
-    //       programId,
-    //       fromPubkey: pdaAccount.publicKey,
-    //       toPubkey: clientPubKey.publicKey,
-    //       lamports: amount,
-    //     })
-    // );
-  
-    // await web3.sendAndConfirmTransaction(
-    //     connection,
-    //     transaction,
-    //     [keypair, pdaAccount]
-    // )
 
 }
 
-
-initEscrow = async () => {
+initConnection = async () => {
     await establishConnection();
     await connectWallet();
+}
+
+initEscrow = async () => {
+    await initConnection();
+
     await createPDAAccount();
     
     await getBalance(pdaAccount.publicKey);
     await getBalance(keypair.publicKey);
-    
-    let clientPubKey = new web3.PublicKey("6hvdYCWxFH3bQHKAjXeheUee1HJbp382kQzySwd8LpRk");
-    await getBalance(clientPubKey.publicKey);
 
     await withdrawBet("6hvdYCWxFH3bQHKAjXeheUee1HJbp382kQzySwd8LpRk", false, 10000, 10);
 
-    await getBalance(clientPubKey.publicKey);
     await getBalance(pdaAccount.publicKey);
     await getBalance(keypair.publicKey);
 }
-
-initEscrow();
