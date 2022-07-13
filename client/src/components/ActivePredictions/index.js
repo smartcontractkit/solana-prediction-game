@@ -43,6 +43,7 @@ const ActivePredictions = () => {
                     const { id, attributes, createdAt, updatedAt } = prediction;
                     return <BetCard 
                         key={id} 
+                        id={id}
                         attributes={attributes}
                         createdAt={createdAt}
                         updatedAt={updatedAt}
