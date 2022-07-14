@@ -3,7 +3,7 @@ import DataFeedTable from './components/DataFeedTable/DataFeedTable';
 import ActivePredictions from './components/ActivePredictions';
 import { useMoralis } from 'react-moralis';
 import BetSidebar from './components/BetSidebar';
-import { Flex, Grid, GridItem, VStack } from '@chakra-ui/react';
+import { Flex, VStack } from '@chakra-ui/react';
 
 function App() {
   const { isInitialized, isAuthenticated } = useMoralis();
