@@ -1,6 +1,5 @@
 import { Flex } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-// import {  } from "@chakra-ui/react";
 import { useMoralisCloudFunction } from "react-moralis";
 import BetCard from "../BetCard";
 
@@ -33,10 +32,9 @@ const ActivePredictions = () => {
     
     return (
         <Flex
-            padding={8}
-            gap={8}
+            gap={2}
             flexWrap="wrap"
-            justifyContent={["center", "center", "flex-start"]}
+            justifyContent={["center", "center", "flex-start", "flex-start"]}
         >
             {
                 predictions.map(prediction => {

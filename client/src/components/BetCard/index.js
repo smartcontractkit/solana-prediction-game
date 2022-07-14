@@ -27,10 +27,11 @@ const BetCard = ({ id, attributes, createdAt }) => {
             borderRadius="20px"
             bg="gray.800"
             p="16px"
-            w="300px"
             gap="32px"
+            minWidth="250px"
             alignItems="flex-start"
             direction="column"    
+            flexGrow={1}
         >
             <HStack
                 padding="0px"
