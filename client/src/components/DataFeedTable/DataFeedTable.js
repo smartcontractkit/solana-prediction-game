@@ -1,4 +1,4 @@
-import { Table, TableContainer, Tbody, Td,  Text,  Th, Thead, Tr } from "@chakra-ui/react"
+import { Box, Table, TableContainer, Tbody, Td,  Text,  Th, Thead, Tr } from "@chakra-ui/react"
 import { useContext } from "react";
 import { randomisePrediction } from "../../helpers/randomisePrediction";
 import { SocketContext } from "../../providers/SocketProvider";
@@ -8,7 +8,7 @@ const DataFeedTable = () => {
     const { dataFeeds } = useContext(SocketContext);
 
     return (
-        <div>
+        <Box w="100%">
             <h1>Chainlink Solana feeds</h1>
             {
                 dataFeeds.length === 0 && <Text> Loading... </Text>
@@ -50,7 +50,7 @@ const DataFeedTable = () => {
                     </Tbody>
                 </Table>
             </TableContainer>
-        </div>
+        </Box>
     )
 }
 export default DataFeedTable;

@@ -28,7 +28,6 @@ const BetCard = ({ id, attributes, createdAt }) => {
             bg="gray.800"
             p="16px"
             gap="32px"
-            maxWidth="350px"
             minWidth="250px"
             alignItems="flex-start"
             direction="column"    

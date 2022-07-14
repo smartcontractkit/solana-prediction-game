@@ -32,9 +32,9 @@ const ActivePredictions = () => {
     
     return (
         <Flex
-            gap={4}
+            gap={2}
             flexWrap="wrap"
-            justifyContent={["center", "center", "flex-start"]}
+            justifyContent={["center", "center", "flex-start", "flex-start"]}
         >
             {
                 predictions.map(prediction => {
