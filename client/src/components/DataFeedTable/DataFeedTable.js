@@ -1,7 +1,7 @@
 import { Box, Table, TableContainer, Tbody, Td,  Text,  Th, Thead, Tr } from "@chakra-ui/react"
 import { useContext } from "react";
 import { randomisePrediction } from "../../helpers/randomisePrediction";
-import { SocketContext } from "../../providers/SocketProvider";
+import { SocketContext } from "../../contexts/SocketProvider";
 import PredictionButton from "../PredictionButton/PredictionButton";
 
 const DataFeedTable = () => {

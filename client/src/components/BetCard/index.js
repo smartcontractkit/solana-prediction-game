@@ -3,7 +3,7 @@ import { getCurrenciesFromPairs } from "../../helpers/sol_helpers";
 import { DIVISOR } from "../../lib/constants";
 import { roundOff } from "../../helpers/sol_helpers";
 import { useContext } from "react";
-import { SocketContext } from "../../providers/SocketProvider";
+import { SocketContext } from "../../contexts/SocketProvider";
 import { ArrowDownIcon, ArrowUpIcon } from "@chakra-ui/icons";
 import CreateBetButton from "../CreateBetButton";
 import placeholder from "../../assets/logos/placeholder.png";
