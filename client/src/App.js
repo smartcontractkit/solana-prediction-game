@@ -40,67 +40,6 @@ function App() {
         )
       }
     </VStack>
-    // <Grid
-    //   templateAreas={[
-    //     `
-    //       "header"
-    //       "hero"
-    //       "sidebar"
-    //       "main"
-    //     `,
-    //     `
-    //       "header"
-    //       "hero"
-    //       "sidebar"
-    //       "main"
-    //     `,
-    //     `
-    //       "header header"
-    //       "hero hero"
-    //       "main sidebar"
-    //     `,
-    //     `
-    //       "header header"
-    //       "hero hero"
-    //       "main sidebar"
-    //     `
-    //   ]}
-    //   gridTemplateRows={['auto', 'auto', 'auto', 'auto', 'auto']}
-    //   gridTemplateColumns={['1fr', '1fr', '3fr 1fr', '3fr 1fr']}
-    //   gap={4}
-    //   px={4}
-    //   py={8}
-    // >
-    //   <GridItem area={'header'}>
-    //     <Header />
-    //   </GridItem>
-    //   <GridItem area={'hero'}>
-    //     <DataFeedTable />
-    //   </GridItem>
-    //   {
-    //     isInitialized && (
-    //       <>
-    //         <GridItem area={'main'}>
-    //           <VStack>
-    //             {/* Prediciton Deadline */}
-    //             <ActivePredictions />
-    //           </VStack>
-    //         </GridItem>
-    //         <GridItem area={'sidebar'}>
-    //           {
-    //             isAuthenticated && (
-    //               <VStack>
-    //                 {/* Bet Win Alert */}
-    //                 <BetSidebar />
-    //                 {/* LeaderBoard */}
-    //               </VStack>
-    //             )
-    //           }
-    //         </GridItem>
-    //       </>
-    //     )
-    //   }
-    // </Grid>
   );
 }
 
