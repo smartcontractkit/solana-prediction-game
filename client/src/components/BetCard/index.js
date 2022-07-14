@@ -1,18 +1,20 @@
-import { Flex, HStack, Text, VStack, Image } from "@chakra-ui/react";
+import { Flex, HStack, Text, VStack, Image, Button } from "@chakra-ui/react";
 import { getCurrenciesFromPairs } from "../../helpers/sol_helpers";
 import { DIVISOR } from "../../lib/constants";
 import { roundOff } from "../../helpers/sol_helpers";
 import { useContext } from "react";
 import { SocketContext } from "../../contexts/SocketProvider";
+import { BetDataContext } from "../../contexts/BetDataProvider";
 import { ArrowDownIcon, ArrowUpIcon } from "@chakra-ui/icons";
-import CreateBetButton from "../CreateBetButton";
 import placeholder from "../../assets/logos/placeholder.png";
 
-const BetCard = ({ id, attributes, createdAt }) => {
+const BetCard = (predictionData) => {
+    const { attributes, createdAt } = predictionData;
     const { pair, prediction, predictionDeadline, expiryTime, status } = attributes;
     const { firstCurrency, secondCurrency } = getCurrenciesFromPairs(pair);
     const logoImage = require(`../../assets/logos/${firstCurrency.toLowerCase()}.png`);
 
+    const { setBetSlip } = useContext(BetDataContext);
     const { dataFeeds } = useContext(SocketContext);
     const feed = dataFeeds.find(data => data.pair === pair);
     
@@ -136,9 +138,7 @@ const BetCard = ({ id, attributes, createdAt }) => {
                     <ArrowUpIcon size="xs" color="gray.500" transform="rotate(45deg)" />
                 </HStack>
 
-                <CreateBetButton
-                    as="button" 
-                    predictionId={id}
+                <Button
                     width="100%"
                     rounded="md"
                     color="blue.200"
@@ -153,7 +153,10 @@ const BetCard = ({ id, attributes, createdAt }) => {
                         color: "gray.900",
                     }}
                     disabled={!status && predictionDeadline < Date.now()}
-                />
+                    onClick={setBetSlip(predictionData)}
+                >
+                    Place bet
+                </Button>
             </VStack>
 
         </Flex>
