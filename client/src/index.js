@@ -8,6 +8,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import SocketProvider from "./contexts/SocketProvider";
 import theme from './theme';
 import BetDataProvider from "./contexts/BetDataProvider";
+import UserDataProvider from "./contexts/UserDataProvider";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -21,7 +22,9 @@ root.render(
       <ChakraProvider theme={theme}>
         <SocketProvider>
           <BetDataProvider>
-            <App/>
+            <UserDataProvider>
+              <App/>
+            </UserDataProvider>
           </BetDataProvider>
         </SocketProvider>
       </ChakraProvider>
