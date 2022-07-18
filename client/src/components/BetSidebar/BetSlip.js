@@ -172,7 +172,7 @@ const BetSlip = () => {
                     color="gray.800"
                     bg="blue.200"
                     type="submit"
-                    disabled={!status && predictionDeadline > Date.now()}
+                    disabled={isError}
                     predictionId={id}
                     amount={amount}
                     address={address}
