@@ -7,7 +7,7 @@ const BetSidebar = () => {
         <Box
             borderRadius="20px"
             bg="gray.800"
-            p="16px"
+            pt="16px"
             w="100%"
             minWidth="250px"
             h="max-content"

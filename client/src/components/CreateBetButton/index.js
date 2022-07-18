@@ -5,6 +5,7 @@ import { useMoralis } from "react-moralis";
 export default function CreateBetButton( 
     { 
         predictionId,
+        amount,
         ...props
     }
     ) {
@@ -21,7 +22,7 @@ export default function CreateBetButton(
         const data = {
             user: user.get("solAddress"),
             predictionId,
-            amount: 1,
+            amount,
             status: 'open',
         }
 
