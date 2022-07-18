@@ -3,18 +3,20 @@ import { useContext, useState } from "react";
 import emptyBetSlip from '../../assets/bets/empty-betslip.svg'
 import { BetDataContext } from "../../contexts/BetDataProvider";
 import CreateBetButton from "../CreateBetButton";
-import placeholder from "../../assets/logos/placeholder.png";
 import { CloseIcon } from "@chakra-ui/icons";
 import { UserDataContext } from "../../contexts/UserDataProvider";
+import { roundOff } from "../../helpers/sol_helpers";
+import { DIVISOR } from "../../lib/constants";
+import placeholder from "../../assets/logos/placeholder.png";
 
 const BetSlip = () => {
 
-    const { betSlip } = useContext(BetDataContext);
-    const { userData } = useContext(UserDataContext);
+    const { betSlip, setBetSlip } = useContext(BetDataContext);
+    const { balances } = useContext(UserDataContext);
 
     const [ amount, setAmount ] = useState(0);
 
-    if(!betSlip && !betSlip.betSlip) {
+    if(!betSlip) {
         return (
             <VStack>
                 <Image src={emptyBetSlip} height="64px" alt="empty bet slip" my="10px" />
@@ -28,10 +30,20 @@ const BetSlip = () => {
         )
     }
 
-    console.log(betSlip);
 
-    // const { id, attributes, createdAt } = betSlip;
-    // const { pair, prediction, predictionDeadline, expiryTime, status } = attributes;
+    const { 
+        predictionData,
+        firstCurrency,
+        secondCurrency,
+        logoImage,
+        ROI
+    } = betSlip;
+    const { id, attributes } = predictionData;
+    const { pair, prediction, predictionDeadline, expiryTime, status } = attributes;
+
+    const removeBet = () => {
+        setBetSlip(null);
+    }
 
     return (
         <VStack
@@ -55,12 +67,12 @@ const BetSlip = () => {
                         <Image
                             borderRadius='full'
                             boxSize='24px'
-                            src={placeholder}
+                            src={logoImage}
                             fallbackSrc={placeholder}
-                            alt={"SOL/USD"}
+                            alt={pair}
                         />
                         <Text fontWeight={600} fontSize="sm" color="gray.200">
-                            SOL/USD
+                            {pair}
                         </Text>
                     </HStack>
                     <Flex
@@ -71,6 +83,7 @@ const BetSlip = () => {
                         bg="whiteAlpha.50"
                         justify="center"
                         alignItems="center"
+                        onClick={removeBet}
                     >   
                         <CloseIcon 
                             w="9px" 
@@ -80,11 +93,16 @@ const BetSlip = () => {
                     </Flex>
                 </HStack>
                 <Text textAlign="left">
-                    TRON will settle above 6.30 USD at Jul 5, 2022 11:00 PM (GMT +3)
+                    {firstCurrency} will settle at {roundOff((prediction / DIVISOR), 3)} {secondCurrency} at {new Date(expiryTime).toLocaleString()}
                 </Text>
-                <Text textAlign="left">
-                    Prediction ROI 1.45x
-                </Text>
+                <HStack textAlign="left">
+                    <Text fontWeight={500} fontSize="xs" color="gray.500">
+                        Prediction ROI
+                    </Text>
+                    <Text fontWeight={700} fontSize="xs" color="blue.200">
+                        {ROI}x
+                    </Text>
+                </HStack>
             </VStack>
             <InputGroup 
                 size='sm' 
@@ -119,7 +137,7 @@ const BetSlip = () => {
                     Balance:
                 </Text>
                 <Text fontSize="14px" fontWeight={700} color="whiteAlpha.800">
-                    0.00
+                    {roundOff(balances.nativeBalance?.solana, 3)} SOL
                 </Text>
             </HStack>
             <HStack
@@ -146,9 +164,8 @@ const BetSlip = () => {
                     bg: "blue.200",
                     color: "gray.900",
                 }}
-                // disabled={!status && predictionDeadline < Date.now()}
-                disabled
-                // predictionId={id}
+                disabled={!status && predictionDeadline < Date.now()}
+                predictionId={id}
                 amount={amount}
             />
         </VStack>

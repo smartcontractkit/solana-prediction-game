@@ -9,8 +9,9 @@ import { ArrowDownIcon, ArrowUpIcon } from "@chakra-ui/icons";
 import placeholder from "../../assets/logos/placeholder.png";
 
 const BetCard = (predictionData) => {
+    const ROI = 2;
     const { attributes, createdAt } = predictionData;
-    const { pair, prediction, predictionDeadline, expiryTime, status } = attributes;
+    const { pair, prediction, openingPredictionPrice, predictionDeadline, expiryTime, status } = attributes;
     const { firstCurrency, secondCurrency } = getCurrenciesFromPairs(pair);
     const logoImage = require(`../../assets/logos/${firstCurrency.toLowerCase()}.png`);
 
@@ -22,16 +23,18 @@ const BetCard = (predictionData) => {
         return null;
     }
 
-    let isIncrease = feed.answerToNumber <= prediction;
+    let isIncrease = openingPredictionPrice <= prediction;
 
-    let betSlip = {
-        predictionData,
-        firstCurrency,
-        secondCurrency,
-        logoImage,
-        feed,
-        isIncrease
-    } 
+    const placeBet = () => {
+        setBetSlip({
+            predictionData,
+            firstCurrency,
+            secondCurrency,
+            logoImage,
+            isIncrease,
+            ROI
+        })
+    }
 
     return (
         <Flex
@@ -40,6 +43,7 @@ const BetCard = (predictionData) => {
             p="16px"
             gap="32px"
             minWidth="250px"
+            maxWidth="300px"
             alignItems="flex-start"
             direction="column"    
             flexGrow={1}
@@ -54,20 +58,25 @@ const BetCard = (predictionData) => {
                 <VStack
                     alignItems="flex-start"
                 >   
-                    <HStack spacing={1}>
-                        <Text fontWeight={700} fontSize="md" >
+                    <HStack spacing={1} alignItems="flex-end">
+                        <Text fontWeight={700} fontSize="sm" >
                             {firstCurrency}
                         </Text>
-                        <Text fontSize="md">
-                            will settle
+                        <Text fontSize="xs">
+                            will settle at
                         </Text>
-                        <Text fontSize="md" color={ isIncrease ? 'green.200' : 'pink.200' } >
-                            { isIncrease ? 'above' : 'below' } 
+                        <Text fontWeight={700} fontSize="sm" >
+                            {roundOff((prediction / DIVISOR), 3)}  {secondCurrency}
                         </Text>
                     </HStack>
-                    <Text as="span" mt="0px!important" fontWeight={700} fontSize="md" >
-                        {roundOff((prediction / DIVISOR), 2)}  {secondCurrency}
-                    </Text>
+                    <HStack spacing={1} alignItems="flex-end">
+                        <Text fontSize="xs" color={ isIncrease ? 'green.200' : 'pink.200' } >
+                            { isIncrease ? 'above' : 'below' } 
+                        </Text>
+                        <Text as="span" mt="0px!important" fontWeight={700} fontSize="sm" >
+                            {roundOff((openingPredictionPrice / DIVISOR), 3)}  {secondCurrency}
+                        </Text>
+                    </HStack>
                     <Text fontWeight={500} fontSize="xs" color="gray.500">
                         at {new Date(createdAt).toLocaleString()}
                     </Text>
@@ -109,7 +118,7 @@ const BetCard = (predictionData) => {
                             Prediction ROI
                         </Text>
                         <Text fontWeight={700} fontSize="xs" color="blue.200">
-                            2x
+                            {ROI}x
                         </Text>
                     </HStack>
                     <Text fontWeight={500} fontSize="xs" color="gray.500">
@@ -162,7 +171,7 @@ const BetCard = (predictionData) => {
                         color: "gray.900",
                     }}
                     disabled={!status && predictionDeadline < Date.now()}
-                    onClick={setBetSlip(betSlip)}
+                    onClick={placeBet}
                 >
                     Place bet
                 </Button>
