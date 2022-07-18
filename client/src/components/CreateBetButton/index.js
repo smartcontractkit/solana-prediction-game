@@ -1,6 +1,7 @@
 import { Button } from "@chakra-ui/react";
 import { useState } from "react";
 import { useMoralis } from "react-moralis";
+import axiosInstance from "../../helpers/axiosInstance";
 
 export default function CreateBetButton( 
     { 
@@ -25,17 +26,8 @@ export default function CreateBetButton(
             status: 'open',
         }
 
-        fetch(`${process.env.REACT_APP_SERVER_URL}/addBet`,{
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "GET, POST",
-                "Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token"
-            },
-            body: JSON.stringify(data)
-        })
-        .then(res => res.json())
+        axiosInstance.post('/addBet', data)
+        .then(res => res.data)
         .then(data => {
             setBet(data);
             setIsSaving(false);

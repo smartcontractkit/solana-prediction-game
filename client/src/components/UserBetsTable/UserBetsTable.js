@@ -1,6 +1,7 @@
 import { Table, TableContainer, Tbody, Td,  Th, Thead, Tr } from "@chakra-ui/react"
 import { useEffect, useState } from "react";
 import { useMoralis } from "react-moralis";
+import axiosInstance from "../../helpers/axiosInstance";
 
 const UserBetsTable = () => {
     const [ isFetching, setIsFetching ] = useState(true);
@@ -11,16 +12,8 @@ const UserBetsTable = () => {
     } = useMoralis();
 
     useEffect(() => {
-        fetch(`${process.env.REACT_APP_SERVER_URL}/getUserBets/${user.get("solAddress")}`,{
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              "Access-Control-Allow-Origin": "*",
-              "Access-Control-Allow-Methods": "GET, POST",
-              "Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token"
-            },
-          })
-          .then(res => res.json())
+        axiosInstance.get(`/getUserBets/${user.get("solAddress")}`)
+          .then(res => res.data)
           .then(data => {
             setBets(data);
             setIsFetching(false);
