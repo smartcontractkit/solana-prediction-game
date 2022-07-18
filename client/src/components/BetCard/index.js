@@ -24,6 +24,15 @@ const BetCard = (predictionData) => {
 
     let isIncrease = feed.answerToNumber <= prediction;
 
+    let betSlip = {
+        predictionData,
+        firstCurrency,
+        secondCurrency,
+        logoImage,
+        feed,
+        isIncrease
+    } 
+
     return (
         <Flex
             borderRadius="20px"
@@ -153,7 +162,7 @@ const BetCard = (predictionData) => {
                         color: "gray.900",
                     }}
                     disabled={!status && predictionDeadline < Date.now()}
-                    onClick={setBetSlip(predictionData)}
+                    onClick={setBetSlip(betSlip)}
                 >
                     Place bet
                 </Button>

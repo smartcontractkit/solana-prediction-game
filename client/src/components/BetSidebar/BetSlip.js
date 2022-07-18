@@ -1,14 +1,16 @@
-import { Flex, HStack, Image, Input, InputGroup, InputRightAddon, Text, VStack } from "@chakra-ui/react";
+import { Flex, HStack, Image, Input, InputGroup, InputRightAddon, NumberInput, NumberInputField, Text, VStack } from "@chakra-ui/react";
 import { useContext, useState } from "react";
 import emptyBetSlip from '../../assets/bets/empty-betslip.svg'
 import { BetDataContext } from "../../contexts/BetDataProvider";
 import CreateBetButton from "../CreateBetButton";
 import placeholder from "../../assets/logos/placeholder.png";
 import { CloseIcon } from "@chakra-ui/icons";
+import { UserDataContext } from "../../contexts/UserDataProvider";
 
 const BetSlip = () => {
 
     const { betSlip } = useContext(BetDataContext);
+    const { userData } = useContext(UserDataContext);
 
     const [ amount, setAmount ] = useState(0);
 
@@ -78,7 +80,7 @@ const BetSlip = () => {
                     </Flex>
                 </HStack>
                 <Text textAlign="left">
-                TRON will settle above 6.30 USD at Jul 5, 2022 11:00 PM (GMT +3)
+                    TRON will settle above 6.30 USD at Jul 5, 2022 11:00 PM (GMT +3)
                 </Text>
                 <Text textAlign="left">
                     Prediction ROI 1.45x
@@ -89,12 +91,25 @@ const BetSlip = () => {
                 rounded="md" 
                 border="1px solid" 
                 borderColor="whiteAlpha.50"
-                _hover={{
+                _focus={{
                     border: "1px solid",
                     borderColor: "whiteAlpha.100"
                 }}
             >
-                <Input placeholder='Bet Amount' />
+                <NumberInput 
+                    max={10} 
+                    min={0.1} 
+                    placeholder="Bet Amount" 
+                    rounded="md" 
+                    border="1px solid" 
+                    borderColor="whiteAlpha.50"
+                    _focus={{
+                        border: "1px solid",
+                        borderColor: "whiteAlpha.100"
+                    }}
+                >
+                    <NumberInputField id='amount' />
+                </NumberInput>
                 <InputRightAddon bg="whiteAlpha.200" children='SOL' />
             </InputGroup>
             <HStack
