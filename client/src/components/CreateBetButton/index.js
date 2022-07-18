@@ -1,26 +1,23 @@
 import { Button } from "@chakra-ui/react";
 import { useState } from "react";
-import { useMoralis } from "react-moralis";
 
 export default function CreateBetButton( 
     { 
         predictionId,
         amount,
+        address,
+        setBetSlip,
         ...props
     }
     ) {
     const [isSaving, setIsSaving] = useState(false);
-    const [ bet, setBet ] = useState(null);
 
-    const {
-        user,
-    } = useMoralis();
-
-    const createBet = async () => {
+    const createBet = async (event) => {
+        event.preventDefault();
         setIsSaving(true);
 
         const data = {
-            user: user.get("solAddress"),
+            user: address,
             predictionId,
             amount,
             status: 'open',
@@ -38,16 +35,15 @@ export default function CreateBetButton(
         })
         .then(res => res.json())
         .then(data => {
-            setBet(data);
             setIsSaving(false);
+            setBetSlip(null);
             console.log("Bet created");
         })
         .catch(err => {
             setIsSaving(false);
+            setBetSlip(null);
             console.log("Error occured: " + err.message);
-        });
-        
-        return bet;    
+        });  
     }
 
 

@@ -170,7 +170,7 @@ const BetCard = (predictionData) => {
                         bg: "blue.200",
                         color: "gray.900",
                     }}
-                    disabled={!status && predictionDeadline < Date.now()}
+                    disabled={!status && predictionDeadline > Date.now()}
                     onClick={placeBet}
                 >
                     Place bet
