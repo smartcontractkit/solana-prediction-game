@@ -1,4 +1,4 @@
-import { Flex, FormControl, FormErrorMessage, HStack, Image, InputGroup, InputRightAddon, NumberInput, NumberInputField, Text, VStack } from "@chakra-ui/react";
+import { Flex, FormControl, HStack, Image, InputGroup, InputRightAddon, NumberInput, NumberInputField, Text, VStack } from "@chakra-ui/react";
 import { useContext, useState } from "react";
 import emptyBetSlip from '../../assets/bets/empty-betslip.svg'
 import { BetDataContext } from "../../contexts/BetDataProvider";
@@ -38,7 +38,7 @@ const BetSlip = () => {
         ROI
     } = betSlip;
     const { id, attributes } = predictionData;
-    const { pair, prediction, predictionDeadline, expiryTime, status } = attributes;
+    const { pair, prediction, expiryTime } = attributes;
 
     const removeBet = () => {
         setBetSlip(null);
