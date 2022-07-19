@@ -2,6 +2,7 @@ import { Button } from "@chakra-ui/react";
 import { useState } from "react";
 import { useMoralis } from "react-moralis";
 import { validatePrediction } from "../../helpers/validatePrediction";
+import axiosInstance from "../../helpers/axiosInstance";
 
 export default function PredictionButton( 
   { 
@@ -37,17 +38,8 @@ export default function PredictionButton(
     
     validatePrediction(data, setIsSaving);
 
-    fetch(`${process.env.REACT_APP_SERVER_URL}/addPrediction`,{
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET, POST",
-        "Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token"
-      },
-      body: JSON.stringify(data)
-    })
-    .then(res => res.json())
+    axiosInstance.post('/addPrediction', data)
+    .then(res => res.data)
     .then(data => {
       setPrediction(data);
       setIsSaving(false);
