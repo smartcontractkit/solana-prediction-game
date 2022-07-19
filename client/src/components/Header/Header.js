@@ -1,14 +1,13 @@
-import { useEffect } from "react";
+import { useContext } from "react";
 import { Box, Flex, Text, Button, Stack, HStack, Avatar, Show, Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react";
 import { ChevronDownIcon } from '@chakra-ui/icons';
 import Logo from "./Logo";
 import {
   useMoralis,
-  useMoralisSolanaApi,
-  useMoralisSolanaCall,
 } from "react-moralis";
 import CountdownTimer from "./CountdownTimer";
 import { getTruncatedAddress, roundOff } from "../../helpers/sol_helpers";
+import { UserDataContext } from "../../contexts/UserDataProvider";
 
 
 const Header = (props) => {
@@ -57,16 +56,13 @@ const CustomMenuItem = ({ children, ...props }) => {
 }
 
 const MenuWallet = () => {
-  const network = "devnet"
   const {
     isAuthenticated,
     authenticate,
-    user,
     isAuthenticating,
     logout,
   } = useMoralis();
-  const { account } = useMoralisSolanaApi();
-  const { fetch, data } = useMoralisSolanaCall(account.getPortfolio);
+  const { balances, address } = useContext(UserDataContext);
 
   /**
    * @description the function handles authentication with phantom wallet
@@ -76,17 +72,6 @@ const MenuWallet = () => {
       type: "sol",
     });
   };
-
-  useEffect(() => {
-    if (isAuthenticated && user.get("solAddress")) {
-      fetch({
-        params: {
-          address: user.get("solAddress"),
-          network,
-        },
-      });
-    }
-  }, [fetch, isAuthenticated, user, network]);
 
   return (
     <Box>
@@ -125,17 +110,17 @@ const MenuWallet = () => {
                 direction="row"
               >
                 {
-                  data && 
+                  balances && 
                   (
                   <Text fontWeight="bold">
-                    { `${roundOff(data.nativeBalance?.solana, 3)} SOL` }
+                    { `${roundOff(balances.nativeBalance?.solana, 3)} SOL` }
                   </Text>
                   )
                 }
                 <HStack>
                   <Show above="sm">
                     <Text color="gray.400" fontWeight={400}>
-                      { getTruncatedAddress(user.get("solAddress")) }
+                      { getTruncatedAddress(address) }
                     </Text>
                   </Show>
                   <Avatar size="xs" bg='red.500' />

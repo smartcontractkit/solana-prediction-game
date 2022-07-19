@@ -1,13 +1,13 @@
-import { Tabs, TabList, Tab, TabPanels, TabPanel, Box, VStack, Text, Image } from '@chakra-ui/react';
-import emptyBets from '../../assets/bets/empty-bets.svg'
-import emptyBetSlip from '../../assets/bets/empty-betslip.svg'
+import { Tabs, TabList, Tab, TabPanels, TabPanel, Box } from '@chakra-ui/react';
+import BetSlip from './BetSlip';
+import MyBets from './MyBets';
 
 const BetSidebar = () => {
     return (
         <Box
             borderRadius="20px"
             bg="gray.800"
-            p="16px"
+            pt="16px"
             w="100%"
             minWidth="250px"
             h="max-content"
@@ -22,26 +22,10 @@ const BetSidebar = () => {
                 </TabList>
                 <TabPanels>
                     <TabPanel>
-                        <VStack>
-                            <Image src={emptyBetSlip} height="64px" alt="empty bet slip" my="10px" />
-                            <Text fontWeight={700} color="gray.200">
-                                Betslip is empty
-                            </Text>
-                            <Text color="gray.500">
-                                To add a bet to your betslip, please select a prediction from the list.
-                            </Text>
-                        </VStack>
+                        <BetSlip />
                     </TabPanel>
                     <TabPanel>
-                        <VStack>
-                            <Image src={emptyBets} height="64px" alt="empty bet slip" my="10px" />
-                            <Text fontWeight={700} color="gray.200">
-                                No bets here yet
-                            </Text>
-                            <Text color="gray.500">
-                                Make your first one and it will appear here.
-                            </Text>
-                        </VStack>
+                        <MyBets/>
                     </TabPanel>
                 </TabPanels>
             </Tabs>

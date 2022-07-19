@@ -6,39 +6,37 @@ import axiosInstance from "../../helpers/axiosInstance";
 export default function CreateBetButton( 
     { 
         predictionId,
+        amount,
+        address,
+        setBetSlip,
         ...props
     }
     ) {
     const [isSaving, setIsSaving] = useState(false);
-    const [ bet, setBet ] = useState(null);
 
-    const {
-        user,
-    } = useMoralis();
-
-    const createBet = async () => {
+    const createBet = async (event) => {
+        event.preventDefault();
         setIsSaving(true);
 
         const data = {
-            user: user.get("solAddress"),
+            user: address,
             predictionId,
-            amount: 1,
+            amount,
             status: 'open',
         }
 
         axiosInstance.post('/addBet', data)
         .then(res => res.data)
         .then(data => {
-            setBet(data);
             setIsSaving(false);
+            setBetSlip(null);
             console.log("Bet created");
         })
         .catch(err => {
             setIsSaving(false);
+            setBetSlip(null);
             console.log("Error occured: " + err.message);
-        });
-        
-        return bet;    
+        });  
     }
 
 

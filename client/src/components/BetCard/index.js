@@ -1,18 +1,21 @@
-import { Flex, HStack, Text, VStack, Image } from "@chakra-ui/react";
+import { Flex, HStack, Text, VStack, Image, Button } from "@chakra-ui/react";
 import { getCurrenciesFromPairs } from "../../helpers/sol_helpers";
 import { DIVISOR } from "../../lib/constants";
 import { roundOff } from "../../helpers/sol_helpers";
 import { useContext } from "react";
-import { SocketContext } from "../../providers/SocketProvider";
+import { SocketContext } from "../../contexts/SocketProvider";
+import { UserDataContext } from "../../contexts/UserDataProvider";
 import { ArrowDownIcon, ArrowUpIcon } from "@chakra-ui/icons";
-import CreateBetButton from "../CreateBetButton";
 import placeholder from "../../assets/logos/placeholder.png";
 
-const BetCard = ({ id, attributes, createdAt }) => {
-    const { pair, prediction, predictionDeadline, expiryTime, status } = attributes;
+const BetCard = (predictionData) => {
+    const ROI = 2;
+    const { attributes, createdAt } = predictionData;
+    const { pair, prediction, openingPredictionPrice, predictionDeadline, expiryTime, status } = attributes;
     const { firstCurrency, secondCurrency } = getCurrenciesFromPairs(pair);
     const logoImage = require(`../../assets/logos/${firstCurrency.toLowerCase()}.png`);
 
+    const { setBetSlip } = useContext(UserDataContext);
     const { dataFeeds } = useContext(SocketContext);
     const feed = dataFeeds.find(data => data.pair === pair);
     
@@ -20,7 +23,18 @@ const BetCard = ({ id, attributes, createdAt }) => {
         return null;
     }
 
-    let isIncrease = feed.answerToNumber <= prediction;
+    let isIncrease = openingPredictionPrice <= prediction;
+
+    const placeBet = () => {
+        setBetSlip({
+            predictionData,
+            firstCurrency,
+            secondCurrency,
+            logoImage,
+            isIncrease,
+            ROI
+        })
+    }
 
     return (
         <Flex
@@ -29,6 +43,7 @@ const BetCard = ({ id, attributes, createdAt }) => {
             p="16px"
             gap="32px"
             minWidth="250px"
+            maxWidth="300px"
             alignItems="flex-start"
             direction="column"    
             flexGrow={1}
@@ -43,20 +58,25 @@ const BetCard = ({ id, attributes, createdAt }) => {
                 <VStack
                     alignItems="flex-start"
                 >   
-                    <HStack spacing={1}>
-                        <Text fontWeight={700} fontSize="md" >
+                    <HStack spacing={1} alignItems="flex-end">
+                        <Text fontWeight={700} fontSize="sm" >
                             {firstCurrency}
                         </Text>
-                        <Text fontSize="md">
-                            will settle
+                        <Text fontSize="xs">
+                            will settle at
                         </Text>
-                        <Text fontSize="md" color={ isIncrease ? 'green.200' : 'pink.200' } >
-                            { isIncrease ? 'above' : 'below' } 
+                        <Text fontWeight={700} fontSize="sm" >
+                            {roundOff((prediction / DIVISOR), 3)}  {secondCurrency}
                         </Text>
                     </HStack>
-                    <Text as="span" mt="0px!important" fontWeight={700} fontSize="md" >
-                        {roundOff((prediction / DIVISOR), 2)}  {secondCurrency}
-                    </Text>
+                    <HStack spacing={1} alignItems="flex-end">
+                        <Text fontSize="xs" color={ isIncrease ? 'green.200' : 'pink.200' } >
+                            { isIncrease ? 'above' : 'below' } 
+                        </Text>
+                        <Text as="span" mt="0px!important" fontWeight={700} fontSize="sm" >
+                            {roundOff((openingPredictionPrice / DIVISOR), 3)}  {secondCurrency}
+                        </Text>
+                    </HStack>
                     <Text fontWeight={500} fontSize="xs" color="gray.500">
                         at {new Date(createdAt).toLocaleString()}
                     </Text>
@@ -98,7 +118,7 @@ const BetCard = ({ id, attributes, createdAt }) => {
                             Prediction ROI
                         </Text>
                         <Text fontWeight={700} fontSize="xs" color="blue.200">
-                            2x
+                            {ROI}x
                         </Text>
                     </HStack>
                     <Text fontWeight={500} fontSize="xs" color="gray.500">
@@ -136,9 +156,7 @@ const BetCard = ({ id, attributes, createdAt }) => {
                     <ArrowUpIcon size="xs" color="gray.500" transform="rotate(45deg)" />
                 </HStack>
 
-                <CreateBetButton
-                    as="button" 
-                    predictionId={id}
+                <Button
                     width="100%"
                     rounded="md"
                     color="blue.200"
@@ -152,8 +170,11 @@ const BetCard = ({ id, attributes, createdAt }) => {
                         bg: "blue.200",
                         color: "gray.900",
                     }}
-                    disabled={!status && predictionDeadline < Date.now()}
-                />
+                    disabled={!status && predictionDeadline > Date.now()}
+                    onClick={placeBet}
+                >
+                    Place bet
+                </Button>
             </VStack>
 
         </Flex>
