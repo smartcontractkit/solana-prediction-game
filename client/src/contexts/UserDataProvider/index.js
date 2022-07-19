@@ -32,6 +32,8 @@ const UserDataProvider = (props) => {
                 { props.children }
             </UserDataContext.Provider>
         )
+    }else {
+      return (props.children)
     }
 };
 
