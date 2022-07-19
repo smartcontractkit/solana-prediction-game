@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import { createContext } from "react"; 
 import { useMoralis, useMoralisSolanaApi, useMoralisSolanaCall } from "react-moralis";
@@ -11,6 +11,7 @@ const UserDataProvider = (props) => {
     } = useMoralis();
     const { account } = useMoralisSolanaApi();
     const { fetch, data } = useMoralisSolanaCall(account.getPortfolio);
+    const [betSlip, setBetSlip] = useState(null);
   
     useEffect(() => {
       if (isAuthenticated && user.get("solAddress")) {
@@ -27,7 +28,9 @@ const UserDataProvider = (props) => {
         return(
             <UserDataContext.Provider value={{ 
                 balances: data,
-                address: user.get("solAddress")
+                address: user.get("solAddress"),
+                betSlip, 
+                setBetSlip
             }}>
                 { props.children }
             </UserDataContext.Provider>
@@ -39,7 +42,9 @@ const UserDataProvider = (props) => {
 
 export const UserDataContext = createContext({
     balances: null,
-    address: null
+    address: null,
+    betSlip: null,
+    setBetSlip: (betSlip) => {}
 }); 
 
 export default UserDataProvider;

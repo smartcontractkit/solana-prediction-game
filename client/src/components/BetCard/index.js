@@ -4,7 +4,7 @@ import { DIVISOR } from "../../lib/constants";
 import { roundOff } from "../../helpers/sol_helpers";
 import { useContext } from "react";
 import { SocketContext } from "../../contexts/SocketProvider";
-import { BetDataContext } from "../../contexts/BetDataProvider";
+import { UserDataContext } from "../../contexts/UserDataProvider";
 import { ArrowDownIcon, ArrowUpIcon } from "@chakra-ui/icons";
 import placeholder from "../../assets/logos/placeholder.png";
 
@@ -15,7 +15,7 @@ const BetCard = (predictionData) => {
     const { firstCurrency, secondCurrency } = getCurrenciesFromPairs(pair);
     const logoImage = require(`../../assets/logos/${firstCurrency.toLowerCase()}.png`);
 
-    const { setBetSlip } = useContext(BetDataContext);
+    const { setBetSlip } = useContext(UserDataContext);
     const { dataFeeds } = useContext(SocketContext);
     const feed = dataFeeds.find(data => data.pair === pair);
     
