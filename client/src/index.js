@@ -8,6 +8,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import SocketProvider from "./contexts/SocketProvider";
 import theme from './theme';
 import UserDataProvider from "./contexts/UserDataProvider";
+import SolanaWalletProvider from "./contexts/SolanaWalletProvider";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -19,11 +20,13 @@ root.render(
       serverUrl={process.env.REACT_APP_MORALIS_SERVER_URL}
     >
       <ChakraProvider theme={theme}>
-        <SocketProvider>
-          <UserDataProvider>
-            <App/>
-          </UserDataProvider>
-        </SocketProvider>
+        <SolanaWalletProvider>
+          <SocketProvider>
+            <UserDataProvider>
+              <App/>
+            </UserDataProvider>
+          </SocketProvider>
+        </SolanaWalletProvider>
       </ChakraProvider>
     </MoralisProvider>
   </React.StrictMode>
