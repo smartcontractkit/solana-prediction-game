@@ -3,7 +3,7 @@ import { useCallback, useState } from "react";
 import axiosInstance from "../../helpers/axiosInstance";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { WalletNotConnectedError } from "@solana/wallet-adapter-base";
-import { Keypair, SystemProgram, Transaction } from "@solana/web3.js";
+import { Keypair, LAMPORTS_PER_SOL, SystemProgram, Transaction } from "@solana/web3.js";
 
 export default function CreateBetButton( 
     { 
@@ -28,12 +28,12 @@ export default function CreateBetButton(
             blockhash: latestBlockHash.blockhash,
             lastValidBlockHeight: latestBlockHash.lastValidBlockHeight
         });
-
+        console.log(amount)
         transaction.add(
             SystemProgram.transfer({
                 fromPubkey: publicKey,
                 toPubkey: Keypair.generate().publicKey,
-                lamports: amount
+                lamports: amount * LAMPORTS_PER_SOL
             })
         );
 
