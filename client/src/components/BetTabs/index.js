@@ -9,11 +9,9 @@ const BetSidebar = () => {
             bg="gray.800"
             pt="16px"
             w="100%"
-            maxWidth="300px"
             minWidth="250px"
             h="max-content"
-            gap="32px"
-            alignItems="flex-start"
+            alignItems="center"
             direction="column" 
         >
             <Tabs variant='soft-rounded' colorScheme='blue' align="center">

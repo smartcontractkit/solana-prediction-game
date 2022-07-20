@@ -15,6 +15,7 @@ const Hero = () => {
                 fontSize="6xl" 
                 fontWeight="700"
                 lineHeight="1.2"
+                color="gray.100"
             >
                 Prediction <br/>
                 Game

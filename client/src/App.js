@@ -1,7 +1,7 @@
 import Header from './components/Header';
 import ActivePredictions from './components/ActivePredictions';
 import { useMoralis } from 'react-moralis';
-import BetSidebar from './components/BetSidebar';
+import BetTabs from './components/BetTabs';
 import { Flex, VStack } from '@chakra-ui/react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import Subheader from './components/Subheader';
@@ -22,7 +22,7 @@ function App() {
       {
         isInitialized && (
           <Flex
-            gap={2}
+            gap={[8, 8, 2, 2]}
             direction={['column-reverse', 'column-reverse' , 'row', 'row']}
           >
             <VStack
@@ -36,8 +36,10 @@ function App() {
               connected && (
                 <VStack
                   width={['100%', '100%', '38%', '25%']}
+                  flexGrow={[1, 1, 1, 0]}
+                  gap={2}
                 >
-                  <BetSidebar />
+                  <BetTabs />
                 </VStack>
               ) 
             }

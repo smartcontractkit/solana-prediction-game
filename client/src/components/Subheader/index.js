@@ -1,5 +1,5 @@
 import { ArrowUpIcon } from "@chakra-ui/icons";
-import { Button, Flex, HStack, Image, Show, Stack, Text } from "@chakra-ui/react";
+import { Button, Flex, Hide, HStack, Image, Stack, Text } from "@chakra-ui/react";
 import CountdownTimer from "./CountdownTimer";
 import chainlinkLogo from "../../assets/logos/chainlink.svg";
 
@@ -8,6 +8,7 @@ const NextPrediction = () => {
   
     return (
       <Flex
+        w="100%"
         justifyContent={["space-between", "space-between", "flex-start", "flex-start"]}
       >
         <Text>
@@ -23,22 +24,28 @@ const NextPrediction = () => {
 
 const ChainlinkFeedButton = () => {
     return (
-        <Button 
-            size="sm"
+        <Button
+            size="md"
             rounded="md"
             bg="whiteAlpha.50"
+            minWidth="min-content"
             _hover={{
                 bg: "whiteAlpha.300",
             }}
-            >
+            onClick={() => {
+                window.open("https://docs.chain.link/docs/solana/data-feeds-solana/", "_blank");
+            }}
+        >
             <Stack
                 spacing={[2, 4, 8, 8]}
                 align="center"
                 justify="space-between"
                 direction="row"
+                py="8px"
+                px="4px"
             >
-                
-                <Text color="gray.500">
+            <HStack>
+                <Text color="gray.500" fontWeight={500}>
                     Live prices from
                 </Text>
                 <Image
@@ -47,7 +54,11 @@ const ChainlinkFeedButton = () => {
                     src={chainlinkLogo}
                     alt="Chainlink"
                 />
-                <ArrowUpIcon size="xs" color="gray.500" transform="rotate(45deg)" />
+                <Text color="gray.400" fontWeight={700}>
+                    Data Feed
+                </Text>
+            </HStack>
+            <ArrowUpIcon w="16px" h="16px" color="gray.500" transform="rotate(45deg)" />
             </Stack>
         </Button>
     );
@@ -61,9 +72,9 @@ const Subheader = () => {
             width="100%"
         >
             <NextPrediction />
-            <Show above="sm">
+            <Hide below="md">
                 <ChainlinkFeedButton />
-            </Show>
+            </Hide>
         </HStack>
     );
 }
