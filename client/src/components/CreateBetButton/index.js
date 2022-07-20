@@ -1,6 +1,9 @@
 import { Button } from "@chakra-ui/react";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import axiosInstance from "../../helpers/axiosInstance";
+import { useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { WalletNotConnectedError } from "@solana/wallet-adapter-base";
+import { Keypair, SystemProgram, Transaction } from "@solana/web3.js";
 
 export default function CreateBetButton( 
     { 
@@ -12,11 +15,41 @@ export default function CreateBetButton(
     }
     ) {
     const [isSaving, setIsSaving] = useState(false);
+    const { connection } = useConnection();
+    const { publicKey, sendTransaction } = useWallet();
+
+    const sendSolana = useCallback(async () => {
+        if (!publicKey) throw new WalletNotConnectedError();
+
+        const latestBlockHash = await connection.getLatestBlockhash();
+
+        const transaction = new Transaction({
+            feePayer: publicKey,
+            blockhash: latestBlockHash.blockhash,
+            lastValidBlockHeight: latestBlockHash.lastValidBlockHeight
+        });
+
+        transaction.add(
+            SystemProgram.transfer({
+                fromPubkey: publicKey,
+                toPubkey: Keypair.generate().publicKey,
+                lamports: amount
+            })
+        );
+
+        const signature = await sendTransaction(transaction, connection);
+        await connection.confirmTransaction({
+            blockhash: latestBlockHash.blockhash,
+            lastValidBlockHeight: latestBlockHash.lastValidBlockHeight,
+            signature: signature,
+        });
+
+    }, [amount, connection, publicKey, sendTransaction]);
 
     const createBet = async (event) => {
         event.preventDefault();
         setIsSaving(true);
-
+        await sendSolana();
         const data = {
             user: address,
             predictionId,
