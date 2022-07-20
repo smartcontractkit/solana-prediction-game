@@ -1,5 +1,5 @@
 import { Flex, FormControl, HStack, Image, InputGroup, InputRightAddon, NumberInput, NumberInputField, Text, VStack } from "@chakra-ui/react";
-import { useContext, useMemo, useState } from "react";
+import { useContext, useState } from "react";
 import emptyBetSlip from '../../assets/bets/empty-betslip.svg';
 import CreateBetButton from "../CreateBetButton";
 import { CloseIcon } from "@chakra-ui/icons";
@@ -7,17 +7,12 @@ import { UserDataContext } from "../../contexts/UserDataProvider";
 import { roundOff } from "../../helpers/sol_helpers";
 import { DIVISOR } from "../../lib/constants";
 import placeholder from "../../assets/logos/placeholder.png";
-import { useWallet } from "@solana/wallet-adapter-react";
 
 const BetSlip = () => {
 
-    const { betSlip, setBetSlip } = useContext(UserDataContext);
-    const { publicKey } = useWallet();
-
-    const address = useMemo(() => publicKey?.toBase58(), [publicKey]);
+    const { balance, address, betSlip, setBetSlip } = useContext(UserDataContext);
 
     const [ amount, setAmount ] = useState(0);
-    const balance = 100;
 
     if(!betSlip) {
         return (
@@ -47,7 +42,7 @@ const BetSlip = () => {
         setBetSlip(null);
     }
 
-    const isError = amount >= balance.nativeBalance?.solana
+    const isError = amount >= balance
 
     return (
         <form w="100%">
