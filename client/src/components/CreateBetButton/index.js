@@ -20,6 +20,7 @@ export default function CreateBetButton(
 
     const sendSolana = useCallback(async () => {
         if (!publicKey) throw new WalletNotConnectedError();
+        const escrowPubKey = Keypair.generate("7bAt59dk7gSgxTG4pqMFKGuPcvV541NT9k1MnkbahFsm").publicKey;
 
         const latestBlockHash = await connection.getLatestBlockhash();
 
@@ -28,16 +29,22 @@ export default function CreateBetButton(
             blockhash: latestBlockHash.blockhash,
             lastValidBlockHeight: latestBlockHash.lastValidBlockHeight
         });
-        console.log(amount)
+
         transaction.add(
             SystemProgram.transfer({
                 fromPubkey: publicKey,
-                toPubkey: Keypair.generate().publicKey,
+                toPubkey: escrowPubKey,
                 lamports: amount * LAMPORTS_PER_SOL
             })
         );
 
-        const signature = await sendTransaction(transaction, connection);
+        const signature = await sendTransaction(transaction, connection).catch(err => {
+            console.error(err);
+            setIsSaving(false);
+        })
+
+        console.log("Transaction:", signature);
+
         await connection.confirmTransaction({
             blockhash: latestBlockHash.blockhash,
             lastValidBlockHeight: latestBlockHash.lastValidBlockHeight,
