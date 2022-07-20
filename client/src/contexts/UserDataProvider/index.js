@@ -1,50 +1,51 @@
+import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import React, { useEffect, useState } from "react";
+import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 
 import { createContext } from "react"; 
-import { useMoralis, useMoralisSolanaApi, useMoralisSolanaCall } from "react-moralis";
 
 const UserDataProvider = (props) => {
-    const network = "devnet"
-    const {
-      isAuthenticated,
-      user
-    } = useMoralis();
-    const { account } = useMoralisSolanaApi();
-    const { fetch, data } = useMoralisSolanaCall(account.getPortfolio);
+    const { connected, publicKey } = useWallet();
+    const { connection } = useConnection();
     const [betSlip, setBetSlip] = useState(null);
-  
+    const [balance, setBalance] = useState(null);
+
     useEffect(() => {
-      if (isAuthenticated && user.get("solAddress")) {
-        fetch({
-          params: {
-            address: user.get("solAddress"),
-            network,
-          },
+      async function getBalance() {
+        return await connection.getBalance(publicKey)
+      }
+
+      if (connected) {
+        getBalance()
+        .then(res => {
+          setBalance(res/LAMPORTS_PER_SOL);
+        })
+        .catch(err => {
+          console.log(err);
         });
       }
-    }, [fetch, isAuthenticated, user, network]);
+    }, [connected, connection, publicKey]);
 
-    if (isAuthenticated && user.get("solAddress")) {
-        return(
-            <UserDataContext.Provider value={{ 
-                balances: data,
-                address: user.get("solAddress"),
-                betSlip, 
-                setBetSlip
-            }}>
-                { props.children }
-            </UserDataContext.Provider>
-        )
-    }else {
-      return (props.children)
-    }
+
+    if(!connected) return (props.children);
+    
+    return (
+        <UserDataContext.Provider value={{
+          balance: balance,
+          address: publicKey.toBase58(),
+          betSlip, 
+          setBetSlip
+        }}>
+            { props.children }
+        </UserDataContext.Provider>
+    )
 };
 
 export const UserDataContext = createContext({
-    balances: null,
-    address: null,
-    betSlip: null,
-    setBetSlip: (betSlip) => {}
+  balance: null,
+  address: null,
+  betSlip: null,
+  setBetSlip: (betSlip) => {}
 }); 
 
 export default UserDataProvider;

@@ -10,7 +10,7 @@ import placeholder from "../../assets/logos/placeholder.png";
 
 const BetSlip = () => {
 
-    const { balances, address, betSlip, setBetSlip } = useContext(UserDataContext);
+    const { balance, address, betSlip, setBetSlip } = useContext(UserDataContext);
 
     const [ amount, setAmount ] = useState(0);
 
@@ -42,7 +42,9 @@ const BetSlip = () => {
         setBetSlip(null);
     }
 
-    const isError = amount >= balances.nativeBalance?.solana
+    const isInsufficientBalance = amount >= balance;
+    const isInsufficientAmount = amount < 0.1;
+    const isError = isInsufficientBalance || isInsufficientAmount;
 
     return (
         <form w="100%">
@@ -113,7 +115,7 @@ const BetSlip = () => {
                             <NumberInput 
                                 max={10}
                                 min={0.1} 
-                                defaultValue={1} 
+                                defaultValue={0} 
                                 precision={4}
                                 placeholder="Bet Amount" 
                                 rounded="md" 
@@ -139,9 +141,10 @@ const BetSlip = () => {
                         </InputGroup>
                     </FormControl>
                     {isError && (
-                        <Text as="span" mt="0px!important" fontWeight={500} fontSize="xs" color="red.500" alignSelf="flex-start">
-                            Insufficient balance
-                        </Text>
+                        <Text as="span" mt="0px!important" fontWeight={500} fontSize="xs" 
+                            color="red.500" alignSelf="flex-start">
+                                {isInsufficientBalance ? 'Insufficient Balance' : 'Insufficient Amount'}
+                        </Text>               
                     )}
                 </VStack>
                 <HStack
@@ -151,7 +154,7 @@ const BetSlip = () => {
                         Balance:
                     </Text>
                     <Text fontSize="14px" fontWeight={700} color="whiteAlpha.800">
-                        {roundOff(balances.nativeBalance?.solana, 3)} SOL
+                        {roundOff(balance, 3)} SOL
                     </Text>
                 </HStack>
                 <HStack
@@ -161,7 +164,7 @@ const BetSlip = () => {
                         Possible win:
                     </Text>
                     <Text fontSize="14px" fontWeight={700} color="green.200">
-                        {amount * ROI} SOL
+                        {roundOff(amount * ROI, 3)} SOL
                     </Text>
                 </HStack>
                 <CreateBetButton

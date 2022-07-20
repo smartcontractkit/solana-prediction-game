@@ -1,12 +1,14 @@
-import Header from './components/Header/Header';
+import Header from './components/Header';
 import DataFeedTable from './components/DataFeedTable/DataFeedTable';
 import ActivePredictions from './components/ActivePredictions';
 import { useMoralis } from 'react-moralis';
 import BetSidebar from './components/BetSidebar';
 import { Flex, VStack } from '@chakra-ui/react';
+import { useWallet } from '@solana/wallet-adapter-react';
 
 function App() {
-  const { isInitialized, isAuthenticated } = useMoralis();
+  const { isInitialized } = useMoralis();
+  const { connected } = useWallet();
 
   return (
     <VStack 
@@ -28,7 +30,7 @@ function App() {
               <ActivePredictions />
             </VStack>
             {
-              isAuthenticated && (
+              connected && (
                 <VStack
                   width={['100%', '100%', '38%', '25%']}
                 >
