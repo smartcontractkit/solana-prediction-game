@@ -1,5 +1,5 @@
 import { Flex, FormControl, HStack, Image, InputGroup, InputRightAddon, NumberInput, NumberInputField, Text, VStack } from "@chakra-ui/react";
-import { useContext, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import emptyBetSlip from '../../assets/bets/empty-betslip.svg';
 import CreateBetButton from "../CreateBetButton";
 import { CloseIcon } from "@chakra-ui/icons";
@@ -7,12 +7,17 @@ import { UserDataContext } from "../../contexts/UserDataProvider";
 import { roundOff } from "../../helpers/sol_helpers";
 import { DIVISOR } from "../../lib/constants";
 import placeholder from "../../assets/logos/placeholder.png";
+import { useWallet } from "@solana/wallet-adapter-react";
 
 const BetSlip = () => {
 
-    const { balances, address, betSlip, setBetSlip } = useContext(UserDataContext);
+    const { betSlip, setBetSlip } = useContext(UserDataContext);
+    const { publicKey } = useWallet();
+
+    const address = useMemo(() => publicKey?.toBase58(), [publicKey]);
 
     const [ amount, setAmount ] = useState(0);
+    const balance = 100;
 
     if(!betSlip) {
         return (
@@ -42,7 +47,7 @@ const BetSlip = () => {
         setBetSlip(null);
     }
 
-    const isError = amount >= balances.nativeBalance?.solana
+    const isError = amount >= balance.nativeBalance?.solana
 
     return (
         <form w="100%">
@@ -151,7 +156,7 @@ const BetSlip = () => {
                         Balance:
                     </Text>
                     <Text fontSize="14px" fontWeight={700} color="whiteAlpha.800">
-                        {roundOff(balances.nativeBalance?.solana, 3)} SOL
+                        {roundOff(balance, 3)} SOL
                     </Text>
                 </HStack>
                 <HStack

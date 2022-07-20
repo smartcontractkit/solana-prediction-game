@@ -41,7 +41,6 @@ const SolanaWalletProvider = ({children}) => {
         ],
         [network]
     );
-    // console.log('SolanaWalletProvider', wallets);
 
     return (
         <ConnectionProvider endpoint={endpoint}>

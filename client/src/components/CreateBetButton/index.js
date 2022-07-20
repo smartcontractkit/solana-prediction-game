@@ -1,6 +1,5 @@
 import { Button } from "@chakra-ui/react";
 import { useState } from "react";
-import { useMoralis } from "react-moralis";
 import axiosInstance from "../../helpers/axiosInstance";
 
 export default function CreateBetButton( 
