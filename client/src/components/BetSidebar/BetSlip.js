@@ -140,15 +140,11 @@ const BetSlip = () => {
                             />
                         </InputGroup>
                     </FormControl>
-                    {isInsufficientBalance && (
-                        <Text as="span" mt="0px!important" fontWeight={500} fontSize="xs" color="red.500" alignSelf="flex-start">
-                            Insufficient balance
-                        </Text>
-                    )}
-                    {isInsufficientAmount && (
-                        <Text as="span" mt="0px!important" fontWeight={500} fontSize="xs" color="red.500" alignSelf="flex-start">
-                            Insufficient Amount
-                        </Text>
+                    {isError && (
+                        <Text as="span" mt="0px!important" fontWeight={500} fontSize="xs" 
+                            color="red.500" alignSelf="flex-start">
+                                {isInsufficientBalance ? 'Insufficient Balance' : 'Insufficient Amount'}
+                        </Text>               
                     )}
                 </VStack>
                 <HStack

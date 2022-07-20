@@ -8,7 +8,10 @@ export const CustomWalletModalButton = ({ children = 'Connect Wallet', onClick, 
     const handleClick = useCallback(
         (event) => {
             if (onClick) onClick(event);
-            if (!event.defaultPrevented) setVisible(!visible);
+            if (event.defaultPrevented) {
+                return
+            }
+            setVisible(!visible);
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [onClick, visible]
