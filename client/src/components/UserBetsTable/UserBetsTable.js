@@ -1,18 +1,16 @@
 import { Table, TableContainer, Tbody, Td,  Th, Thead, Tr } from "@chakra-ui/react"
-import { useEffect, useState } from "react";
-import { useMoralis } from "react-moralis";
+import { useContext, useEffect, useState } from "react";
+import { UserDataContext } from "../../contexts/UserDataProvider";
 import axiosInstance from "../../helpers/axiosInstance";
 
 const UserBetsTable = () => {
     const [ isFetching, setIsFetching ] = useState(true);
     const [ bets, setBets ] = useState([]);
 
-    const {
-        user,
-    } = useMoralis();
+    const { address } = useContext(UserDataContext);
 
     useEffect(() => {
-        axiosInstance.get(`/getUserBets/${user.get("solAddress")}`)
+        axiosInstance.get(`/getUserBets/${address}`)
           .then(res => res.data)
           .then(data => {
             setBets(data);
@@ -22,7 +20,7 @@ const UserBetsTable = () => {
             setIsFetching(false);
             alert("Error occured: " + err.message);
           });
-    }, [user]);
+    }, [address]);
 
     if(isFetching) {
         return <div>Loading...</div>

@@ -1,8 +1,8 @@
 import { Button } from "@chakra-ui/react";
-import { useState } from "react";
-import { useMoralis } from "react-moralis";
+import { useContext, useState } from "react";
 import { validatePrediction } from "../../helpers/validatePrediction";
 import axiosInstance from "../../helpers/axiosInstance";
+import { UserDataContext } from "../../contexts/UserDataProvider";
 
 export default function PredictionButton( 
   { 
@@ -15,17 +15,14 @@ export default function PredictionButton(
   ) {
   const [isSaving, setIsSaving] = useState(false);
   const [ prediction, setPrediction ] = useState(null);
-
-  const {
-    user,
-  } = useMoralis();
+  const { address } = useContext(UserDataContext);
 
   const createPrediction = async () => {
     setIsSaving(true);
 
     var date = new Date();
     const data = {
-      owner: user.get("solAddress"),
+      owner: address,
       account: feedAddress,
       pair,
       prediction: predictionData,
