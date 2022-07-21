@@ -4,6 +4,7 @@ import { UserDataContext } from "../../contexts/UserDataProvider";
 import axiosInstance from "../../helpers/axiosInstance";
 import emptyBets from '../../assets/bets/empty-bets.svg';
 import SingleBetCard from "./SingleBetCard";
+import { roundOff } from "../../helpers/sol_helpers";
 
 const MyBets = () => {
     const [ isFetching, setIsFetching ] = useState(true);
@@ -41,7 +42,7 @@ const MyBets = () => {
     }
 
     const betsWon = bets.filter(bet => bet.status === "won");
-    const winRate = betsWon.length / bets.length;
+    const winRate = roundOff(betsWon.length / bets.length, 2) * 100;
 
     return (
         <VStack 
@@ -56,7 +57,7 @@ const MyBets = () => {
                     {bets.length} bets
                 </Text>
                 <Text color="gray.500">
-                    Win Rate: {winRate} %
+                    Win Rate: {winRate}%
                 </Text>
             </HStack>
             <VStack
