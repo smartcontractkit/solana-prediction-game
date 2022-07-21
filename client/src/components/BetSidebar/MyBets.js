@@ -42,7 +42,7 @@ const MyBets = () => {
     }
 
     const betsWon = bets.filter(bet => bet.status === "won");
-    const winRate = roundOff(betsWon.length / bets.length, 2) * 100;
+    const winRate = ((betsWon.length || bets.length) === 0) ? 0 : roundOff(betsWon.length / bets.length, 2) * 100;
 
     return (
         <VStack 
