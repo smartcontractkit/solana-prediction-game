@@ -1,10 +1,11 @@
 import { Button, HStack, Image, Text, VStack } from "@chakra-ui/react";
+import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import placeholder from "../../assets/logos/placeholder.png";
 import { getCurrenciesFromPairs, roundOff } from "../../helpers/sol_helpers";
 import { DIVISOR } from "../../lib/constants";
 
 const SingleBetCard = ({ bet }) => {
-    const { parent, amount, status } = bet;
+    const { parent, amount, status, transactionSignature } = bet;
     const { pair, prediction, expiryTime } = parent;
     const { firstCurrency, secondCurrency } = getCurrenciesFromPairs(pair);
     const logoImage = require(`../../assets/logos/${firstCurrency.toLowerCase()}.png`);
@@ -35,6 +36,10 @@ const SingleBetCard = ({ bet }) => {
         console.log("Withdrawing");
         // TODO: Withdraw amount won
     }
+
+    const network = WalletAdapterNetwork.Devnet;
+
+    const transactionUrl = `https://explorer.solana.com/tx/${transactionSignature}?cluster=${network}`;
 
     return (
         <VStack
@@ -90,6 +95,9 @@ const SingleBetCard = ({ bet }) => {
                     py="4px"
                     borderRadius="6px"
                     flexGrow={1}
+                    onClick={() => {
+                        window.open(transactionUrl, "_blank");
+                    }}
                 >   
                     Details
                 </Button>
