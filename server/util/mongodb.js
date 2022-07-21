@@ -1,4 +1,4 @@
-const mongodb = require('mongodb');
+const { MongoClient } = require('mongodb');
 
 const MONGODB_URI = process.env.MONGODB_URI;
 const MONGODB_DB = process.env.MONGODB_DB;
@@ -21,6 +21,8 @@ let cached = global.mongo
 if (!cached) {
     cached = global.mongo = { conn: null, promise: null }
 }
+
+const client = new MongoClient(MONGODB_URI);
  
 connectToDatabase = async () => {
     if (cached.conn) {
@@ -33,7 +35,7 @@ connectToDatabase = async () => {
             useUnifiedTopology: true,
         }
 
-        cached.promise = mongodb.MongoClient.connect(MONGODB_URI, opts).then((client) => {
+        cached.promise = MongoClient.connect(MONGODB_URI, opts).then((client) => {
             return {
                 client,
                 db: client.db(MONGODB_DB),
@@ -46,4 +48,5 @@ connectToDatabase = async () => {
 
 module.exports = {
     connectToDatabase,
+    client
 }

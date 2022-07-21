@@ -1,27 +1,45 @@
-const Moralis = require("moralis/node");
 const dataFeed = require("../dataFeed");
+const { client, connectToDatabase } = require("../util/mongodb");
+
+// const createPrediction = async (prediction) => {
+
+//   const Prediction = Moralis.Object.extend("Prediction");
+//   const predictionObject = new Prediction();
+
+//   return new Promise(async (resolve, reject) => {
+//     await predictionObject.save(prediction)
+//     .then(
+//       (data) => {
+//         // Execute any logic that should take place after the object is saved.
+//         console.log("New object created with objectId: " + data.id);
+//         resolve(data);
+//       },
+//       (error) => {
+//         // Execute any logic that should take place if the save fails.
+//         // error is a Moralis.Error with an error code and message.
+//         console.log("Failed to create new object, with error code: " + error.message);
+//       }
+//     );
+//   });
+// }
 
 const createPrediction = async (prediction) => {
 
-  const Prediction = Moralis.Object.extend("Prediction");
-  const predictionObject = new Prediction();
+  try {
+    const { db } = await connectToDatabase();
+    const predictions = db.collection("predictions");
+    const result = await predictions.insertOne(prediction);
+    console.log(`Prediction was inserted with the _id: ${result.insertedId}`);
+    return prediction;
+  } catch (err) {
+    console.error(err);
+    console.log("Failed to create new object, with error code: " + error.message);
+  } finally {
+    await client.close();
+  }
 
-  return new Promise(async (resolve, reject) => {
-    await predictionObject.save(prediction)
-    .then(
-      (data) => {
-        // Execute any logic that should take place after the object is saved.
-        console.log("New object created with objectId: " + data.id);
-        resolve(data);
-      },
-      (error) => {
-        // Execute any logic that should take place if the save fails.
-        // error is a Moralis.Error with an error code and message.
-        console.log("Failed to create new object, with error code: " + error.message);
-      }
-    );
-  });
 }
+
 
 const addPredictionsDaily = async (address, pair) => {
   const latestRound = await dataFeed.getLatestDataRound(address, pair);
