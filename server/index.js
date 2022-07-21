@@ -68,6 +68,13 @@ app.post('/addPrediction', async (req, res) => {
   return await predictions.createPrediction(res, predictionData);
 });
 
+
+app.get('/getPredictions', async (req, res) => {
+  const searchQuery  = req.body;
+  
+  return await predictions.getPredictions(res, searchQuery);
+});
+
 app.get('/scheduleDailyPredictions', async (req, res) => {
   const { address, pair } = req.body;
   if(!address || !pair) {

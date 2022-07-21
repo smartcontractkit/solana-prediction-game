@@ -18,6 +18,17 @@ const createPrediction = async (res, prediction) => {
 
 }
 
+const getPredictions = async (res, searchQuery) => {
+  const predictions = await Prediction.find(searchQuery);
+
+  try {
+    res.send(predictions);
+  } catch (err) {
+    console.error("Failed to get predictions, with error code: " + err.message);
+    res.status(500).send(error);
+  }
+}
+
 const addPredictionsDaily = async (address, pair) => {
   const latestRound = await dataFeed.getLatestDataRound(address, pair);
 
@@ -56,4 +67,5 @@ const addPredictionsDaily = async (address, pair) => {
 module.exports = {
   addPredictionsDaily,
   createPrediction,
+  getPredictions,
 }

@@ -17,6 +17,10 @@ const PredictionSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
+    ROI: {
+        type: Number,
+        required: true,
+    },
     status: {
         type: Boolean,
         required: true,

@@ -35,8 +35,7 @@ const BetSlip = () => {
         logoImage,
         ROI
     } = betSlip;
-    const { id, attributes } = predictionData;
-    const { pair, prediction, expiryTime } = attributes;
+    const { _id, pair, prediction, expiryTime } = predictionData;
 
     const removeBet = () => {
         setBetSlip(null);
@@ -174,7 +173,7 @@ const BetSlip = () => {
                     bg="blue.200"
                     type="submit"
                     disabled={isError}
-                    predictionId={id}
+                    predictionId={_id}
                     amount={amount}
                     address={address}
                     setBetSlip={setBetSlip}

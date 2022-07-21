@@ -1,29 +1,30 @@
 import { Flex } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { useMoralisCloudFunction } from "react-moralis";
+import axiosInstance from "../../helpers/axiosInstance";
 import BetCard from "../BetCard";
 
 const ActivePredictions = () => {
     const [ isFetching, setIsFetching ] = useState(true);
     const [ predictions, setPredictions ] = useState([]);
 
-    const { fetch } = useMoralisCloudFunction(
-        "getPredictions",
-        { status: true },
-        { autoFetch: false }
-    );
 
     useEffect(() => {
-        fetch({
-            onSuccess: (result) => {
-                setPredictions(result);
-                setIsFetching(false);
-            },
-            onError: (error) => {
-                console.log(error);
-                setIsFetching(false);
-            }
-        });
+        const searchQuery = {
+            // "predictionDeadline": {
+            //     "$gte": "2022-07-02T04:37:58.000Z"
+            // } //TODO: remove once daily cron job is working
+            status: true
+        }
+        axiosInstance.get('/getPredictions', searchQuery)
+        .then(res => res.data)
+        .then(data => {
+            setPredictions(data);
+            setIsFetching(false);
+        })
+        .catch(err => {
+            setIsFetching(false);
+            console.log("Error occured: " + err.message);
+        });  
     }, []);
 
     if(isFetching) {
@@ -38,14 +39,13 @@ const ActivePredictions = () => {
         >
             {
                 predictions.map(prediction => {
-                    const { id, attributes, createdAt, updatedAt } = prediction;
-                    return <BetCard 
-                        key={id} 
-                        id={id}
-                        attributes={attributes}
-                        createdAt={createdAt}
-                        updatedAt={updatedAt}
+                    const { _id } = prediction;
+                    return (
+                        <BetCard 
+                            key={_id} 
+                            prediction={prediction}
                         />
+                    );
                 })
             }
         </Flex>

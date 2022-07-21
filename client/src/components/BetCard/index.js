@@ -8,10 +8,8 @@ import { UserDataContext } from "../../contexts/UserDataProvider";
 import { ArrowDownIcon, ArrowUpIcon } from "@chakra-ui/icons";
 import placeholder from "../../assets/logos/placeholder.png";
 
-const BetCard = (predictionData) => {
-    const ROI = 2;
-    const { attributes, createdAt } = predictionData;
-    const { pair, prediction, openingPredictionPrice, predictionDeadline, expiryTime, status } = attributes;
+const BetCard = (props) => {
+    const { pair, prediction, openingPredictionPrice, predictionDeadline, expiryTime, status, ROI, createdAt } = props.prediction;
     const { firstCurrency, secondCurrency } = getCurrenciesFromPairs(pair);
     const logoImage = require(`../../assets/logos/${firstCurrency.toLowerCase()}.png`);
 
@@ -27,7 +25,7 @@ const BetCard = (predictionData) => {
 
     const placeBet = () => {
         setBetSlip({
-            predictionData,
+            predictionData: props.prediction, 
             firstCurrency,
             secondCurrency,
             logoImage,
