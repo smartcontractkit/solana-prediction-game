@@ -1,5 +1,5 @@
 import React from "react"
-import { Box, Heading, HStack, Image } from "@chakra-ui/react"
+import { Heading, HStack, Image } from "@chakra-ui/react"
 import logo from "../../assets/logos/logo.svg";
 
 export default function Logo(props) {

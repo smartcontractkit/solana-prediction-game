@@ -51,17 +51,20 @@ export default function CreateBetButton(
             signature: signature,
         });
 
+        return signature;
+
     }, [amount, connection, publicKey, sendTransaction]);
 
     const createBet = async (event) => {
         event.preventDefault();
         setIsSaving(true);
-        await sendSolana();
+        const transactionSignature = await sendSolana();
         const data = {
             user: address,
             predictionId,
             amount,
             status: 'open',
+            transactionSignature
         }
 
         axiosInstance.post('/addBet', data)
