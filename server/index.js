@@ -6,6 +6,7 @@ const { Server } = require("socket.io");
 const cors = require("cors");
 const Moralis = require("moralis/node");
 require('dotenv').config();
+const { connectToDatabase } = require("./util/mongodb");
 
 app.use(cors());
 app.use(express.json());
@@ -41,6 +42,7 @@ io.on('connection', (socket) => {
 server.listen(PORT, async () => {
   console.log(`Server listening on ${PORT}`);
   await Moralis.start({ serverUrl, appId, masterKey });
+  await connectToDatabase();
 });
 
 app.get('/getLatestDataRound', async (req, res) => {
