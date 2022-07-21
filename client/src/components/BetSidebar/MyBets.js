@@ -40,7 +40,7 @@ const MyBets = () => {
         </VStack>
     }
 
-    const betsWon = bets.filter(bet => bet.status === "won").length;
+    const betsWon = bets.filter(bet => bet.status === "won");
     const winRate = betsWon.length / bets.length;
 
     return (
