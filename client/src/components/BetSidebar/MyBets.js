@@ -63,8 +63,8 @@ const MyBets = () => {
             <VStack
                 gap="8px"
                 w="100%"
-                maxH="600px"
-                overflowY="scroll"
+                maxH="508px"
+                overflowY="auto"
             >
                 {bets.map(bet => (
                     <SingleBetCard bet={bet} key={bet.objectId}/>
