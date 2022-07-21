@@ -1,10 +1,11 @@
 import Header from './components/Header';
-import DataFeedTable from './components/DataFeedTable/DataFeedTable';
 import ActivePredictions from './components/ActivePredictions';
 import { useMoralis } from 'react-moralis';
-import BetSidebar from './components/BetSidebar';
+import BetTabs from './components/BetTabs';
 import { Flex, VStack } from '@chakra-ui/react';
 import { useWallet } from '@solana/wallet-adapter-react';
+import Subheader from './components/Subheader';
+import Hero from './components/Hero';
 
 function App() {
   const { isInitialized } = useMoralis();
@@ -14,27 +15,31 @@ function App() {
     <VStack 
       py={8}
       px={4}
-      gap={4}
+      gap={8}
       >
       <Header />
-      <DataFeedTable />
+      <Hero />
       {
         isInitialized && (
           <Flex
-            gap={2}
+            gap={[8, 8, 2, 2]}
             direction={['column-reverse', 'column-reverse' , 'row', 'row']}
           >
             <VStack
               width={['100%', '100%' , '59%', '75%']}
+              gap={4}
             >
+              <Subheader />
               <ActivePredictions />
             </VStack>
             {
               connected && (
                 <VStack
                   width={['100%', '100%', '38%', '25%']}
+                  flexGrow={[1, 1, 1, 0]}
+                  gap={2}
                 >
-                  <BetSidebar />
+                  <BetTabs />
                 </VStack>
               ) 
             }

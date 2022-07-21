@@ -43,10 +43,10 @@ const BetCard = (predictionData) => {
             p="16px"
             gap="32px"
             minWidth="250px"
-            maxWidth="300px"
+            maxWidth={["100%", "100%", "100%", "300px"]}
             alignItems="flex-start"
-            direction="column"    
-            flexGrow={1}
+            direction="column"   
+            flexGrow={[1, 1, 1, 1]}
         >
             <HStack
                 padding="0px"
