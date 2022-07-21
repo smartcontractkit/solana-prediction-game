@@ -31,7 +31,6 @@ const SingleBetCard = ({ bet }) => {
             statusColor = "orange.300";
     }
 
-
     const withdraw = () => {
         console.log("Withdrawing");
         // TODO: Withdraw amount won
@@ -73,7 +72,7 @@ const SingleBetCard = ({ bet }) => {
                 </Text>
             </HStack>
             <Text textAlign="left">
-                {firstCurrency} will settle at {roundOff((prediction / DIVISOR), 5)} {secondCurrency} at {new Date(expiryTime).toLocaleString()}
+                {firstCurrency} will settle at {roundOff((prediction / DIVISOR), 5)} {secondCurrency} at {new Date(expiryTime.iso).toLocaleString()}
             </Text>
             <HStack textAlign="left">
                 <Text fontWeight={500} fontSize="xs" color="gray.500">
