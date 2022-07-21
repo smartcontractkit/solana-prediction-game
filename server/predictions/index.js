@@ -1,45 +1,22 @@
 const dataFeed = require("../dataFeed");
-const { client, connectToDatabase } = require("../util/mongodb");
+const Prediction = require("../models/predictions");
 
-// const createPrediction = async (prediction) => {
-
-//   const Prediction = Moralis.Object.extend("Prediction");
-//   const predictionObject = new Prediction();
-
-//   return new Promise(async (resolve, reject) => {
-//     await predictionObject.save(prediction)
-//     .then(
-//       (data) => {
-//         // Execute any logic that should take place after the object is saved.
-//         console.log("New object created with objectId: " + data.id);
-//         resolve(data);
-//       },
-//       (error) => {
-//         // Execute any logic that should take place if the save fails.
-//         // error is a Moralis.Error with an error code and message.
-//         console.log("Failed to create new object, with error code: " + error.message);
-//       }
-//     );
-//   });
-// }
-
-const createPrediction = async (prediction) => {
+const createPrediction = async (res, prediction) => {
 
   try {
-    const { db } = await connectToDatabase();
-    const predictions = db.collection("predictions");
-    const result = await predictions.insertOne(prediction);
-    console.log(`Prediction was inserted with the _id: ${result.insertedId}`);
-    return prediction;
+    const predictionObject = new Prediction(prediction);
+    
+    const result = await predictionObject.save();
+    console.log(`Prediction was inserted with the _id: ${result._id}`);
+
+    res.send(result);
   } catch (err) {
-    console.error(err);
-    console.log("Failed to create new object, with error code: " + error.message);
-  } finally {
-    await client.close();
-  }
+    console.error("Failed to create new object, with error code: " + err.message);
+
+    res.status(500).send(err);
+  } 
 
 }
-
 
 const addPredictionsDaily = async (address, pair) => {
   const latestRound = await dataFeed.getLatestDataRound(address, pair);

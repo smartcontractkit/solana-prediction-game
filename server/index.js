@@ -6,7 +6,7 @@ const { Server } = require("socket.io");
 const cors = require("cors");
 const Moralis = require("moralis/node");
 require('dotenv').config();
-const { connectToDatabase } = require("./util/mongodb");
+const { connectToDatabase } = require("./util/mongoose");
 
 app.use(cors());
 app.use(express.json());
@@ -57,15 +57,15 @@ app.get('/getLatestDataRound', async (req, res) => {
 
 app.post('/addPrediction', async (req, res) => {
   const prediction  = req.body;
-  
-  const predictionData = await predictions.createPrediction({
+
+  const predictionData = {
     ...prediction,
     expiryTime: new Date(prediction.expiryTime),
     predictionDeadline: new Date(prediction.predictionDeadline),
     openingPredictionTime: new Date(prediction.openingPredictionTime),
-  });
-
-  res.send(predictionData);
+  }
+  
+  return await predictions.createPrediction(res, predictionData);
 });
 
 app.get('/scheduleDailyPredictions', async (req, res) => {
@@ -74,7 +74,7 @@ app.get('/scheduleDailyPredictions', async (req, res) => {
     res.status(400).send('Missing address or pair');
     return;
   }
-  const predictions = await predictions.addPredictionsDaily(address, pair)
+  const predictions = await predictions.addPredictionsDaily(res, address, pair)
   res.send(predictions);
 });
 
