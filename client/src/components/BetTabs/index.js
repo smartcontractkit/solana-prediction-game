@@ -11,8 +11,7 @@ const BetSidebar = () => {
             w="100%"
             minWidth="250px"
             h="max-content"
-            gap="32px"
-            alignItems="flex-start"
+            alignItems="center"
             direction="column" 
         >
             <Tabs variant='soft-rounded' colorScheme='blue' align="center">
