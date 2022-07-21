@@ -25,7 +25,9 @@ if(!MONGODB_DB) {
 
 
 connectToDatabase = async () => {
+    console.log('Connecting to MongoDB...');
     if (cached.conn) {
+        console.log("MongoDB Connected successfully");
         return cached.conn
     }
 
@@ -43,7 +45,7 @@ connectToDatabase = async () => {
         const db = mongoose.connection;
         db.on("error", console.error.bind(console, "connection error: "));
         db.once("open", function () {
-            console.log("Connected successfully");
+            console.log("MongoDB Connected successfully");
         });
     }
     cached.conn = await cached.promise
