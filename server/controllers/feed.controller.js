@@ -29,7 +29,14 @@ const getChainlinkFeed = async (io, feed) => {
   });
 }
 
-const getLatestDataRound = async (address, pair) => {
+const getLatestDataRound = async (req, res) => {
+
+  const { address, pair } = req.query;
+  if(!address || !pair) {
+    res.status(400).send('Missing address or pair');
+    return;
+  }
+
   let round = null;
   anchor.setProvider(provider);
 

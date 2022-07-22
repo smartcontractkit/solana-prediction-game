@@ -1,7 +1,8 @@
-const dataFeed = require("../dataFeed");
 const Prediction = require("../models/prediction.model");
+const { getLatestDataRound } = require("./feed.controller");
 
-const createPrediction = async (res, prediction) => {
+const createPrediction = async (req, res) => {
+  const prediction  = req.body;
 
   try {
     const predictionObject = new Prediction(prediction);
@@ -18,7 +19,9 @@ const createPrediction = async (res, prediction) => {
 
 }
 
-const getPredictions = async (res, searchQuery) => {
+const getPredictions = async (req, res) => {
+  const searchQuery  = req.body;
+
   try {
     const predictions = await Prediction.find(searchQuery);
     res.send(predictions);
@@ -28,8 +31,17 @@ const getPredictions = async (res, searchQuery) => {
   }
 }
 
-const addPredictionsDaily = async (address, pair) => {
-  const latestRound = await dataFeed.getLatestDataRound(address, pair);
+const scheduleDailyPredictions = async (req, res) => {
+
+  const { address, pair } = req.body;
+  if(!address || !pair) {
+    res.status(400).send({
+      message: "Address and pair are required"
+    });
+    return;
+  }
+
+  const latestRound = await getLatestDataRound(req, res);
 
   const { answerToNumber, feed, observationsTS } = latestRound;
 
@@ -64,7 +76,7 @@ const addPredictionsDaily = async (address, pair) => {
 }
 
 module.exports = {
-  addPredictionsDaily,
+  scheduleDailyPredictions,
   createPrediction,
   getPredictions,
 }

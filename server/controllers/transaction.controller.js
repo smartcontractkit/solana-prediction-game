@@ -1,7 +1,13 @@
 const solanaWeb3 = require("@solana/web3.js");
 const { clusterApiUrl, Connection, Keypair, PublicKey, sendAndConfirmTransaction, SystemProgram, Transaction, LAMPORTS_PER_SOL } = solanaWeb3;
 
-escrowTransferSOL = async (toAddress, amount) => {
+escrowTransferSOL = async (req, res) => {
+
+  const { toAddress, amount } = req.body;
+  if(!toAddress || !amount) {
+    res.status(400).send('Missing toAddress or amount');
+    return;
+  }
 
   const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
   const toPubkey = new PublicKey(toAddress);

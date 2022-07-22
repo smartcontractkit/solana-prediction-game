@@ -1,8 +1,9 @@
-const mongoose = require("mongoose");
-const { Types } = mongoose;
+const { Types } = require("mongoose");
 const Bet = require("../models/bet.model");
 
-const createBet = async (res, bet) => {
+const createBet = async (req, res) => {
+  const bet = req.body;
+
   try {
     bet.prediction = Types.ObjectId(bet.prediction);
     bet.user = Types.ObjectId(bet.user);
@@ -19,7 +20,9 @@ const createBet = async (res, bet) => {
   } 
 }
 
-const getBet = async (res, betId) => {
+const getBet = async (req, res) => {
+  const betId = req.params.betId;
+
   try {
     const bet = await Bet.findOne({
       _id: betId
@@ -33,7 +36,9 @@ const getBet = async (res, betId) => {
   }
 }
 
-const getBets = async (res, searchQuery) => {
+const getBets = async (req, res) => {
+  const searchQuery  = req.body;
+
   try {
     const bets = await Bet.find(searchQuery).populate("prediction");
     res.send(bets);

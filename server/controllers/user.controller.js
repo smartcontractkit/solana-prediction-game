@@ -1,6 +1,8 @@
 const User = require("../models/user.model");
 
-const createUser = async (res, user) => {
+const createUser = async (req, res) => {
+  const user = req.body;
+
   try {
     const userObject = new User(user);
     
@@ -15,7 +17,9 @@ const createUser = async (res, user) => {
   } 
 }
 
-const getUser = async (res, searchQuery) => {
+const getUser = async (req, res) => {
+  const searchQuery  = req.body;
+
   try {
     const user = await User.findOne(searchQuery);
 
@@ -26,7 +30,9 @@ const getUser = async (res, searchQuery) => {
   }
 }
 
-const getUsers = async (res, searchQuery) => {
+const getUsers = async (req, res) => {
+  const searchQuery  = req.body;
+
   try {
     const users = await User.find(searchQuery);
     res.send(users);
