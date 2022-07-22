@@ -4,7 +4,6 @@ const http = require("http");
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 const cors = require("cors");
-const Moralis = require("moralis/node");
 require('dotenv').config();
 const { connectToDatabase } = require("./util/mongoose");
 
@@ -15,14 +14,10 @@ app.use(express.urlencoded({ extended: true }));
 const dataFeed = require("./dataFeed");
 const predictions = require("./predictions");
 const transactions = require("./transactions");
-const bets = require("./bets");
+const bets = require("./src/controllers/bet.controller");
 const users = require("./users");
 
 const PORT = process.env.PORT || 3001;
-
-const serverUrl = process.env.MORALIS_SERVER_URL;
-const appId = process.env.MORALIS_APP_ID;
-const masterKey = process.env.MORALIS_MASTER_KEY;
 
 const io = new Server(server, {
   cors: {
@@ -42,7 +37,6 @@ io.on('connection', (socket) => {
 
 server.listen(PORT, async () => {
   console.log(`Server listening on ${PORT}`);
-  await Moralis.start({ serverUrl, appId, masterKey });
   await connectToDatabase();
 });
 
