@@ -1,7 +1,7 @@
 import { Flex, HStack, Text, VStack, Image, Button } from "@chakra-ui/react";
-import { getCurrenciesFromPairs } from "../../helpers/sol_helpers";
+import { getCurrenciesFromPairs } from "../../helpers/solHelpers";
 import { DIVISOR } from "../../lib/constants";
-import { roundOff } from "../../helpers/sol_helpers";
+import { roundOff } from "../../helpers/solHelpers";
 import { useContext } from "react";
 import { SocketContext } from "../../contexts/SocketProvider";
 import { UserDataContext } from "../../contexts/UserDataProvider";

@@ -1,7 +1,7 @@
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { Text, Button, Stack, HStack, Avatar, Show } from "@chakra-ui/react";
 import { ChevronDownIcon } from '@chakra-ui/icons';
-import { roundOff } from "../../helpers/sol_helpers";
+import { roundOff } from "../../helpers/solHelpers";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import { useWallet } from "@solana/wallet-adapter-react";
 import CustomWalletConnectButton from "./CustomWalletConnectButton";

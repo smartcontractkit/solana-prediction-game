@@ -4,7 +4,7 @@ import emptyBetSlip from '../../assets/bets/empty-betslip.svg';
 import CreateBetButton from "./CreateBetButton";
 import { CloseIcon } from "@chakra-ui/icons";
 import { UserDataContext } from "../../contexts/UserDataProvider";
-import { roundOff } from "../../helpers/sol_helpers";
+import { roundOff } from "../../helpers/solHelpers";
 import { DIVISOR } from "../../lib/constants";
 import placeholder from "../../assets/logos/placeholder.png";
 

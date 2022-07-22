@@ -1,7 +1,7 @@
 import { Button, HStack, Image, Text, VStack } from "@chakra-ui/react";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import placeholder from "../../assets/logos/placeholder.png";
-import { getCurrenciesFromPairs, roundOff } from "../../helpers/sol_helpers";
+import { getCurrenciesFromPairs, roundOff } from "../../helpers/solHelpers";
 import { DIVISOR } from "../../lib/constants";
 
 const SingleBetCard = ({ bet }) => {

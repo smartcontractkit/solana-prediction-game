@@ -15,7 +15,7 @@ const ActivePredictions = () => {
             // } //TODO: remove once daily cron job is working
             status: true
         }
-        axiosInstance.get('/getPredictions', searchQuery)
+        axiosInstance.get('/predictions', searchQuery)
         .then(res => res.data)
         .then(data => {
             setPredictions(data);

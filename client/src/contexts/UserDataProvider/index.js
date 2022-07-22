@@ -21,7 +21,7 @@ const UserDataProvider = (props) => {
         const query = {
           address: publicKey.toBase58(),
         }
-        axiosInstance.get(`/getUser`, query)
+        axiosInstance.get(`/users/getUser`, query)
         .then(res => res.data)
         .then(user => {
           setUser(user);

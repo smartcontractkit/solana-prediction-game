@@ -67,7 +67,7 @@ export default function CreateBetButton(
             transactionSignature
         }
 
-        axiosInstance.post('/addBet', data)
+        axiosInstance.post('/bets/addBet', data)
         .then(res => res.data)
         .then(data => {
             setIsSaving(false);

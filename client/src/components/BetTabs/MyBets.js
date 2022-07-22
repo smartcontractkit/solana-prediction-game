@@ -4,7 +4,7 @@ import { UserDataContext } from "../../contexts/UserDataProvider";
 import axiosInstance from "../../helpers/axiosInstance";
 import emptyBets from '../../assets/bets/empty-bets.svg';
 import SingleBetCard from "./SingleBetCard";
-import { roundOff } from "../../helpers/sol_helpers";
+import { roundOff } from "../../helpers/solHelpers";
 
 const MyBets = () => {
     const [ isFetching, setIsFetching ] = useState(true);
@@ -13,7 +13,7 @@ const MyBets = () => {
     const { user } = useContext(UserDataContext);
 
     useEffect(() => {
-        axiosInstance.get(`/getBets`,{
+        axiosInstance.get(`/bets`,{
             user: user._id
         })
           .then(res => res.data)
