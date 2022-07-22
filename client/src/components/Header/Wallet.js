@@ -98,7 +98,7 @@ const MenuWallet = ({ children, ...props }) => {
                   { content }
                 </Text>
               </Show>
-              <Avatar size="xs" bg='red.500' />
+              <Avatar size="xs" bg='red.500' src={`https://api.multiavatar.com/${base58}.png`} />
               <ChevronDownIcon />
             </HStack>
           </Stack>
