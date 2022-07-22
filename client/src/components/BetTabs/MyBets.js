@@ -13,6 +13,7 @@ const MyBets = () => {
     const { user } = useContext(UserDataContext);
 
     useEffect(() => {
+        if(!user) return;
         axiosInstance.get(`/bets`,{
             user: user._id
         })

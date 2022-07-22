@@ -13,18 +13,34 @@ const UserDataProvider = (props) => {
     const [user, setUser] = useState(null);
 
     useEffect(() => {
-      async function getBalance() {
+      const getBalance = async () => {
         return await connection.getBalance(publicKey)
       }
 
-      const getUser = async () => {
-        const query = {
+      const addUser = async () => {
+        const newUser = {
           address: publicKey.toBase58(),
+        }
+
+        return await axiosInstance.post("/users/addUser", newUser);
+      }
+
+      const getUser = async (address) => {
+        const query = {
+          address,
         }
         axiosInstance.get(`/users/getUser`, query)
         .then(res => res.data)
-        .then(user => {
-          setUser(user);
+        .then(async (result) => {
+          let loggedInUser = null;
+          
+          if(!result){
+            loggedInUser = await addUser();
+          }else{
+            loggedInUser = result;
+          }
+
+          setUser(loggedInUser);
         })
         .catch(err => {
           console.log("Error occured: " + err.message);
@@ -39,7 +55,10 @@ const UserDataProvider = (props) => {
         .catch(err => {
           console.log(err);
         });
-        getUser();
+        getUser(publicKey.toBase58());
+      }else{
+        setBalance(null);
+        setUser(null);
       }
     }, [connected, connection, publicKey]);
 

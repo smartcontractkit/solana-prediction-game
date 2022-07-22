@@ -14,15 +14,15 @@ const feedRouter = require('./routes/feed.route');
 const predictionsRouter = require('./routes/predictions.route');
 const connectSocket = require("./util/socket");
 
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.use('/users', usersRouter);
 app.use('/bets', betsRouter);
 app.use('/transactions', transactionsRouter);
 app.use('/feed', feedRouter);
 app.use('/predictions', predictionsRouter);
-
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 const PORT = process.env.PORT || 3001;
 
