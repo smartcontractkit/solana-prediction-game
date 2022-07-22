@@ -9,7 +9,7 @@ import { ArrowDownIcon, ArrowUpIcon } from "@chakra-ui/icons";
 import placeholder from "../../assets/logos/placeholder.png";
 
 const BetCard = (props) => {
-    const { pair, prediction, openingPredictionPrice, predictionDeadline, expiryTime, status, ROI, createdAt } = props.prediction;
+    const { pair, predictionPrice, openingPredictionPrice, predictionDeadline, expiryTime, status, ROI, createdAt } = props.prediction;
     const { firstCurrency, secondCurrency } = getCurrenciesFromPairs(pair);
     const logoImage = require(`../../assets/logos/${firstCurrency.toLowerCase()}.png`);
 
@@ -21,7 +21,7 @@ const BetCard = (props) => {
         return null;
     }
 
-    let isIncrease = openingPredictionPrice <= prediction;
+    let isIncrease = openingPredictionPrice <= predictionPrice;
 
     const placeBet = () => {
         setBetSlip({
@@ -64,7 +64,7 @@ const BetCard = (props) => {
                             will settle at
                         </Text>
                         <Text fontWeight={700} fontSize="sm" >
-                            {roundOff((prediction / DIVISOR), 3)}  {secondCurrency}
+                            {roundOff((predictionPrice / DIVISOR), 3)}  {secondCurrency}
                         </Text>
                     </HStack>
                     <HStack spacing={1} alignItems="flex-end">

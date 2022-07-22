@@ -1,5 +1,5 @@
 const dataFeed = require("../dataFeed");
-const Prediction = require("../models/predictions");
+const Prediction = require("../models/prediction.model");
 
 const createPrediction = async (res, prediction) => {
 
@@ -11,7 +11,7 @@ const createPrediction = async (res, prediction) => {
 
     res.send(result);
   } catch (err) {
-    console.error("Failed to create new object, with error code: " + err.message);
+    console.error("Failed to create new prediction, with error code: " + err.message);
 
     res.status(500).send(err);
   } 
@@ -19,9 +19,8 @@ const createPrediction = async (res, prediction) => {
 }
 
 const getPredictions = async (res, searchQuery) => {
-  const predictions = await Prediction.find(searchQuery);
-
   try {
+    const predictions = await Prediction.find(searchQuery);
     res.send(predictions);
   } catch (err) {
     console.error("Failed to get predictions, with error code: " + err.message);

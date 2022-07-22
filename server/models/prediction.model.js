@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+const { Schema, model } = require("mongoose");
 
-const PredictionSchema = new mongoose.Schema({
+const PredictionSchema = new Schema({
     owner: {
         type: String,
         required: true,
@@ -13,7 +13,7 @@ const PredictionSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    prediction: {
+    predictionPrice: {
         type: Number,
         required: true,
     },
@@ -43,6 +43,6 @@ const PredictionSchema = new mongoose.Schema({
     },
 },{ timestamps: true });
 
-const Prediction = mongoose.model("Prediction", PredictionSchema);
+const Prediction = model("Prediction", PredictionSchema);
 
 module.exports = Prediction;

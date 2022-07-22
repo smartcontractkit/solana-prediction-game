@@ -16,6 +16,7 @@ const dataFeed = require("./dataFeed");
 const predictions = require("./predictions");
 const transactions = require("./transactions");
 const bets = require("./bets");
+const users = require("./users");
 
 const PORT = process.env.PORT || 3001;
 
@@ -97,30 +98,37 @@ app.post('/escrowTransferSOL', async (req, res) => {
 
 app.post('/addBet', async (req, res) => {
   const bet = req.body;
-  if(!bet.user || !bet.status || !bet.predictionId || !bet.amount) {
-    res.status(400).send('Missing valid bet');
-    return;
-  }
-  const betData = await bets.createBet(bet);
-  res.send(betData);
+  
+  return await bets.createBet(res, bet);
 });
 
 app.get('/getBet/:betId', async (req, res) => {
   const betId = req.params.betId;
-  if(!betId) {
-    res.status(400).send('Missing betId');
-    return;
-  }
-  const betData = await bets.retrieveBet(betId);
-  res.send(betData);
+
+  return await bets.getBet(res, betId);
 });
 
-app.get('/getUserBets/:user', async (req, res) => {
-  const user = req.params.user;
-  if(!user) {
-    res.status(400).send('Missing user');
-    return;
-  }
-  const betsData = await bets.retrieveUserBets(user);
-  res.send(betsData);
+app.get('/getBets', async (req, res) => {
+  const searchQuery  = req.body;
+
+  return await bets.getBets(res, searchQuery);
+});
+
+
+app.post('/addUser', async (req, res) => {
+  const user = req.body;
+  
+  return await users.createUser(res, user);
+});
+
+app.get('/getUser', async (req, res) => {
+  const searchQuery  = req.body;
+
+  return await users.getUser(res, searchQuery);
+});
+
+app.get('/getUsers', async (req, res) => {
+  const searchQuery  = req.body;
+
+  return await users.getUsers(res, searchQuery);
 });

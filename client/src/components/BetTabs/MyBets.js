@@ -10,10 +10,12 @@ const MyBets = () => {
     const [ isFetching, setIsFetching ] = useState(true);
     const [ bets, setBets ] = useState([]);
 
-    const { address } = useContext(UserDataContext);
+    const { user } = useContext(UserDataContext);
 
     useEffect(() => {
-        axiosInstance.get(`/getUserBets/${address}`)
+        axiosInstance.get(`/getBets`,{
+            user: user._id
+        })
           .then(res => res.data)
           .then(data => {
             setBets(data);
@@ -21,9 +23,9 @@ const MyBets = () => {
           })
           .catch(err => {
             setIsFetching(false);
-            alert("Error occured: " + err.message);
+            console.log("Error occured: " + err.message);
           });
-    }, [address]);
+    }, [user]);
 
     if(isFetching) {
         return <div>Loading...</div>
@@ -67,7 +69,7 @@ const MyBets = () => {
                 overflowY="auto"
             >
                 {bets.map(bet => (
-                    <SingleBetCard bet={bet} key={bet.objectId}/>
+                    <SingleBetCard bet={bet} key={bet._id}/>
                 ))}
             </VStack>
         </VStack>
