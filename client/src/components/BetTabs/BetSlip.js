@@ -29,13 +29,13 @@ const BetSlip = () => {
     }
 
     const { 
-        predictionData,
+        prediction,
         firstCurrency,
         secondCurrency,
         logoImage,
         ROI
     } = betSlip;
-    const { _id, pair, prediction, expiryTime } = predictionData;
+    const { _id, pair, predictionPrice, expiryTime } = prediction;
 
     const removeBet = () => {
         setBetSlip(null);
@@ -94,7 +94,7 @@ const BetSlip = () => {
                         </Flex>
                     </HStack>
                     <Text textAlign="left">
-                        {firstCurrency} will settle at {roundOff((prediction / DIVISOR), 3)} {secondCurrency} at {new Date(expiryTime).toLocaleString()}
+                        {firstCurrency} will settle at {roundOff((predictionPrice / DIVISOR), 3)} {secondCurrency} at {new Date(expiryTime).toLocaleString()}
                     </Text>
                     <HStack textAlign="left">
                         <Text fontWeight={500} fontSize="xs" color="gray.500">

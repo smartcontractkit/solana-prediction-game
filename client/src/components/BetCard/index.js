@@ -1,20 +1,19 @@
 import { Flex, HStack, Text, VStack, Image, Button } from "@chakra-ui/react";
-import { getCurrenciesFromPairs } from "../../helpers/solHelpers";
 import { DIVISOR } from "../../lib/constants";
-import { roundOff } from "../../helpers/solHelpers";
+import { getCurrenciesFromPairs, roundOff } from "../../helpers/solHelpers";
 import { useContext } from "react";
-import { SocketContext } from "../../contexts/SocketProvider";
+import { FeedContext } from "../../contexts/FeedProvider";
 import { UserDataContext } from "../../contexts/UserDataProvider";
 import { ArrowDownIcon, ArrowUpIcon } from "@chakra-ui/icons";
 import placeholder from "../../assets/logos/placeholder.png";
 
-const BetCard = (props) => {
-    const { pair, predictionPrice, openingPredictionPrice, predictionDeadline, expiryTime, status, ROI, createdAt } = props.prediction;
+const BetCard = ({ prediction }) => {
+    const { pair, predictionPrice, openingPredictionPrice, predictionDeadline, expiryTime, status, ROI, createdAt } = prediction;
     const { firstCurrency, secondCurrency } = getCurrenciesFromPairs(pair);
     const logoImage = require(`../../assets/logos/${firstCurrency.toLowerCase()}.png`);
 
     const { setBetSlip } = useContext(UserDataContext);
-    const { dataFeeds } = useContext(SocketContext);
+    const dataFeeds = useContext(FeedContext);
     const feed = dataFeeds.find(data => data.pair === pair);
     
     if(!feed) {
@@ -25,7 +24,7 @@ const BetCard = (props) => {
 
     const placeBet = () => {
         setBetSlip({
-            predictionData: props.prediction, 
+            prediction, 
             firstCurrency,
             secondCurrency,
             logoImage,

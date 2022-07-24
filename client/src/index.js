@@ -5,10 +5,10 @@ import "./styles.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { ChakraProvider } from "@chakra-ui/react";
-import SocketProvider from "./contexts/SocketProvider";
 import theme from './theme';
 import UserDataProvider from "./contexts/UserDataProvider";
 import SolanaWalletProvider from "./contexts/SolanaWalletProvider";
+import FeedProvider from "./contexts/FeedProvider";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -21,11 +21,11 @@ root.render(
     >
       <ChakraProvider theme={theme}>
         <SolanaWalletProvider>
-          <SocketProvider>
+          <FeedProvider>
             <UserDataProvider>
               <App/>
             </UserDataProvider>
-          </SocketProvider>
+          </FeedProvider>
         </SolanaWalletProvider>
       </ChakraProvider>
     </MoralisProvider>

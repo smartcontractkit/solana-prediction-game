@@ -12,7 +12,6 @@ const betsRouter = require('./routes/bets.route');
 const transactionsRouter = require('./routes/transactions.route');
 const feedRouter = require('./routes/feed.route');
 const predictionsRouter = require('./routes/predictions.route');
-const connectSocket = require("./util/socket");
 
 app.use(cors());
 app.use(express.json());
@@ -30,5 +29,3 @@ server.listen(PORT, async () => {
   await connectToDatabase();
   console.log(`Server listening on ${PORT}`);
 });
-
-connectSocket(server);
