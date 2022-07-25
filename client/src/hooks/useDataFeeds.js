@@ -16,13 +16,14 @@ const useDataFeeds = () => {
         })
         Promise.all(promises)
         .then(data => {
+            console.log(data);
             setDataFeeds(data);
         })
         .catch(console.error);
     }
 
     useEffect(() => {
-        // getDataFeeds();
+        getDataFeeds();
         // window.interval30Sec = setInterval(
         //     () => getDataFeeds(),
         //     30000 // every 30 seconds
