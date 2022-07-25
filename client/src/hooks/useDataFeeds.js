@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { createContext } from "react"; 
-import axiosInstance from "../../helpers/axiosInstance";
-import { CURRENCY_PAIRS } from "../../lib/constants";
+import { useState, useEffect } from "react";
+import axiosInstance from "../helpers/axiosInstance";
+import { CURRENCY_PAIRS } from "../lib/constants";
 
-const FeedProvider = (props) => {
+const useDataFeeds = () => {
     const [dataFeeds, setDataFeeds] = useState([]);
 
     const getDataFeeds = () => {
@@ -34,15 +33,7 @@ const FeedProvider = (props) => {
         
     }, []);
 
-    return(
-        <FeedContext.Provider value={ dataFeeds }>
-            { props.children }
-        </FeedContext.Provider>
-    )
+    return dataFeeds;
 };
 
-export const FeedContext = createContext({  
-    dataFeeds: []
-}); 
-
-export default FeedProvider;
+export default useDataFeeds;

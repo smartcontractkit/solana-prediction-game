@@ -56,7 +56,7 @@ const UserDataProvider = (props) => {
           console.log(err);
         });
         getUser(publicKey.toBase58());
-      }else{
+      } else{
         setBalance(null);
         setUser(null);
       }

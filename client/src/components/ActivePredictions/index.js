@@ -1,11 +1,14 @@
 import { Flex } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import axiosInstance from "../../helpers/axiosInstance";
+import useDataFeeds from "../../hooks/useDataFeeds";
 import BetCard from "../BetCard";
 
 const ActivePredictions = () => {
     const [ isFetching, setIsFetching ] = useState(true);
     const [ predictions, setPredictions ] = useState([]);
+
+    const dataFeeds = useDataFeeds();
 
 
     useEffect(() => {
@@ -39,11 +42,13 @@ const ActivePredictions = () => {
         >
             {
                 predictions.map(prediction => {
-                    const { _id } = prediction;
+                    const { _id, pair } = prediction;
+                    const feed = dataFeeds.find(data => data.pair === pair);
                     return (
                         <BetCard 
-                            key={_id} 
+                            key={_id}
                             prediction={prediction}
+                            feed={feed}
                         />
                     );
                 })

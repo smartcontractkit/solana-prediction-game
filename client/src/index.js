@@ -7,7 +7,6 @@ import { ChakraProvider } from "@chakra-ui/react";
 import theme from './theme';
 import UserDataProvider from "./contexts/UserDataProvider";
 import SolanaWalletProvider from "./contexts/SolanaWalletProvider";
-import FeedProvider from "./contexts/FeedProvider";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -15,11 +14,9 @@ root.render(
   <React.StrictMode>
     <ChakraProvider theme={theme}>
       <SolanaWalletProvider>
-        <FeedProvider>
-          <UserDataProvider>
-            <App/>
-          </UserDataProvider>
-        </FeedProvider>
+        <UserDataProvider>
+          <App/>
+        </UserDataProvider>
       </SolanaWalletProvider>
     </ChakraProvider>
   </React.StrictMode>

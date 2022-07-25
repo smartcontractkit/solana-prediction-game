@@ -2,23 +2,16 @@ import { Flex, HStack, Text, VStack, Image, Button } from "@chakra-ui/react";
 import { DIVISOR } from "../../lib/constants";
 import { getCurrenciesFromPairs, roundOff } from "../../helpers/solHelpers";
 import { useContext } from "react";
-import { FeedContext } from "../../contexts/FeedProvider";
 import { UserDataContext } from "../../contexts/UserDataProvider";
 import { ArrowDownIcon, ArrowUpIcon } from "@chakra-ui/icons";
 import placeholder from "../../assets/logos/placeholder.png";
 
-const BetCard = ({ prediction }) => {
+const BetCard = ({ prediction, feed }) => {
     const { pair, predictionPrice, openingPredictionPrice, predictionDeadline, expiryTime, status, ROI, createdAt } = prediction;
     const { firstCurrency, secondCurrency } = getCurrenciesFromPairs(pair);
     const logoImage = require(`../../assets/logos/${firstCurrency.toLowerCase()}.png`);
 
     const { setBetSlip } = useContext(UserDataContext);
-    const dataFeeds = useContext(FeedContext);
-    const feed = dataFeeds.find(data => data.pair === pair);
-    
-    if(!feed) {
-        return null;
-    }
 
     let isIncrease = openingPredictionPrice <= predictionPrice;
 
@@ -147,7 +140,7 @@ const BetCard = ({ prediction }) => {
                             {pair}
                         </Text>
                         <Text fontWeight={500} textDecorationLine="underline" fontSize="xs" color="gray.500">
-                            {roundOff((feed.answerToNumber / DIVISOR), 4)}
+                            { feed ? roundOff((feed.answerToNumber / DIVISOR), 4) : "-" }
                         </Text>
                     </HStack>
                     <ArrowUpIcon size="xs" color="gray.500" transform="rotate(45deg)" />
