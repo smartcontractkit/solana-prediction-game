@@ -14,7 +14,7 @@ const MyBets = () => {
 
     useEffect(() => {
         if(!user) return;
-        axiosInstance.get(`/bets`,{
+        axiosInstance.get(`/api/bets`,{
             user: user._id
         })
           .then(res => res.data)

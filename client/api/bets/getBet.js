@@ -6,12 +6,10 @@ module.exports = async (req, res) => {
 
     await connectToDatabase();
         
-    const bet_id = req.query.bet_id;
+    const searchQuery  = req.body;
 
     try {
-        const bet = await Bet.findOne({
-            _id: bet_id
-        })
+        const bet = await Bet.findOne(searchQuery)
         .populate("prediction");
 
         res.send(bet);

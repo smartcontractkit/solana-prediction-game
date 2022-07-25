@@ -11,7 +11,7 @@ const useDataFeeds = () => {
                 pair: pair.pair,
                 address: pair.feedAddress
             });
-            return axiosInstance.get(`/feed/getLatestDataRound?${queryParams}`)
+            return axiosInstance.get(`/api/feed/getLatestDataRound?${queryParams}`)
             .then(res => res.data);
         })
         Promise.all(promises)
@@ -22,14 +22,14 @@ const useDataFeeds = () => {
     }
 
     useEffect(() => {
-        getDataFeeds();
-        window.interval30Sec = setInterval(
-            () => getDataFeeds(),
-            30000 // every 30 seconds
-        )
-        return () => {
-            clearInterval(window.interval30Sec)
-        }
+        // getDataFeeds();
+        // window.interval30Sec = setInterval(
+        //     () => getDataFeeds(),
+        //     30000 // every 30 seconds
+        // )
+        // return () => {
+        //     clearInterval(window.interval30Sec)
+        // }
         
     }, []);
 
