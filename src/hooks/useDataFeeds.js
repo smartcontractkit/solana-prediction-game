@@ -24,13 +24,13 @@ const useDataFeeds = () => {
 
     useEffect(() => {
         getDataFeeds();
-        // window.interval30Sec = setInterval(
-        //     () => getDataFeeds(),
-        //     30000 // every 30 seconds
-        // )
-        // return () => {
-        //     clearInterval(window.interval30Sec)
-        // }
+        window.interval30Sec = setInterval(
+            () => getDataFeeds(),
+            30000 // every 30 seconds
+        )
+        return () => {
+            clearInterval(window.interval30Sec)
+        }
         
     }, []);
 
