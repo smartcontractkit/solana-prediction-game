@@ -21,7 +21,7 @@ cd blockchain-prediction-game
 yarn install
 ```
 
-✏ Rename `.env.example` to `.env` in the main folder and provide your `appId` and `serverUrl` from Moralis, plus some other Biconomy API Keys:
+✏ Copy `.env.example` into to `.env` in the main folder and provide Biconomy API Keys:
 
 ```jsx
 GENERATE_SOURCEMAP=false
