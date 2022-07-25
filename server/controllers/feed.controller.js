@@ -39,7 +39,6 @@ const getLatestDataRound = async (req, res) => {
     }
   });
 
-
 }
 
 module.exports = {

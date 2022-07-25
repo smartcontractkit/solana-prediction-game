@@ -23,6 +23,7 @@
     "copy-webpack-plugin": "^11.0.0",
     "framer-motion": "^6.3.11",
     "magic-sdk": "^8.1.1",
+    "mongoose": "^6.4.6",
     "node-polyfill-webpack-plugin": "^1.1.4",
     "process": "^0.11.10",
     "react": "^18.2.0",

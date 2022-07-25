@@ -24,7 +24,7 @@ if(!MONGODB_DB) {
  }
 
 
-connectToDatabase = async () => {
+const connectToDatabase = async () => {
     console.log('Connecting to MongoDB...');
     if (cached.conn) {
         console.log("MongoDB Connected successfully");

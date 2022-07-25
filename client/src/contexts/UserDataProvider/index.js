@@ -22,14 +22,14 @@ const UserDataProvider = (props) => {
           address: publicKey.toBase58(),
         }
 
-        return await axiosInstance.post("/users/addUser", newUser);
+        return await axiosInstance.post("/users/add", newUser);
       }
 
       const getUser = async (address) => {
         const query = {
           address,
         }
-        axiosInstance.get(`/users/getUser`, query)
+        axiosInstance.get(`/users/`, query)
         .then(res => res.data)
         .then(async (result) => {
           let loggedInUser = null;
