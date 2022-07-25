@@ -1,33 +1,23 @@
 import { Flex, HStack, Text, VStack, Image, Button } from "@chakra-ui/react";
-import { getCurrenciesFromPairs } from "../../helpers/sol_helpers";
 import { DIVISOR } from "../../lib/constants";
-import { roundOff } from "../../helpers/sol_helpers";
+import { getCurrenciesFromPairs, roundOff } from "../../helpers/solHelpers";
 import { useContext } from "react";
-import { SocketContext } from "../../contexts/SocketProvider";
 import { UserDataContext } from "../../contexts/UserDataProvider";
 import { ArrowDownIcon, ArrowUpIcon } from "@chakra-ui/icons";
 import placeholder from "../../assets/logos/placeholder.png";
 
-const BetCard = (predictionData) => {
-    const ROI = 2;
-    const { attributes, createdAt } = predictionData;
-    const { pair, prediction, openingPredictionPrice, predictionDeadline, expiryTime, status } = attributes;
+const BetCard = ({ prediction, feed }) => {
+    const { pair, predictionPrice, openingPredictionPrice, predictionDeadline, expiryTime, status, ROI, createdAt } = prediction;
     const { firstCurrency, secondCurrency } = getCurrenciesFromPairs(pair);
     const logoImage = require(`../../assets/logos/${firstCurrency.toLowerCase()}.png`);
 
     const { setBetSlip } = useContext(UserDataContext);
-    const { dataFeeds } = useContext(SocketContext);
-    const feed = dataFeeds.find(data => data.pair === pair);
-    
-    if(!feed) {
-        return null;
-    }
 
-    let isIncrease = openingPredictionPrice <= prediction;
+    let isIncrease = openingPredictionPrice <= predictionPrice;
 
     const placeBet = () => {
         setBetSlip({
-            predictionData,
+            prediction, 
             firstCurrency,
             secondCurrency,
             logoImage,
@@ -66,7 +56,7 @@ const BetCard = (predictionData) => {
                             will settle at
                         </Text>
                         <Text fontWeight={700} fontSize="sm" >
-                            {roundOff((prediction / DIVISOR), 3)}  {secondCurrency}
+                            {roundOff((predictionPrice / DIVISOR), 3)}  {secondCurrency}
                         </Text>
                     </HStack>
                     <HStack spacing={1} alignItems="flex-end">
@@ -150,7 +140,7 @@ const BetCard = (predictionData) => {
                             {pair}
                         </Text>
                         <Text fontWeight={500} textDecorationLine="underline" fontSize="xs" color="gray.500">
-                            {roundOff((feed.answerToNumber / DIVISOR), 4)}
+                            { feed ? roundOff((feed.answerToNumber / DIVISOR), 4) : "-" }
                         </Text>
                     </HStack>
                     <ArrowUpIcon size="xs" color="gray.500" transform="rotate(45deg)" />

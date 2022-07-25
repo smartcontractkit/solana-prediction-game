@@ -3,16 +3,48 @@ import React, { useEffect, useState } from "react";
 import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 
 import { createContext } from "react"; 
+import axiosInstance from "../../helpers/axiosInstance";
 
 const UserDataProvider = (props) => {
     const { connected, publicKey } = useWallet();
     const { connection } = useConnection();
     const [betSlip, setBetSlip] = useState(null);
     const [balance, setBalance] = useState(null);
+    const [user, setUser] = useState(null);
 
     useEffect(() => {
-      async function getBalance() {
+      const getBalance = async () => {
         return await connection.getBalance(publicKey)
+      }
+
+      const addUser = async () => {
+        const newUser = {
+          address: publicKey.toBase58(),
+        }
+
+        return await axiosInstance.post("/users/addUser", newUser);
+      }
+
+      const getUser = async (address) => {
+        const query = {
+          address,
+        }
+        axiosInstance.get(`/users/getUser`, query)
+        .then(res => res.data)
+        .then(async (result) => {
+          let loggedInUser = null;
+          
+          if(!result){
+            loggedInUser = await addUser();
+          }else{
+            loggedInUser = result;
+          }
+
+          setUser(loggedInUser);
+        })
+        .catch(err => {
+          console.log("Error occured: " + err.message);
+        });
       }
 
       if (connected) {
@@ -23,6 +55,10 @@ const UserDataProvider = (props) => {
         .catch(err => {
           console.log(err);
         });
+        getUser(publicKey.toBase58());
+      } else{
+        setBalance(null);
+        setUser(null);
       }
     }, [connected, connection, publicKey]);
 
@@ -31,8 +67,9 @@ const UserDataProvider = (props) => {
     
     return (
         <UserDataContext.Provider value={{
-          balance: balance,
+          balance,
           address: publicKey.toBase58(),
+          user,
           betSlip, 
           setBetSlip
         }}>
@@ -45,6 +82,7 @@ export const UserDataContext = createContext({
   balance: null,
   address: null,
   betSlip: null,
+  user: null,
   setBetSlip: (betSlip) => {}
 }); 
 

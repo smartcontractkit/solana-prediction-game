@@ -1,12 +1,12 @@
 import { Button, HStack, Image, Text, VStack } from "@chakra-ui/react";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import placeholder from "../../assets/logos/placeholder.png";
-import { getCurrenciesFromPairs, roundOff } from "../../helpers/sol_helpers";
+import { getCurrenciesFromPairs, roundOff } from "../../helpers/solHelpers";
 import { DIVISOR } from "../../lib/constants";
 
 const SingleBetCard = ({ bet }) => {
-    const { parent, amount, status, transactionSignature } = bet;
-    const { pair, prediction, expiryTime } = parent;
+    const { prediction, amount, status, transactionSignature } = bet;
+    const { pair, predictionPrice, expiryTime } = prediction;
     const { firstCurrency, secondCurrency } = getCurrenciesFromPairs(pair);
     const logoImage = require(`../../assets/logos/${firstCurrency.toLowerCase()}.png`);
 
@@ -14,7 +14,7 @@ const SingleBetCard = ({ bet }) => {
     let statusColor = "";
 
     switch(status) {
-        case "open":
+        case "ongoing":
             statusText = "ONGOING";
             statusColor = "orange.300";
             break;
@@ -72,7 +72,7 @@ const SingleBetCard = ({ bet }) => {
                 </Text>
             </HStack>
             <Text textAlign="left">
-                {firstCurrency} will settle at {roundOff((prediction / DIVISOR), 5)} {secondCurrency} at {new Date(expiryTime.iso).toLocaleString()}
+                {firstCurrency} will settle at {roundOff((predictionPrice / DIVISOR), 5)} {secondCurrency} at {new Date(expiryTime).toLocaleString()}
             </Text>
             <HStack textAlign="left">
                 <Text fontWeight={500} fontSize="xs" color="gray.500">

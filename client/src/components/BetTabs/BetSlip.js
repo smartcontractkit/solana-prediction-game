@@ -1,10 +1,10 @@
 import { Flex, FormControl, HStack, Image, InputGroup, InputRightAddon, NumberInput, NumberInputField, Text, VStack } from "@chakra-ui/react";
 import { useContext, useState } from "react";
 import emptyBetSlip from '../../assets/bets/empty-betslip.svg';
-import CreateBetButton from "../CreateBetButton";
+import CreateBetButton from "./CreateBetButton";
 import { CloseIcon } from "@chakra-ui/icons";
 import { UserDataContext } from "../../contexts/UserDataProvider";
-import { roundOff } from "../../helpers/sol_helpers";
+import { roundOff } from "../../helpers/solHelpers";
 import { DIVISOR } from "../../lib/constants";
 import placeholder from "../../assets/logos/placeholder.png";
 
@@ -29,14 +29,13 @@ const BetSlip = () => {
     }
 
     const { 
-        predictionData,
+        prediction,
         firstCurrency,
         secondCurrency,
         logoImage,
         ROI
     } = betSlip;
-    const { id, attributes } = predictionData;
-    const { pair, prediction, expiryTime } = attributes;
+    const { _id, pair, predictionPrice, expiryTime } = prediction;
 
     const removeBet = () => {
         setBetSlip(null);
@@ -95,7 +94,7 @@ const BetSlip = () => {
                         </Flex>
                     </HStack>
                     <Text textAlign="left">
-                        {firstCurrency} will settle at {roundOff((prediction / DIVISOR), 3)} {secondCurrency} at {new Date(expiryTime).toLocaleString()}
+                        {firstCurrency} will settle at {roundOff((predictionPrice / DIVISOR), 3)} {secondCurrency} at {new Date(expiryTime).toLocaleString()}
                     </Text>
                     <HStack textAlign="left">
                         <Text fontWeight={500} fontSize="xs" color="gray.500">
@@ -174,7 +173,7 @@ const BetSlip = () => {
                     bg="blue.200"
                     type="submit"
                     disabled={isError}
-                    predictionId={id}
+                    predictionId={_id}
                     amount={amount}
                     address={address}
                     setBetSlip={setBetSlip}

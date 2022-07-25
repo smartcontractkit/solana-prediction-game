@@ -4,16 +4,19 @@ import { UserDataContext } from "../../contexts/UserDataProvider";
 import axiosInstance from "../../helpers/axiosInstance";
 import emptyBets from '../../assets/bets/empty-bets.svg';
 import SingleBetCard from "./SingleBetCard";
-import { roundOff } from "../../helpers/sol_helpers";
+import { roundOff } from "../../helpers/solHelpers";
 
 const MyBets = () => {
     const [ isFetching, setIsFetching ] = useState(true);
     const [ bets, setBets ] = useState([]);
 
-    const { address } = useContext(UserDataContext);
+    const { user } = useContext(UserDataContext);
 
     useEffect(() => {
-        axiosInstance.get(`/getUserBets/${address}`)
+        if(!user) return;
+        axiosInstance.get(`/bets`,{
+            user: user._id
+        })
           .then(res => res.data)
           .then(data => {
             setBets(data);
@@ -21,9 +24,9 @@ const MyBets = () => {
           })
           .catch(err => {
             setIsFetching(false);
-            alert("Error occured: " + err.message);
+            console.log("Error occured: " + err.message);
           });
-    }, [address]);
+    }, [user]);
 
     if(isFetching) {
         return <div>Loading...</div>
@@ -67,7 +70,7 @@ const MyBets = () => {
                 overflowY="auto"
             >
                 {bets.map(bet => (
-                    <SingleBetCard bet={bet} key={bet.objectId}/>
+                    <SingleBetCard bet={bet} key={bet._id}/>
                 ))}
             </VStack>
         </VStack>
