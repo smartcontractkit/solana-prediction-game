@@ -3,11 +3,10 @@ const Prediction = require("../../models/prediction.model");
 
 module.exports = async (req, res) => {
 
-    await connectToDatabase();
-    
-    const searchQuery  = req.body;
-
     try {
+        await connectToDatabase();
+        
+        const searchQuery  = req.body;
         const predictions = await Prediction.find(searchQuery);
         res.send(predictions);
     } catch (err) {

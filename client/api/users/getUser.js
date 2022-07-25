@@ -3,11 +3,10 @@ const User = require("../../models/user.model");
 
 module.exports = async (req, res) => {
 
-    await connectToDatabase();
-    
-    const searchQuery  = req.body;
-
     try {
+        await connectToDatabase();
+        
+        const searchQuery  = req.body;
         const user = await User.findOne(searchQuery);
 
         res.send(user);

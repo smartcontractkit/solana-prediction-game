@@ -10,7 +10,7 @@ import placeholder from "../../assets/logos/placeholder.png";
 
 const BetSlip = () => {
 
-    const { balance, address, betSlip, setBetSlip } = useContext(UserDataContext);
+    const { balance, betSlip, setBetSlip, user } = useContext(UserDataContext);
 
     const [ amount, setAmount ] = useState(0);
 
@@ -175,7 +175,7 @@ const BetSlip = () => {
                     disabled={isError}
                     predictionId={_id}
                     amount={amount}
-                    address={address}
+                    userId={user._id}
                     setBetSlip={setBetSlip}
                 />
             </VStack>

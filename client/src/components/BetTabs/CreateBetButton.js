@@ -9,7 +9,7 @@ export default function CreateBetButton(
     { 
         predictionId,
         amount,
-        address,
+        userId,
         setBetSlip,
         ...props
     }
@@ -60,11 +60,11 @@ export default function CreateBetButton(
         setIsSaving(true);
         const transactionSignature = await sendSolana();
         const data = {
-            user: address,
-            predictionId,
+            user: userId,
+            prediction: predictionId,
             amount,
-            status: 'open',
-            transactionSignature
+            status: 'ongoing',
+            transactionSignature,
         }
 
         axiosInstance.post('/api/bets/add', data)

@@ -4,11 +4,10 @@ const Prediction = require("../../models/prediction.model");
 
 module.exports = async (req, res) => {
 
-    await connectToDatabase();
-        
-    const searchQuery  = req.body;
-
     try {
+        await connectToDatabase();
+            
+        const searchQuery  = req.body;
         const bet = await Bet.findOne(searchQuery)
         .populate("prediction");
 

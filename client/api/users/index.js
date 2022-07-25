@@ -3,11 +3,10 @@ const { connectToDatabase } = require("../../lib/mongoose");
 
 module.exports = async (req, res) => {
 
-    await connectToDatabase();
-    
-    const searchQuery  = req.body;
-
     try {
+        await connectToDatabase();
+        
+        const searchQuery  = req.body;
         const users = await User.find(searchQuery);
         res.send(users);
     } catch (err) {
