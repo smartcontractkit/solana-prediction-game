@@ -4,7 +4,7 @@ const Prediction = require("../../models/prediction.model");
 
 module.exports = async (req, res) => {
 
-    if (req.method === 'POST') {
+    if (req.method === ('POST' || 'PUT' || 'PATCH')) {
         try {
             await connectToDatabase();
 
@@ -13,9 +13,12 @@ module.exports = async (req, res) => {
                 throw new Error("Missing required parameters");
             }
             
-            const bet = await Bet.findById(_id);
-            bet.status = status;
-            const result = await bet.save();
+            // const bet = await Bet.findById(_id);
+            // bet.status = status;
+            // const result = await bet.save();
+            const result = await Bet.findOneAndUpdate({ _id }, { status }, {
+                new: true
+            });
             console.log(`Bet was inserted with the _id: ${result._id}`);
     
             res.send(result);
@@ -26,6 +29,8 @@ module.exports = async (req, res) => {
         } 
     } else {
         res.setHeader('Allow', 'POST');
+        res.setHeader('Allow', 'PUT');
+        res.setHeader('Allow', 'PATCH');
         res.status(405).end('Method Not Allowed');
     }
 
