@@ -12,10 +12,6 @@ module.exports = async (req, res) => {
             if (!_id || !status) {
                 throw new Error("Missing required parameters");
             }
-            
-            // const bet = await Bet.findById(_id);
-            // bet.status = status;
-            // const result = await bet.save();
             const result = await Bet.findOneAndUpdate({ _id }, { status }, {
                 new: true
             });
