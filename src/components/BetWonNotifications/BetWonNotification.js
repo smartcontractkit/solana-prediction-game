@@ -1,10 +1,18 @@
 import { CloseIcon } from '@chakra-ui/icons';
-import { Flex, HStack, Image, Text, VStack } from '@chakra-ui/react';
+import { Box, Flex, HStack, Image, Text, VStack } from '@chakra-ui/react';
+import { useState } from 'react';
 import prizeIcon from '../../assets/icons/prize.svg';
 
 const BetWonNotification = () => {
+    const [display, setDisplay] = useState('flex');
+    const clearNotification = () => {
+        setDisplay('none');
+    }
+
     return (
-        <HStack
+        <Box
+            display={display}
+            flexDirection="row"
             bg="whiteAlpha.50"
             w="100%"
             p={4}
@@ -24,7 +32,7 @@ const BetWonNotification = () => {
                         You won a bet!
                     </Text>
                     <Text fontWeight={500} fontSize="sm" color="gray.500" mt="0px !important">
-                        withdraw it on “My Bets” tab
+                        withdraw it on “My Bets” tab
                     </Text>
                 </VStack>
             </HStack>
@@ -36,7 +44,7 @@ const BetWonNotification = () => {
                 bg="whiteAlpha.50"
                 justify="center"
                 alignItems="center"
-                // onClick={removeBet}
+                onClick={clearNotification}
             >   
                 <CloseIcon 
                     w="9px" 
@@ -44,7 +52,7 @@ const BetWonNotification = () => {
                     color="gray.50"
                 />
             </Flex>
-        </HStack> 
+        </Box> 
     )
 }
 

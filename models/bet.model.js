@@ -19,7 +19,7 @@ const BetSchema = new Schema({
     },
     status: {
         type: String,
-        enum: ["won", "lost", "ongoing"],
+        enum: ["completed", "won", "lost", "ongoing"],
         required: true,
     },
 },{ timestamps: true });
