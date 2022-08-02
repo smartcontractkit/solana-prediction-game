@@ -1,8 +1,31 @@
+
+const solanaWeb3 = require("@solana/web3.js");
 const anchor = require("@project-serum/anchor");
 const chainlink = require("@chainlink/solana-sdk");
-const provider = anchor.AnchorProvider.env();
 const { connectToDatabase } = require("../../lib/mongoose");
 const Prediction = require("../../models/prediction.model");
+export class Wallet {
+
+    constructor(payer) {
+        this.payer = payer
+    }
+
+    async signTransaction(tx) {
+        tx.partialSign(this.payer);
+        return tx;
+    }
+
+    async signAllTransactions(txs) {
+        return txs.map((t) => {
+            t.partialSign(this.payer);
+            return t;
+        });
+    }
+
+    get publicKey() {
+        return this.payer.publicKey;
+    }
+}
 
 const getLatestDataRound = async (req, res) => {
 
@@ -13,8 +36,16 @@ const getLatestDataRound = async (req, res) => {
     }
   
     let round = null;
+    
+    const secret = Uint8Array.from(process.env.REACT_APP_WALLET_PRIVATE_KEY.split(','));
+    const options = anchor.AnchorProvider.defaultOptions();
+    const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('devnet'), 'confirmed');
+
+    const wallet = new Wallet(solanaWeb3.Keypair.fromSecretKey(secret));
+    
+    const provider = new anchor.AnchorProvider(connection, wallet, options);
     anchor.setProvider(provider);
-  
+    
     const CHAINLINK_FEED_ADDRESS = address; 
     const CHAINLINK_PROGRAM_ID = new anchor.web3.PublicKey("cjg3oHmg9uuPsP8D6g29NWvhySJkdYdAo9D25PRbKXJ");
     const feedAddress = new anchor.web3.PublicKey(CHAINLINK_FEED_ADDRESS);
