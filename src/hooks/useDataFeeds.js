@@ -91,7 +91,6 @@ const useDataFeeds = () => {
         }
         // eslint-disable-next-line
     }, []);
-    console.log(dataFeeds);
     return dataFeeds;
 };
 
