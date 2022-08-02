@@ -1,7 +1,7 @@
 import { HStack, Image, Text, VStack } from "@chakra-ui/react";
 import { useContext } from "react";
 import { UserDataContext } from "../../contexts/UserDataProvider";
-import emptyBets from '../../assets/bets/empty-bets.svg';
+import emptyBets from '../../assets/icons/empty-bets.svg';
 import SingleBetCard from "./SingleBetCard";
 import { roundOff } from "../../helpers/solHelpers";
 

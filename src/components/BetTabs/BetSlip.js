@@ -1,6 +1,6 @@
 import { Flex, FormControl, HStack, Image, InputGroup, InputRightAddon, NumberInput, NumberInputField, Text, VStack } from "@chakra-ui/react";
 import { useContext, useState } from "react";
-import emptyBetSlip from '../../assets/bets/empty-betslip.svg';
+import emptyBetSlip from '../../assets/icons/empty-betslip.svg';
 import CreateBetButton from "./CreateBetButton";
 import { CloseIcon } from "@chakra-ui/icons";
 import { UserDataContext } from "../../contexts/UserDataProvider";

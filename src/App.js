@@ -5,6 +5,7 @@ import { Flex, VStack } from '@chakra-ui/react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import Subheader from './components/Subheader';
 import Hero from './components/Hero';
+import BetWonNotification from './components/BetWon';
 
 function App() {
   const { connected } = useWallet();
@@ -36,6 +37,7 @@ function App() {
                 flexGrow={[1, 1, 1, 0]}
                 gap={2}
               >
+                <BetWonNotification />
                 <BetTabs />
               </VStack>
             ) 
