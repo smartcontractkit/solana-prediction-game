@@ -8,12 +8,8 @@ import { roundOff } from "../../helpers/solHelpers";
 const MyBets = () => {
 
     const { myBets } = useContext(UserDataContext);
-
-    if(!myBets) {
-        return <div>Loading...</div>
-    }
-
-    if(myBets.length === 0) {
+    
+    const EmptyBets = () => (
         <VStack>
             <Image src={emptyBets} height="64px" alt="empty bet slip" my="10px" />
             <Text fontWeight={700} color="gray.200">
@@ -23,7 +19,16 @@ const MyBets = () => {
                 Make your first one and it will appear here.
             </Text>
         </VStack>
+    )
+
+    if(!myBets) {
+        return <EmptyBets />
     }
+
+    if(myBets.length === 0) {
+        return <EmptyBets />
+    }
+
 
     const myBetsWon = myBets.filter(bet => bet.status === "won");
     const winRate = ((myBetsWon.length || myBets.length) === 0) ? 0 : roundOff(myBetsWon.length / myBets.length, 2) * 100;
