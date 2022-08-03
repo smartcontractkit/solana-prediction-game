@@ -1,15 +1,15 @@
 import { Button } from "@chakra-ui/react";
-import { useCallback, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import axiosInstance from "../../helpers/axiosInstance";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { WalletNotConnectedError } from "@solana/wallet-adapter-base";
 import { Keypair, LAMPORTS_PER_SOL, SystemProgram, Transaction } from "@solana/web3.js";
+import { UserDataContext } from "../../contexts/UserDataProvider";
 
 export default function CreateBetButton( 
     { 
         predictionId,
         amount,
-        userId,
         setBetSlip,
         ...props
     }
@@ -17,6 +17,7 @@ export default function CreateBetButton(
     const [isSaving, setIsSaving] = useState(false);
     const { connection } = useConnection();
     const { publicKey, sendTransaction } = useWallet();
+    const { user } = useContext(UserDataContext);
 
     const sendSolana = useCallback(async () => {
         if (!publicKey) throw new WalletNotConnectedError();
@@ -60,7 +61,7 @@ export default function CreateBetButton(
         setIsSaving(true);
         const transactionSignature = await sendSolana();
         const data = {
-            user: userId,
+            user: user._id,
             prediction: predictionId,
             amount,
             status: 'ongoing',

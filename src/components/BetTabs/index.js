@@ -16,7 +16,7 @@ const BetTabs = () => {
         >
             <Tabs variant='soft-rounded' colorScheme='blue' align="center">
                 <TabList>
-                    <Tab>Betslip</Tab>
+                    <Tab>BetSlip</Tab>
                     <Tab>My Bets</Tab>
                 </TabList>
                 <TabPanels>

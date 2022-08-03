@@ -7,10 +7,13 @@ import { UserDataContext } from "../../contexts/UserDataProvider";
 import { roundOff } from "../../helpers/solHelpers";
 import { DIVISOR } from "../../lib/constants";
 import placeholder from "../../assets/logos/placeholder.png";
+import { useWallet } from "@solana/wallet-adapter-react";
+import WalletModalButton from "../WalletModalButton/WalletModalButton";
 
 const BetSlip = () => {
 
-    const { balance, betSlip, setBetSlip, user } = useContext(UserDataContext);
+    const { connected } = useWallet();
+    const { balance, betSlip, setBetSlip } = useContext(UserDataContext);
 
     const [ amount, setAmount ] = useState(0);
 
@@ -19,7 +22,7 @@ const BetSlip = () => {
             <VStack>
                 <Image src={emptyBetSlip} height="64px" alt="empty bet slip" my="10px" />
                 <Text fontWeight={700} color="gray.200">
-                    Betslip is empty
+                    BetSlip is empty
                 </Text>
                 <Text color="gray.500">
                     To add a bet to your betslip, please select a prediction from the list.
@@ -27,6 +30,7 @@ const BetSlip = () => {
             </VStack>
         )
     }
+
 
     const { 
         prediction,
@@ -37,13 +41,30 @@ const BetSlip = () => {
     } = betSlip;
     const { _id, pair, predictionPrice, expiryTime } = prediction;
 
+
+    const isInsufficientBalance = amount >= balance;
+    const isInsufficientAmount = amount < 0.1;
+    const isError = connected ? isInsufficientBalance || isInsufficientAmount: false;
+
     const removeBet = () => {
         setBetSlip(null);
     }
 
-    const isInsufficientBalance = amount >= balance;
-    const isInsufficientAmount = amount < 0.1;
-    const isError = isInsufficientBalance || isInsufficientAmount;
+    const BottomButton = (props) => {
+        return connected 
+        ? (
+            <CreateBetButton
+                type="submit"
+                disabled={isError}
+                predictionId={_id}
+                amount={amount}
+                setBetSlip={setBetSlip}
+                {...props}
+            />
+        )
+        : (<WalletModalButton {...props} />)
+        
+    };
 
     return (
         <form w="100%">
@@ -112,6 +133,7 @@ const BetSlip = () => {
                             rounded="md"
                         >
                             <NumberInput 
+                                disabled={!connected}
                                 max={10}
                                 min={0.1} 
                                 defaultValue={0} 
@@ -136,6 +158,7 @@ const BetSlip = () => {
                                 border="1px solid" 
                                 borderColor="whiteAlpha.50"
                                 height="initial"
+                                opacity={!connected && 0.4} 
                             />
                         </InputGroup>
                     </FormControl>
@@ -146,16 +169,19 @@ const BetSlip = () => {
                         </Text>               
                     )}
                 </VStack>
-                <HStack
-                    justify="space-between"
-                >
-                    <Text fontSize="14px" fontWeight={500} color="gray.400">
-                        Balance:
-                    </Text>
-                    <Text fontSize="14px" fontWeight={700} color="whiteAlpha.800">
-                        {roundOff(balance, 3)} SOL
-                    </Text>
-                </HStack>
+                { connected && (
+                    <HStack
+                        justify="space-between"
+                    >
+                        <Text fontSize="14px" fontWeight={500} color="gray.400">
+                            Balance:
+                        </Text>
+                        <Text fontSize="14px" fontWeight={700} color="whiteAlpha.800">
+                            {balance ? `${roundOff(balance, 3)} SOL` : 'Loading...'}
+                        </Text>
+                    </HStack>
+                    )
+                }
                 <HStack
                     justify="space-between"
                 >
@@ -166,17 +192,14 @@ const BetSlip = () => {
                         {roundOff(amount * ROI, 3)} SOL
                     </Text>
                 </HStack>
-                <CreateBetButton
+                <BottomButton 
                     width="100%"
                     rounded="md"
                     color="gray.800"
                     bg="blue.200"
-                    type="submit"
-                    disabled={isError}
-                    predictionId={_id}
-                    amount={amount}
-                    userId={user._id}
-                    setBetSlip={setBetSlip}
+                    _hover={{
+                        bg: "blue.100",
+                    }}
                 />
             </VStack>
         </form>

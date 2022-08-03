@@ -4,9 +4,9 @@ import { ChevronDownIcon } from '@chakra-ui/icons';
 import { roundOff } from "../../helpers/solHelpers";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import { useWallet } from "@solana/wallet-adapter-react";
-import CustomWalletConnectButton from "./CustomWalletConnectButton";
-import CustomWalletModalButton from "./CustomWalletModalButton";
 import { UserDataContext } from "../../contexts/UserDataProvider";
+import WalletModalButton from "../WalletModalButton/WalletModalButton";
+import WalletConnectButton from "../WalletConnectButton";
 
 const MenuWallet = ({ children, ...props }) => {
     const { publicKey, wallet, disconnect } = useWallet();
@@ -64,8 +64,34 @@ const MenuWallet = ({ children, ...props }) => {
       };
     }, [ref, closeDropdown]);
 
-    if (!wallet) return <CustomWalletModalButton {...props}>{children}</CustomWalletModalButton>;
-    if (!base58) return <CustomWalletConnectButton {...props}>{children}</CustomWalletConnectButton>;
+    if (!wallet) return (
+      <WalletModalButton
+        size="sm"
+        rounded="md"
+        bg="blue.200"
+        color="gray.800"
+        _hover={{
+            bg: "blue.100",
+        }}
+        {...props}
+      >
+        {children}
+      </WalletModalButton>
+    );
+    if (!base58) return (
+      <WalletConnectButton
+        size="sm"
+        rounded="md"
+        bg="blue.200"
+        color="gray.800"
+        _hover={{
+            bg: "blue.100",
+        }}
+        {...props}
+      >
+        {children}
+      </WalletConnectButton>
+    );
 
     return (
       <div className="wallet-adapter-dropdown">

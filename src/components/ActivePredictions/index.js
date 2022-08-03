@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import axiosInstance from "../../helpers/axiosInstance";
 import useDataFeeds from "../../hooks/useDataFeeds";
 import BetCard from "../BetCard";
+import CardSKeleton from "../BetCardSkeleton";
 
 const ActivePredictions = () => {
     const [ isFetching, setIsFetching ] = useState(true);
@@ -29,10 +30,6 @@ const ActivePredictions = () => {
             console.log("Error occured: " + err.message);
         });  
     }, []);
-
-    if(isFetching) {
-        return <div>Loading...</div>
-    }
     
     return (
         <Flex
@@ -41,7 +38,9 @@ const ActivePredictions = () => {
             justifyContent={["center", "center", "flex-start", "flex-start"]}
         >
             {
-                predictions.map(prediction => {
+                isFetching 
+                ? [...Array(12)].map((_, i) => <CardSKeleton key={i} />)
+                : predictions.map(prediction => {
                     const { _id, pair } = prediction;
                     const feed = dataFeeds.find(data => data.pair === pair);
                     return (
@@ -54,6 +53,6 @@ const ActivePredictions = () => {
                 })
             }
         </Flex>
-    )
+    );
 }
 export default ActivePredictions;

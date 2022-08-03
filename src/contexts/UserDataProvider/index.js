@@ -26,7 +26,7 @@ const UserDataProvider = (props) => {
         return await axiosInstance.post("/api/users/add", newUser);
       }
 
-      const getBets = async (user) => {
+      const getMyBets = async (user) => {
           if(!user) return;
           axiosInstance.get(`/api/bets`,{
               user: user._id
@@ -71,37 +71,47 @@ const UserDataProvider = (props) => {
           console.log(err);
         });
         getUser(publicKey.toBase58());
-        getBets(user);
+        getMyBets(user);
       } else{
         setBalance(null);
         setUser(null);
       }
     }, [connected, connection, publicKey, user]);
 
+    let value = {
+      balance : null,
+      adress: null,
+      user : null,
+      myBets : null,
+      betSlip, 
+      setBetSlip,
+    };
 
-    if(!connected) return (props.children);
+    if(connected) {
+      value = {
+        balance,
+        address: publicKey.toBase58(),
+        user,
+        myBets,
+        betSlip, 
+        setBetSlip,
+      };
+    }
     
     return (
-        <UserDataContext.Provider value={{
-          balance,
-          address: publicKey.toBase58(),
-          user,
-          betSlip, 
-          setBetSlip,
-          myBets
-        }}>
-            { props.children }
-        </UserDataContext.Provider>
+      <UserDataContext.Provider value={value}>
+          { props.children }
+      </UserDataContext.Provider>
     )
 };
 
 export const UserDataContext = createContext({
   balance: null,
   address: null,
-  betSlip: null,
   user: null,
-  setBetSlip: (betSlip) => {},
   myBets: null,
+  betSlip: null,
+  setBetSlip: (betSlip) => {},
 }); 
 
 export default UserDataProvider;
