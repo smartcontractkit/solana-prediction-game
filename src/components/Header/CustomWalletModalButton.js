@@ -21,11 +21,11 @@ export const CustomWalletModalButton = ({ children = 'Connect Wallet', onClick, 
         <Button
             size="sm"
             roounded="md"
-            border="1px solid"
-            borderColor="whiteAlpha.300"
-            bg="transparent"
+            bg="blue.300"
+            color="gray.800"
             _hover={{
                 bg: "whiteAlpha.300",
+                color: "whiteAlpha.800",
             }}
             onClick={handleClick}
             {...props}
