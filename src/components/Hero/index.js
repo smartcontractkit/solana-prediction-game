@@ -12,7 +12,7 @@ const Hero = () => {
             p={4}
         >
             <Text 
-                fontSize="6xl" 
+                fontSize="5xl" 
                 fontWeight="700"
                 lineHeight="1.2"
                 color="gray.100"
