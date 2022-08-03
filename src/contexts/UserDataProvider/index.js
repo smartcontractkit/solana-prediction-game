@@ -78,27 +78,28 @@ const UserDataProvider = (props) => {
       }
     }, [connected, connection, publicKey, user]);
 
+    let value = {
+      balance : null,
+      adress: null,
+      user : null,
+      myBets : null,
+    };
 
-    if(!connected) return (
-      <BetSlipDataContext.Provider value={{
-        betSlip, 
-        setBetSlip,
-      }}>
-          { props.children }
-      </BetSlipDataContext.Provider>
-    );
+    if(connected) {
+      value = {
+        balance,
+        address: publicKey.toBase58(),
+        user,
+        myBets,
+      };
+    }
     
     return (
       <BetSlipDataContext.Provider value={{
         betSlip, 
         setBetSlip,
       }}>
-        <UserDataContext.Provider value={{
-          balance,
-          address: publicKey.toBase58(),
-          user,
-          myBets
-        }}>
+        <UserDataContext.Provider value={value}>
             { props.children }
         </UserDataContext.Provider>
       </BetSlipDataContext.Provider>
