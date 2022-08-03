@@ -2,7 +2,7 @@ import { Button } from "@chakra-ui/react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useCallback, useMemo } from "react";
 
-const CustomWalletConnectButton = ({ children, disabled, onClick, ...props }) => {
+const WalletConnectButton = ({ children, disabled, onClick, ...props }) => {
     const { wallet, connect, connecting, connected } = useWallet();
   
     const handleClick = useCallback(
@@ -17,20 +17,12 @@ const CustomWalletConnectButton = ({ children, disabled, onClick, ...props }) =>
         if (children) return children;
         if (connecting) return 'Connecting ...';
         if (connected) return 'Connected';
-        if (wallet) return 'Connect';
+        if (wallet) return 'Connect Wallet';
         return 'Connect Wallet';
     }, [children, connecting, connected, wallet]);
 
     return (
         <Button
-            size="sm"
-            roounded="md"
-            border="1px solid"
-            borderColor="whiteAlpha.300"
-            bg="transparent"
-            _hover={{
-                bg: "whiteAlpha.300",
-            }}
             onClick={handleClick}
             disabled={disabled || !wallet || connecting || connected}
             {...props}
@@ -40,4 +32,4 @@ const CustomWalletConnectButton = ({ children, disabled, onClick, ...props }) =>
     );
 }
 
-export default CustomWalletConnectButton;
+export default WalletConnectButton;

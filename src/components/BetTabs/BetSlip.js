@@ -1,4 +1,4 @@
-import { Button, Flex, FormControl, HStack, Image, InputGroup, InputRightAddon, NumberInput, NumberInputField, Text, VStack } from "@chakra-ui/react";
+import { Flex, FormControl, HStack, Image, InputGroup, InputRightAddon, NumberInput, NumberInputField, Text, VStack } from "@chakra-ui/react";
 import { useContext, useState } from "react";
 import emptyBetSlip from '../../assets/icons/empty-betslip.svg';
 import CreateBetButton from "./CreateBetButton";
@@ -8,12 +8,13 @@ import { roundOff } from "../../helpers/solHelpers";
 import { DIVISOR } from "../../lib/constants";
 import placeholder from "../../assets/logos/placeholder.png";
 import { useWallet } from "@solana/wallet-adapter-react";
+import WalletModalButton from "../WalletModalButton/WalletModalButton";
 
 const BetSlip = () => {
 
-    const { balance, user } = useContext(UserDataContext);
-    const { betSlip, setBetSlip } = useContext(BetSlipDataContext);
     const { connected } = useWallet();
+    const { balance } = useContext(UserDataContext);
+    const { betSlip, setBetSlip } = useContext(BetSlipDataContext);
 
     const [ amount, setAmount ] = useState(0);
 
@@ -31,6 +32,7 @@ const BetSlip = () => {
         )
     }
 
+
     const { 
         prediction,
         firstCurrency,
@@ -40,32 +42,30 @@ const BetSlip = () => {
     } = betSlip;
     const { _id, pair, predictionPrice, expiryTime } = prediction;
 
-    const removeBet = () => {
-        setBetSlip(null);
-    }
 
     const isInsufficientBalance = amount >= balance;
     const isInsufficientAmount = amount < 0.1;
     const isError = connected ? isInsufficientBalance || isInsufficientAmount: false;
 
-    const BetButton = () => (
-        <CreateBetButton
-            width="100%"
-            rounded="md"
-            color="gray.800"
-            bg="blue.200"
-            type="submit"
-            disabled={isError}
-            predictionId={_id}
-            amount={amount}
-            userId={user._id}
-            setBetSlip={setBetSlip}
-        />
-    );
+    const removeBet = () => {
+        setBetSlip(null);
+    }
 
-    const ConnectWalletButton = () => (
-        <Button>Connect Wallet</Button>
-    );
+    const BottomButton = (props) => {
+        return connected 
+        ? (
+            <CreateBetButton
+                type="submit"
+                disabled={isError}
+                predictionId={_id}
+                amount={amount}
+                setBetSlip={setBetSlip}
+                {...props}
+            />
+        )
+        : (<WalletModalButton {...props} />)
+        
+    };
 
     return (
         <form w="100%">
@@ -178,7 +178,7 @@ const BetSlip = () => {
                             Balance:
                         </Text>
                         <Text fontSize="14px" fontWeight={700} color="whiteAlpha.800">
-                            {roundOff(balance, 3)} SOL
+                            {balance ? `${roundOff(balance, 3)} SOL` : 'Loading...'}
                         </Text>
                     </HStack>
                     )
@@ -193,11 +193,15 @@ const BetSlip = () => {
                         {roundOff(amount * ROI, 3)} SOL
                     </Text>
                 </HStack>
-                {
-                    connected 
-                    ? <BetButton /> 
-                    : <ConnectWalletButton />
-                }
+                <BottomButton 
+                    width="100%"
+                    rounded="md"
+                    color="gray.800"
+                    bg="blue.200"
+                    _hover={{
+                        bg: "blue.100",
+                    }}
+                />
             </VStack>
         </form>
     )
