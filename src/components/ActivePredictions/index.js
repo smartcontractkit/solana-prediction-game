@@ -1,4 +1,4 @@
-import { Box, Flex, SkeletonCircle, SkeletonText } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import axiosInstance from "../../helpers/axiosInstance";
 import useDataFeeds from "../../hooks/useDataFeeds";
