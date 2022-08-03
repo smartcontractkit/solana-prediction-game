@@ -83,6 +83,8 @@ const UserDataProvider = (props) => {
       adress: null,
       user : null,
       myBets : null,
+      betSlip, 
+      setBetSlip,
     };
 
     if(connected) {
@@ -91,32 +93,25 @@ const UserDataProvider = (props) => {
         address: publicKey.toBase58(),
         user,
         myBets,
+        betSlip, 
+        setBetSlip,
       };
     }
     
     return (
-      <BetSlipDataContext.Provider value={{
-        betSlip, 
-        setBetSlip,
-      }}>
-        <UserDataContext.Provider value={value}>
-            { props.children }
-        </UserDataContext.Provider>
-      </BetSlipDataContext.Provider>
+      <UserDataContext.Provider value={value}>
+          { props.children }
+      </UserDataContext.Provider>
     )
 };
-
-
-export const BetSlipDataContext = createContext({
-  betSlip: null,
-  setBetSlip: (betSlip) => {},
-}); 
 
 export const UserDataContext = createContext({
   balance: null,
   address: null,
   user: null,
   myBets: null,
+  betSlip: null,
+  setBetSlip: (betSlip) => {},
 }); 
 
 export default UserDataProvider;

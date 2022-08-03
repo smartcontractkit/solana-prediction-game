@@ -3,7 +3,7 @@ import { useContext, useState } from "react";
 import emptyBetSlip from '../../assets/icons/empty-betslip.svg';
 import CreateBetButton from "./CreateBetButton";
 import { CloseIcon } from "@chakra-ui/icons";
-import { BetSlipDataContext, UserDataContext } from "../../contexts/UserDataProvider";
+import { UserDataContext } from "../../contexts/UserDataProvider";
 import { roundOff } from "../../helpers/solHelpers";
 import { DIVISOR } from "../../lib/constants";
 import placeholder from "../../assets/logos/placeholder.png";
@@ -13,8 +13,7 @@ import WalletModalButton from "../WalletModalButton/WalletModalButton";
 const BetSlip = () => {
 
     const { connected } = useWallet();
-    const { balance } = useContext(UserDataContext);
-    const { betSlip, setBetSlip } = useContext(BetSlipDataContext);
+    const { balance, betSlip, setBetSlip } = useContext(UserDataContext);
 
     const [ amount, setAmount ] = useState(0);
 

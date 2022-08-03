@@ -2,7 +2,7 @@ import { Flex, HStack, Text, VStack, Image, Button } from "@chakra-ui/react";
 import { DIVISOR } from "../../lib/constants";
 import { getCurrenciesFromPairs, roundOff } from "../../helpers/solHelpers";
 import { useContext } from "react";
-import { BetSlipDataContext } from "../../contexts/UserDataProvider";
+import { UserDataContext } from "../../contexts/UserDataProvider";
 import { ArrowDownIcon, ArrowUpIcon } from "@chakra-ui/icons";
 import placeholder from "../../assets/logos/placeholder.png";
 
@@ -11,7 +11,7 @@ const BetCard = ({ prediction, feed }) => {
     const { firstCurrency, secondCurrency } = getCurrenciesFromPairs(pair);
     const logoImage = require(`../../assets/logos/${firstCurrency.toLowerCase()}.png`);
 
-    const { setBetSlip } = useContext(BetSlipDataContext);
+    const { setBetSlip } = useContext(UserDataContext);
 
     let isIncrease = openingPredictionPrice <= predictionPrice;
 
