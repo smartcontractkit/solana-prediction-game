@@ -11,6 +11,7 @@ const UserDataProvider = (props) => {
     const [betSlip, setBetSlip] = useState(null);
     const [balance, setBalance] = useState(null);
     const [user, setUser] = useState(null);
+    const [myBets, setMyBets] = useState(null);
 
     useEffect(() => {
       const getBalance = async () => {
@@ -23,6 +24,20 @@ const UserDataProvider = (props) => {
         }
 
         return await axiosInstance.post("/api/users/add", newUser);
+      }
+
+      const getBets = async (user) => {
+          if(!user) return;
+          axiosInstance.get(`/api/bets`,{
+              user: user._id
+          })
+          .then(res => res.data)
+          .then(data => {
+            setMyBets(data);
+          })
+          .catch(err => {
+            console.log("Error occured: " + err.message);
+          });
       }
 
       const getUser = async (address) => {
@@ -56,11 +71,12 @@ const UserDataProvider = (props) => {
           console.log(err);
         });
         getUser(publicKey.toBase58());
+        getBets(user);
       } else{
         setBalance(null);
         setUser(null);
       }
-    }, [connected, connection, publicKey]);
+    }, [connected, connection, publicKey, user]);
 
 
     if(!connected) return (props.children);
@@ -71,7 +87,8 @@ const UserDataProvider = (props) => {
           address: publicKey.toBase58(),
           user,
           betSlip, 
-          setBetSlip
+          setBetSlip,
+          myBets
         }}>
             { props.children }
         </UserDataContext.Provider>
@@ -83,7 +100,8 @@ export const UserDataContext = createContext({
   address: null,
   betSlip: null,
   user: null,
-  setBetSlip: (betSlip) => {}
+  setBetSlip: (betSlip) => {},
+  myBets: null,
 }); 
 
 export default UserDataProvider;

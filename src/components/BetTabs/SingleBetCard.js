@@ -1,14 +1,19 @@
 import { Button, HStack, Image, Text, VStack } from "@chakra-ui/react";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
+import { useContext, useState } from "react";
 import placeholder from "../../assets/logos/placeholder.png";
+import { UserDataContext } from "../../contexts/UserDataProvider";
+import axiosInstance from "../../helpers/axiosInstance";
 import { getCurrenciesFromPairs, roundOff } from "../../helpers/solHelpers";
 import { DIVISOR } from "../../lib/constants";
 
 const SingleBetCard = ({ bet }) => {
     const { prediction, amount, status, transactionSignature } = bet;
     const { pair, predictionPrice, expiryTime } = prediction;
+    const { address } = useContext(UserDataContext);
     const { firstCurrency, secondCurrency } = getCurrenciesFromPairs(pair);
     const logoImage = require(`../../assets/logos/${firstCurrency.toLowerCase()}.png`);
+    const [isSaving, setIsSaving] = useState(false);
 
     let statusText = "";
     let statusColor = "";
@@ -22,6 +27,10 @@ const SingleBetCard = ({ bet }) => {
             statusText = "WIN";
             statusColor = "green.400";
             break;
+        case "completed":
+            statusText = "COMPLETED";
+            statusColor = "green.400";
+            break;
         case "lost":
             statusText = "LOST";
             statusColor = "red.500";
@@ -31,9 +40,24 @@ const SingleBetCard = ({ bet }) => {
             statusColor = "orange.300";
     }
 
-    const withdraw = () => {
-        console.log("Withdrawing");
-        // TODO: Withdraw amount won
+    const withdraw = async () => {
+        console.log("Withdrawing"); // TODO: show alert notification
+
+        axiosInstance.post("/api/transactions/withdraw", {
+            _id: bet._id,
+            amount: amount * 2,
+            withdrawAddress: address
+        })
+        .then(res => res.data)
+        .then(data => {
+            setIsSaving(false);
+            console.log("Transaction completed" + data.transactionId);
+        })
+        .catch(err => {
+            setIsSaving(false);
+            console.log("Error occured: " + err.message);
+        });  
+
     }
 
     const network = WalletAdapterNetwork.Devnet;
@@ -114,6 +138,8 @@ const SingleBetCard = ({ bet }) => {
                             color="gray.800"
                             bg="green.200"
                             onClick={withdraw}
+                            isLoading={isSaving}
+                            loadingText="Withdrawing..."
                         >
                             Withdraw
                         </Button>

@@ -1,38 +1,19 @@
 import { HStack, Image, Text, VStack } from "@chakra-ui/react";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { UserDataContext } from "../../contexts/UserDataProvider";
-import axiosInstance from "../../helpers/axiosInstance";
-import emptyBets from '../../assets/bets/empty-bets.svg';
+import emptyBets from '../../assets/icons/empty-bets.svg';
 import SingleBetCard from "./SingleBetCard";
 import { roundOff } from "../../helpers/solHelpers";
 
 const MyBets = () => {
-    const [ isFetching, setIsFetching ] = useState(true);
-    const [ bets, setBets ] = useState([]);
 
-    const { user } = useContext(UserDataContext);
+    const { myBets } = useContext(UserDataContext);
 
-    useEffect(() => {
-        if(!user) return;
-        axiosInstance.get(`/api/bets`,{
-            user: user._id
-        })
-          .then(res => res.data)
-          .then(data => {
-            setBets(data);
-            setIsFetching(false);
-          })
-          .catch(err => {
-            setIsFetching(false);
-            console.log("Error occured: " + err.message);
-          });
-    }, [user]);
-
-    if(isFetching) {
+    if(!myBets) {
         return <div>Loading...</div>
     }
 
-    if(bets.length === 0) {
+    if(myBets.length === 0) {
         <VStack>
             <Image src={emptyBets} height="64px" alt="empty bet slip" my="10px" />
             <Text fontWeight={700} color="gray.200">
@@ -44,8 +25,8 @@ const MyBets = () => {
         </VStack>
     }
 
-    const betsWon = bets.filter(bet => bet.status === "won");
-    const winRate = ((betsWon.length || bets.length) === 0) ? 0 : roundOff(betsWon.length / bets.length, 2) * 100;
+    const myBetsWon = myBets.filter(bet => bet.status === "won");
+    const winRate = ((myBetsWon.length || myBets.length) === 0) ? 0 : roundOff(myBetsWon.length / myBets.length, 2) * 100;
 
     return (
         <VStack 
@@ -57,7 +38,7 @@ const MyBets = () => {
                 w="100%"
             >
                 <Text fontWeight={700} color="gray.200">
-                    {bets.length} bets
+                    {myBets.length} bets
                 </Text>
                 <Text color="gray.500">
                     Win Rate: {winRate}%
@@ -69,7 +50,7 @@ const MyBets = () => {
                 maxH="508px"
                 overflowY="auto"
             >
-                {bets.map(bet => (
+                {myBets.map(bet => (
                     <SingleBetCard bet={bet} key={bet._id}/>
                 ))}
             </VStack>

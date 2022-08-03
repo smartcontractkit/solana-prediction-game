@@ -2,7 +2,7 @@ import { Tabs, TabList, Tab, TabPanels, TabPanel, Box } from '@chakra-ui/react';
 import BetSlip from './BetSlip';
 import MyBets from './MyBets';
 
-const BetSidebar = () => {
+const BetTabs = () => {
     return (
         <Box
             borderRadius="20px"
@@ -32,4 +32,4 @@ const BetSidebar = () => {
     )
 }
 
-export default BetSidebar;
+export default BetTabs;
