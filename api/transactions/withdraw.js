@@ -5,7 +5,7 @@ const solanaWeb3 = require("@solana/web3.js");
 const { clusterApiUrl, Connection, Keypair, PublicKey, sendAndConfirmTransaction, SystemProgram, Transaction, LAMPORTS_PER_SOL } = solanaWeb3;
 
 module.exports = async (req, res) => {
-    if (req.method === ('POST' || 'PUT' || 'PATCH')) {
+    if (req.method === ('POST')) {
         try {
             await connectToDatabase();
 
@@ -58,8 +58,6 @@ module.exports = async (req, res) => {
         } 
     } else {
         res.setHeader('Allow', 'POST');
-        res.setHeader('Allow', 'PUT');
-        res.setHeader('Allow', 'PATCH');
         res.status(405).end('Method Not Allowed');
     }
     
