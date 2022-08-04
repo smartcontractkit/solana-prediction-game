@@ -17,12 +17,12 @@ const PredictionSchema = new Schema({
         type: Number,
         required: true,
     },
-    ROI: {
-        type: Number,
+    direction: {
+        type: Boolean,
         required: true,
     },
-    status: {
-        type: Boolean,
+    ROI: {
+        type: Number,
         required: true,
     },
     openingPredictionPrice: {
@@ -30,6 +30,14 @@ const PredictionSchema = new Schema({
         required: true,
     },
     openingPredictionTime: {
+        type: Date,
+        required: true,
+    },
+    openingPredictionSlot: {
+        type: Number,
+        required: true,
+    },
+    openingPredictionRoundId: {
         type: Number,
         required: true,
     },

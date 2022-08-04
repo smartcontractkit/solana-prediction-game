@@ -79,6 +79,8 @@ const createPrediction = async (prediction) => {
         const result = await predictionObject.save();
         console.log(`Prediction was inserted with the _id: ${result._id}`);
 
+        return result;
+
     } catch (err) {
         console.error("Failed to create new prediction, with error code: " + err.message);
     } 
@@ -126,37 +128,50 @@ module.exports = async (req, res) => {
             return;
         }
 
-        pairs.map(async (pair) => {
+        try{
 
-            const latestRound = await getLatestDataRound(pair.feedAddress, pair.pair);
-        
-            const { answerToNumber, feed, observationsTS } = latestRound;
-        
-            var date = new Date();
+            let promises = pairs.map(async (pair) => {
 
-            const predictionData = {
-                owner: process.env.OWNER_PUBLIC_ADDRESS,
-                account: feed,
-                pair,
-                predictionPrice: null,
-                expiryTime: addMinutesToDate(date, 10),
-                predictionDeadline: addMinutesToDate(date, 5),
-                openingPredictionPrice: answerToNumber,
-                openingPredictionTime: observationsTS,
-                status: true,
-            };
-        
-            const plusOnePercent = await createPrediction({
-                ...predictionData,
-                prediction: latestRound.answerToNumber * 1.01,
+                const latestRound = await getLatestDataRound(pair.feedAddress, pair.pair);
+            
+                const { answerToNumber, observationsTS, slot, roundId } = latestRound;
+            
+                var date = new Date();
+
+                const predictionData = {
+                    owner: process.env.OWNER_PUBLIC_ADDRESS,
+                    account: pair.feedAddress,
+                    pair: pair.pair,
+                    expiryTime: addMinutesToDate(date, 10),
+                    predictionDeadline: addMinutesToDate(date, 5),
+                    openingPredictionPrice: answerToNumber,
+                    openingPredictionTime: observationsTS,
+                    openingPredictionSlot: slot,
+                    openingPredictionRoundId: roundId,
+                    ROI: 2,
+                };
+            
+                const plusOnePercent = await createPrediction({
+                    ...predictionData,
+                    predictionPrice: latestRound.answerToNumber * 1.01,
+                    direction: true,
+                });
+                const minusOnePercent = await createPrediction({
+                    ...predictionData,
+                    predictionPrice: latestRound.answerToNumber * 0.99,
+                    direction: false,
+                });
+            
+                return [plusOnePercent, minusOnePercent];
             });
-            const minusOnePercent = await createPrediction({
-                ...predictionData,
-                prediction: latestRound.answerToNumber * 0.99,
+            Promise.all(promises).then((predictions) => {
+                res.status(200).send(predictions.flat(Infinity));
             });
-        
-            return [plusOnePercent, minusOnePercent];
-        });
+        }
+        catch(err) {
+            console.error("Failed to create new predictions, with error code: " + err.message);
+            res.status(500).send(err);
+        }
     
     } else {
         res.setHeader('Allow', 'POST');
