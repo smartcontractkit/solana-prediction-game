@@ -1,0 +1,13 @@
+name: 10-minute-cron
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+jobs:
+  cron:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Schedule Predictions every 10 minutes
+        run: |
+          curl --request POST \
+          --url 'https://blockchain-prediction-game.vercel.app/api/predictions/schedulePredictions' \
+          --header 'Authorization: Bearer ${{ secrets.API_SECRET_KEY }}'
