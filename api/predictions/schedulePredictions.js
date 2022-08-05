@@ -4,38 +4,18 @@ const anchor = require("@project-serum/anchor");
 const chainlink = require("@chainlink/solana-sdk");
 const { connectToDatabase } = require("../../lib/mongoose");
 const Prediction = require("../../models/prediction.model");
-export class Wallet {
+const { Wallet } = require("../../models/wallet.model");
 
-    constructor(payer) {
-        this.payer = payer
-    }
+const secret = Uint8Array.from(process.env.REACT_APP_WALLET_PRIVATE_KEY.split(','));
+const wallet = new Wallet(solanaWeb3.Keypair.fromSecretKey(secret));
 
-    async signTransaction(tx) {
-        tx.partialSign(this.payer);
-        return tx;
-    }
-
-    async signAllTransactions(txs) {
-        return txs.map((t) => {
-            t.partialSign(this.payer);
-            return t;
-        });
-    }
-
-    get publicKey() {
-        return this.payer.publicKey;
-    }
-}
 
 const getLatestDataRound = async (address, pair) => {
   
     let round = null;
     
-    const secret = Uint8Array.from(process.env.REACT_APP_WALLET_PRIVATE_KEY.split(','));
     const options = anchor.AnchorProvider.defaultOptions();
     const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('devnet'), 'confirmed');
-
-    const wallet = new Wallet(solanaWeb3.Keypair.fromSecretKey(secret));
     
     const provider = new anchor.AnchorProvider(connection, wallet, options);
     anchor.setProvider(provider);
@@ -139,7 +119,7 @@ module.exports = async (req, res) => {
                 var date = new Date();
 
                 const predictionData = {
-                    owner: process.env.OWNER_PUBLIC_ADDRESS,
+                    owner: wallet.publicKey,
                     account: pair.feedAddress,
                     pair: pair.pair,
                     expiryTime: addMinutesToDate(date, 10),
