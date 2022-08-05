@@ -7,17 +7,38 @@ module.exports = async (req, res) => {
     if (req.method === ('POST' || 'PUT' || 'PATCH')) {
         try {
             await connectToDatabase();
+            
+            const bets = await Bet.find({
+                status: "ongoing"
+            }).populate("prediction");
 
-            const { _id, status } = req.body;
-            if (!_id || !status) {
-                throw new Error("Missing required parameters");
-            }
-            const result = await Bet.findOneAndUpdate({ _id }, { status }, {
-                new: true
+            let promises = bets.map(async (bet) => {
+                if(bet.prediction.expiryTime < new Date().toISOString()) {
+                    return bet;
+                }
+                
+                let currentStatus = 'ongoing';
+
+                if(bet.prediction.direction){
+                    bet.prediction.predictionPrice > bet.prediction.openingPredictionPrice 
+                    ? currentStatus = 'won' 
+                    : currentStatus = 'lost';
+                }else{
+                    bet.prediction.predictionPrice < bet.prediction.openingPredictionPrice 
+                    ? currentStatus = 'won' 
+                    : currentStatus = 'lost';
+                }
+                const result = await Bet.findOneAndUpdate({ _id: bet._id }, { status: currentStatus }, {
+                    new: true
+                });
+
+                console.log(`Bet was inserted with the _id: ${result._id}`);
+                return result;
+            })
+            
+            Promise.all(promises).then((predictions) => {
+                res.status(200).send(predictions);
             });
-            console.log(`Bet was inserted with the _id: ${result._id}`);
-    
-            res.send(result);
         } catch (err) {
             console.error("Failed to update bet, with error code: " + err.message);
     
