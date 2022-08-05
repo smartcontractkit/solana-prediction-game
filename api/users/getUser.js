@@ -2,11 +2,10 @@ const { connectToDatabase } = require("../../lib/mongoose");
 const User = require("../../models/user.model");
 
 module.exports = async (req, res) => {
-
     try {
         await connectToDatabase();
         
-        const searchQuery  = req.body;
+        const searchQuery  = req.query;
         const user = await User.findOne(searchQuery);
 
         res.send(user);

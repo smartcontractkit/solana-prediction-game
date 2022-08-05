@@ -13,13 +13,7 @@ const ActivePredictions = () => {
 
 
     useEffect(() => {
-        const searchQuery = {
-            // "predictionDeadline": {
-            //     "$gte": "2022-07-02T04:37:58.000Z"
-            // } //TODO: remove once daily cron job is working
-            status: true
-        }
-        axiosInstance.get('/api/predictions', searchQuery)
+        axiosInstance.get('/api/predictions')
         .then(res => res.data)
         .then(data => {
             setPredictions(data);

@@ -1,13 +1,13 @@
-name: schedule-predictions-cron
+name: bet-status-cron
 on:
   schedule:
-    - cron: '*/10 * * * *'
+    - cron: '*/5 * * * *'
 jobs:
   cron:
     runs-on: ubuntu-latest
     steps:
-      - name: Schedule Predictions every 10 minutes
+      - name: Update Bet Status every 5 minutes
         run: |
           curl --request POST \
-          --url 'secrets.API_URL/predictions/schedulePredictions' \
+          --url 'secrets.API_URL/bets/status' \
           --header 'Authorization: Bearer ${{ secrets.API_SECRET_KEY }}'

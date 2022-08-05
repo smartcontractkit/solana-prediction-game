@@ -13,38 +13,44 @@ const UserDataProvider = (props) => {
     const [user, setUser] = useState(null);
     const [myBets, setMyBets] = useState(null);
 
-    useEffect(() => {
-      const getBalance = async () => {
-        return await connection.getBalance(publicKey)
+    
+    const getBalance = async () => {
+      return await connection.getBalance(publicKey)
+    }
+
+    const addUser = async () => {
+      const newUser = {
+        address: publicKey.toBase58(),
       }
 
-      const addUser = async () => {
-        const newUser = {
-          address: publicKey.toBase58(),
+      return await axiosInstance.post("/api/users/add", newUser);
+    }
+
+    const getMyBets = async (user) => {
+      if(!user) return;
+      console.log(user);
+      axiosInstance.get(`/api/bets`, {
+        params: {
+          user: user._id
         }
+      })
+      .then(res => res.data)
+      .then(data => {
+        setMyBets(data);
+      })
+      .catch(err => {
+        console.log("Error occured: " + err.message);
+      });
+    }
 
-        return await axiosInstance.post("/api/users/add", newUser);
-      }
-
-      const getMyBets = async (user) => {
-          if(!user) return;
-          axiosInstance.get(`/api/bets`,{
-              user: user._id
-          })
-          .then(res => res.data)
-          .then(data => {
-            setMyBets(data);
-          })
-          .catch(err => {
-            console.log("Error occured: " + err.message);
-          });
-      }
+    useEffect(() => {
 
       const getUser = async (address) => {
-        const query = {
-          address,
-        }
-        axiosInstance.get(`/api/users/getUser`, query)
+        axiosInstance.get(`/api/users/getUser`, {
+          params: {
+            address
+          }
+        })
         .then(res => res.data)
         .then(async (result) => {
           let loggedInUser = null;
@@ -56,6 +62,11 @@ const UserDataProvider = (props) => {
           }
 
           setUser(loggedInUser);
+
+          getBalance()
+          .then(res => {
+            setBalance(res/LAMPORTS_PER_SOL);
+          })
         })
         .catch(err => {
           console.log("Error occured: " + err.message);
@@ -63,6 +74,16 @@ const UserDataProvider = (props) => {
       }
 
       if (connected) {
+        getUser(publicKey.toBase58());
+      } else{
+        setUser(null);
+        setBalance(null);
+      }
+    }, [publicKey, connected]);
+
+    useEffect(() => {
+      if (connected) {
+        getMyBets(user);
         getBalance()
         .then(res => {
           setBalance(res/LAMPORTS_PER_SOL);
@@ -70,13 +91,10 @@ const UserDataProvider = (props) => {
         .catch(err => {
           console.log(err);
         });
-        getUser(publicKey.toBase58());
-        getMyBets(user);
       } else{
         setBalance(null);
-        setUser(null);
       }
-    }, [connected, connection, publicKey, user]);
+    }, [connected, connection]);
 
     let value = {
       balance : null,
