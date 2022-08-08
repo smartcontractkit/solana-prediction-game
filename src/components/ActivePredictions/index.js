@@ -12,25 +12,35 @@ const ActivePredictions = () => {
 
     const dataFeeds = useDataFeeds();
 
-
     useEffect(() => {
-        axiosInstance.get('/api/predictions/active')
-        .then(res => res.data)
-        .then(data => {
-            setPredictions(data);
-            setIsFetching(false);
-        })
-        .catch(err => {
-            setIsFetching(false);
-            console.log("Error occured: " + err.message);
-        });  
+        const getPredictions = async () => {
+            axiosInstance.get('/api/predictions/active')
+            .then(res => res.data)
+            .then(data => {
+                setPredictions(data);
+                setIsFetching(false);
+            })
+            .catch(err => {
+                setIsFetching(false);
+                console.log("Error occured: " + err.message);
+            });  
+        }
+
+        getPredictions();
+        window.getPredictionsInterval = setInterval(
+            () => getPredictions(),
+            3e5 // 5 minutes
+        )
+        return () => {
+            clearInterval(window.getPredictionsInterval)
+        }
     }, []);
 
     if(!isFetching && predictions.length === 0) {
         return (
             <VStack 
                 w="100%"
-                py={12}
+                py={14}
                 borderY="1px solid"
                 borderColor="whiteAlpha.300"
             >

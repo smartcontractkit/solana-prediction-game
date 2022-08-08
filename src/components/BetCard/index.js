@@ -7,7 +7,7 @@ import { ArrowDownIcon, ArrowUpIcon } from "@chakra-ui/icons";
 import placeholder from "../../assets/logos/placeholder.png";
 
 const BetCard = ({ prediction, feed }) => {
-    const { pair, predictionPrice, openingPredictionPrice, predictionDeadline, expiryTime, status, ROI, direction, createdAt } = prediction;
+    const { pair, predictionPrice, predictionDeadline, expiryTime, status, ROI, direction, createdAt } = prediction;
     const { firstCurrency, secondCurrency } = getCurrenciesFromPairs(pair);
     const logoImage = require(`../../assets/logos/${firstCurrency.toLowerCase()}.png`);
 
