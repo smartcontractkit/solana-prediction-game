@@ -10,8 +10,5 @@ jobs:
       - name: Schedule Predictions every 10 minutes
         run: |
           curl --request POST \
-          --url `https://blockchain-prediction-game.vercel.app/api/predictions/schedulePredictions` \
-          --header `Authorization: Bearer $API_SECRET_KEY`
-        env:
-          API_SECRET_KEY: ${{ secrets.API_SECRET_KEY }}
-          API_URL: ${{ secrets.API_URL }}
+          --url '${{ secrets.API_URL }}/predictions/schedulePredictions' \
+          --header 'Authorization: Bearer ${{ secrets.API_SECRET_KEY }}'
