@@ -7,13 +7,11 @@ import { ArrowDownIcon, ArrowUpIcon } from "@chakra-ui/icons";
 import placeholder from "../../assets/logos/placeholder.png";
 
 const BetCard = ({ prediction, feed }) => {
-    const { pair, predictionPrice, openingPredictionPrice, predictionDeadline, expiryTime, status, ROI, createdAt } = prediction;
+    const { pair, predictionPrice, openingPredictionPrice, predictionDeadline, expiryTime, status, ROI, direction, createdAt } = prediction;
     const { firstCurrency, secondCurrency } = getCurrenciesFromPairs(pair);
     const logoImage = require(`../../assets/logos/${firstCurrency.toLowerCase()}.png`);
 
     const { setBetSlip } = useContext(UserDataContext);
-
-    let isIncrease = openingPredictionPrice <= predictionPrice;
 
     const placeBet = () => {
         setBetSlip({
@@ -21,7 +19,7 @@ const BetCard = ({ prediction, feed }) => {
             firstCurrency,
             secondCurrency,
             logoImage,
-            isIncrease,
+            direction,
             ROI
         })
     }
@@ -49,25 +47,22 @@ const BetCard = ({ prediction, feed }) => {
                     alignItems="flex-start"
                 >   
                     <HStack spacing={1} alignItems="flex-end">
-                        <Text fontWeight={700} fontSize="sm" >
+                        <Text fontWeight={700} fontSize="md" >
                             {firstCurrency}
                         </Text>
-                        <Text fontSize="xs">
+                        <Text fontSize="sm">
                             will settle at
                         </Text>
-                        <Text fontWeight={700} fontSize="sm" >
-                            {roundOff((predictionPrice / DIVISOR), 3)}  {secondCurrency}
+                        <Text fontSize="sm" color={ direction ? 'green.200' : 'pink.200' } >
+                            { direction ? 'above' : 'below' } 
                         </Text>
                     </HStack>
                     <HStack spacing={1} alignItems="flex-end">
-                        <Text fontSize="xs" color={ isIncrease ? 'green.200' : 'pink.200' } >
-                            { isIncrease ? 'above' : 'below' } 
-                        </Text>
-                        <Text as="span" mt="0px!important" fontWeight={700} fontSize="sm" >
-                            {roundOff((openingPredictionPrice / DIVISOR), 3)}  {secondCurrency}
+                        <Text fontWeight={700} fontSize="md" >
+                            {roundOff((predictionPrice / DIVISOR), 3)}  {secondCurrency}
                         </Text>
                     </HStack>
-                    <Text fontWeight={500} fontSize="xs" color="gray.500">
+                    <Text fontWeight={500} fontSize="sm" color="gray.500">
                         at {new Date(createdAt).toLocaleString()}
                     </Text>
                 </VStack>
@@ -76,12 +71,12 @@ const BetCard = ({ prediction, feed }) => {
                     width="24px"
                     height="24px"
                     borderRadius="6px"
-                    bg={ isIncrease ? 'green.900' : 'pink.900' } 
+                    bg={ direction ? 'green.900' : 'pink.900' } 
                     justify="center"
                     alignItems="center"
                 >   
                     {
-                        isIncrease 
+                        direction 
                         ? <ArrowUpIcon 
                                 width="16px"
                                 height="16px"
