@@ -2,9 +2,29 @@ import { ArrowUpIcon } from "@chakra-ui/icons";
 import { Button, Flex, Hide, HStack, Image, Stack, Text } from "@chakra-ui/react";
 import CountdownTimer from "./CountdownTimer";
 import chainlinkLogo from "../../assets/logos/chainlink.svg";
+import { useEffect, useState } from "react";
 
-const NextPrediction = () => {
-    const predictionTime = new Date().setUTCHours(24,0,0,0); // TODO to be changed to next prediction time
+const NextPredictionTimer = () => {
+    const date = new Date();
+    const [predictionTime, setPredictionTime] = useState(date.getTime() + (60000 * (10 - (date.getMinutes() % 10))));
+
+    useEffect(() => {
+        window.interval10min = setInterval(
+            () => {
+                let currentDate = new Date();
+                if(currentDate.getMinutes() % 10 === 0) {
+                    setPredictionTime(new Date(new Date().getTime() + (60000 * 10)));
+                    return
+                }
+                return
+            },
+            6000
+        )
+        return () => {
+            clearInterval(window.interval10min)
+        }
+    }, []);
+
   
     return (
       <Flex
@@ -71,7 +91,7 @@ const Subheader = () => {
             justifyContent="space-between"
             width="100%"
         >
-            <NextPrediction />
+            <NextPredictionTimer />
             <Hide below="md">
                 <ChainlinkFeedButton />
             </Hide>
