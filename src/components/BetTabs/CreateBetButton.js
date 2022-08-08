@@ -1,5 +1,5 @@
-import { Button } from "@chakra-ui/react";
-import { useCallback, useContext, useState } from "react";
+import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Button, useDisclosure } from "@chakra-ui/react";
+import { useCallback, useContext, useRef, useState } from "react";
 import axiosInstance from "../../helpers/axiosInstance";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { WalletNotConnectedError } from "@solana/wallet-adapter-base";
@@ -18,6 +18,9 @@ export default function CreateBetButton(
     const { connection } = useConnection();
     const { publicKey, sendTransaction } = useWallet();
     const { user } = useContext(UserDataContext);
+    
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const cancelRef = useRef();
 
     const sendSolana = useCallback(async () => {
         if (!publicKey) throw new WalletNotConnectedError();
@@ -56,8 +59,7 @@ export default function CreateBetButton(
 
     }, [amount, connection, publicKey, sendTransaction]);
 
-    const createBet = async (event) => {
-        event.preventDefault();
+    const createBet = async () => {
         setIsSaving(true);
         const transactionSignature = await sendSolana();
         const data = {
@@ -82,15 +84,60 @@ export default function CreateBetButton(
         });  
     }
 
+    const showDialog = (event) => {
+        event.preventDefault();
+        onOpen();
+    }
+
 
     return (
-        <Button
-            isLoading={isSaving}
-            loadingText="Betting..."
-            onClick={createBet}
-            {...props}
-        >
-            Make Bet
-        </Button>
+        <>
+            <Button
+                onClick={showDialog}
+                isLoading={isSaving}
+                loadingText="Placing bet..."
+                {...props}
+            >
+                Make Bet
+            </Button>
+            <AlertDialog
+                motionPreset='slideInBottom'
+                leastDestructiveRef={cancelRef}
+                onClose={onClose}
+                isOpen={isOpen}
+                isCentered
+            >
+                <AlertDialogOverlay>
+                    <AlertDialogContent bg="gray.800">
+                        <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+                            Make Bet
+                        </AlertDialogHeader>
+            
+                        <AlertDialogBody>
+                            Are you sure you want to make this bet?
+                        </AlertDialogBody>
+            
+                        <AlertDialogFooter>
+                            <Button colorScheme='red' ref={cancelRef} onClick={onClose}>
+                                Cancel
+                            </Button>
+                            <Button 
+                                color="gray.800"
+                                bg="blue.200"
+                                _hover={{
+                                    bg: "blue.100",
+                                }} 
+                                onClick={createBet} 
+                                isLoading={isSaving}
+                                loadingText="Placing bet..."
+                                ml={3}
+                            >
+                                Continue
+                            </Button>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialogOverlay>
+            </AlertDialog>
+        </>
     );
 }
