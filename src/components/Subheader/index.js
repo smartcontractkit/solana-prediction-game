@@ -4,7 +4,7 @@ import CountdownTimer from "./CountdownTimer";
 import chainlinkLogo from "../../assets/logos/chainlink.svg";
 import { useEffect, useState } from "react";
 
-const NextPrediction = () => {
+const NextPredictionTimer = () => {
     const date = new Date();
     const [predictionTime, setPredictionTime] = useState(date.getTime() + (60000 * (10 - (date.getMinutes() % 10))));
 
@@ -91,7 +91,7 @@ const Subheader = () => {
             justifyContent="space-between"
             width="100%"
         >
-            <NextPrediction />
+            <NextPredictionTimer />
             <Hide below="md">
                 <ChainlinkFeedButton />
             </Hide>
