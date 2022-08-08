@@ -24,7 +24,6 @@ const NextPredictionTimer = () => {
             clearInterval(window.interval10min)
         }
     }, []);
-
   
     return (
       <Flex
