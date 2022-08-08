@@ -13,7 +13,7 @@ const ActivePredictions = () => {
 
 
     useEffect(() => {
-        axiosInstance.get('/api/predictions')
+        axiosInstance.get('/api/predictions/active')
         .then(res => res.data)
         .then(data => {
             setPredictions(data);
