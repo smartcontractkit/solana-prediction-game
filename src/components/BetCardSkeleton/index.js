@@ -14,9 +14,9 @@ const CardSKeleton = () => (
         flexGrow={[1, 1, 1, 1]}
     >
 
-        <SkeletonText mt='4' noOfLines={4} spacing='4' />
-        <SkeletonCircle mt='4' boxSize='24px' />
-        <Skeleton mt='4' height='32px' rounded="md" />
+        <SkeletonText mt='4' noOfLines={4} spacing='4' opacity={0.3} />
+        <SkeletonCircle mt='4' boxSize='24px' opacity={0.3} />
+        <Skeleton mt='4' height='32px' rounded="md" opacity={0.3} />
     </Box>
 )
 
