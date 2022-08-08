@@ -62,7 +62,7 @@ const BetCard = ({ prediction, feed }) => {
                             {roundOff((predictionPrice / DIVISOR), 3)}  {secondCurrency}
                         </Text>
                     </HStack>
-                    <Text fontWeight={500} fontSize="sm" color="gray.500">
+                    <Text fontWeight={500} fontSize="xs" color="gray.500">
                         at {new Date(createdAt).toLocaleString()}
                     </Text>
                 </VStack>
