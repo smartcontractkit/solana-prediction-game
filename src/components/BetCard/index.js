@@ -1,4 +1,4 @@
-import { Flex, HStack, Text, VStack, Image, Button } from "@chakra-ui/react";
+import { Flex, HStack, Text, VStack, Image, Button, Tooltip, Link } from "@chakra-ui/react";
 import { DIVISOR } from "../../lib/constants";
 import { getCurrenciesFromPairs, roundOff } from "../../helpers/solHelpers";
 import { useContext } from "react";
@@ -9,6 +9,7 @@ import placeholder from "../../assets/logos/placeholder.png";
 const BetCard = ({ prediction, feed }) => {
     const { pair, predictionPrice, predictionDeadline, expiryTime, status, ROI, direction, createdAt } = prediction;
     const { firstCurrency, secondCurrency } = getCurrenciesFromPairs(pair);
+    const pairURL = `https://data.chain.link/ethereum/mainnet/crypto-usd/${firstCurrency}-${secondCurrency}`.toLowerCase();
     const logoImage = require(`../../assets/logos/${firstCurrency.toLowerCase()}.png`);
 
     const { setBetSlip } = useContext(UserDataContext);
@@ -134,11 +135,15 @@ const BetCard = ({ prediction, feed }) => {
                         <Text fontWeight={500} fontSize="xs" color="gray.500">
                             {pair}
                         </Text>
-                        <Text fontWeight={500} textDecorationLine="underline" fontSize="xs" color="gray.500">
-                            { feed ? roundOff((feed.answerToNumber / DIVISOR), 4) : "-" }
-                        </Text>
+                        <Tooltip label={`Price @ ${new Date(createdAt).toLocaleString()} from Chainlink Oracle`}>
+                            <Text fontWeight={500} textDecorationLine="underline" fontSize="xs" color="gray.500">
+                                { feed ? roundOff((feed.answerToNumber / DIVISOR), 4) : "-" }
+                            </Text>
+                        </Tooltip>
                     </HStack>
-                    <ArrowUpIcon size="xs" color="gray.500" transform="rotate(45deg)" />
+                    <Link href={`${pairURL}`} isExternal>
+                        <ArrowUpIcon size="xs" color="gray.500" transform="rotate(45deg)" />
+                    </Link>
                 </HStack>
 
                 <Button
