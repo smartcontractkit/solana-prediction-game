@@ -10,5 +10,5 @@ jobs:
       - name: Update Bet Status every 5 minutes
         run: |
           curl --request POST \
-          --url `${{ secrets.API_URL }}/api/bets/status` \
+          --url '${{ secrets.API_URL }}/bets/status' \
           --header 'Authorization: Bearer ${{ secrets.API_SECRET_KEY }}'
