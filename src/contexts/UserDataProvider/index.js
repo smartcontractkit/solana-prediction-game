@@ -91,6 +91,15 @@ const UserDataProvider = (props) => {
         .catch(err => {
           console.log(err);
         });
+
+        window.getMyBetsInterval = setInterval(
+          () => getMyBets(user),
+          120000
+        )
+        return () => {
+            clearInterval(window.getMyBetsInterval)
+        }
+
       } else{
         setBalance(null);
       }
