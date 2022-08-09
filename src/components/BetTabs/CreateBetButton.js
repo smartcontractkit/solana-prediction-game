@@ -11,6 +11,8 @@ export default function CreateBetButton(
         predictionId,
         amount,
         setBetSlip,
+        betPlaced,
+        setBetPlaced,
         ...props
     }
     ) {
@@ -73,6 +75,7 @@ export default function CreateBetButton(
         .then(data => {
             setIsSaving(false);
             setBetSlip(null);
+            setBetPlaced(!betPlaced);
             console.log("Bet created");
         })
         .catch(err => {

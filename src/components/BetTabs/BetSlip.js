@@ -13,7 +13,7 @@ import WalletModalButton from "../WalletModalButton/WalletModalButton";
 const BetSlip = () => {
 
     const { connected } = useWallet();
-    const { balance, betSlip, setBetSlip } = useContext(UserDataContext);
+    const { balance, betSlip, setBetSlip, betPlaced, setBetPlaced } = useContext(UserDataContext);
 
     const [ amount, setAmount ] = useState(0);
 
@@ -37,7 +37,7 @@ const BetSlip = () => {
         firstCurrency,
         secondCurrency,
         logoImage,
-        ROI
+        ROI,
     } = betSlip;
     const { _id, pair, predictionPrice, expiryTime } = prediction;
 
@@ -59,6 +59,8 @@ const BetSlip = () => {
                 predictionId={_id}
                 amount={amount}
                 setBetSlip={setBetSlip}
+                betPlaced={betPlaced}
+                setBetPlaced={setBetPlaced}
                 {...props}
             />
         )

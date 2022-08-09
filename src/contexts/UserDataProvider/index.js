@@ -12,6 +12,7 @@ const UserDataProvider = (props) => {
     const [balance, setBalance] = useState(null);
     const [user, setUser] = useState(null);
     const [myBets, setMyBets] = useState(null);
+    const [betPlaced, setBetPlaced] = useState(false);
 
     
     const getBalance = async () => {
@@ -26,9 +27,36 @@ const UserDataProvider = (props) => {
       return await axiosInstance.post("/api/users/add", newUser);
     }
 
+    const getUser = async (address) => {
+      axiosInstance.get(`/api/users/getUser`, {
+        params: {
+          address
+        }
+      })
+      .then(res => res.data)
+      .then(async (result) => {
+        let loggedInUser = null;
+        
+        if(!result){
+          loggedInUser = await addUser();
+        }else{
+          loggedInUser = result;
+        }
+
+        setUser(loggedInUser);
+
+        getBalance()
+        .then(res => {
+          setBalance(res/LAMPORTS_PER_SOL);
+        })
+      })
+      .catch(err => {
+        console.log("Error occured: " + err.message);
+      });
+    }
+
     const getMyBets = async (user) => {
       if(!user) return;
-      console.log(user);
       axiosInstance.get(`/api/bets`, {
         params: {
           user: user._id
@@ -44,42 +72,14 @@ const UserDataProvider = (props) => {
     }
 
     useEffect(() => {
-
-      const getUser = async (address) => {
-        axiosInstance.get(`/api/users/getUser`, {
-          params: {
-            address
-          }
-        })
-        .then(res => res.data)
-        .then(async (result) => {
-          let loggedInUser = null;
-          
-          if(!result){
-            loggedInUser = await addUser();
-          }else{
-            loggedInUser = result;
-          }
-
-          setUser(loggedInUser);
-
-          getBalance()
-          .then(res => {
-            setBalance(res/LAMPORTS_PER_SOL);
-          })
-        })
-        .catch(err => {
-          console.log("Error occured: " + err.message);
-        });
-      }
-
       if (connected) {
         getUser(publicKey.toBase58());
       } else{
         setUser(null);
         setBalance(null);
       }
-    }, [publicKey, connected]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [publicKey]);
 
     useEffect(() => {
       if (connected) {
@@ -94,7 +94,8 @@ const UserDataProvider = (props) => {
       } else{
         setBalance(null);
       }
-    }, [connected, connection]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [publicKey, user, betPlaced]);
 
     let value = {
       balance : null,
@@ -103,6 +104,8 @@ const UserDataProvider = (props) => {
       myBets : null,
       betSlip, 
       setBetSlip,
+      betPlaced,
+      setBetPlaced
     };
 
     if(connected) {
@@ -113,6 +116,8 @@ const UserDataProvider = (props) => {
         myBets,
         betSlip, 
         setBetSlip,
+        betPlaced,
+        setBetPlaced
       };
     }
     
@@ -130,6 +135,8 @@ export const UserDataContext = createContext({
   myBets: null,
   betSlip: null,
   setBetSlip: (betSlip) => {},
+  betPlaced: false,
+  setBetPlaced: (betPlaced) => {},
 }); 
 
 export default UserDataProvider;
