@@ -1,9 +1,10 @@
-import { Flex } from "@chakra-ui/react";
+import { Flex, Image, Text, VStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import axiosInstance from "../../helpers/axiosInstance";
 import useDataFeeds from "../../hooks/useDataFeeds";
 import BetCard from "../BetCard";
 import CardSKeleton from "../BetCardSkeleton";
+import emptyPredictions from '../../assets/icons/empty-predictions.svg';
 
 const ActivePredictions = () => {
     const [ isFetching, setIsFetching ] = useState(true);
@@ -11,19 +12,48 @@ const ActivePredictions = () => {
 
     const dataFeeds = useDataFeeds();
 
-
     useEffect(() => {
-        axiosInstance.get('/api/predictions')
-        .then(res => res.data)
-        .then(data => {
-            setPredictions(data);
-            setIsFetching(false);
-        })
-        .catch(err => {
-            setIsFetching(false);
-            console.log("Error occured: " + err.message);
-        });  
+        const getPredictions = async () => {
+            axiosInstance.get('/api/predictions/active')
+            .then(res => res.data)
+            .then(data => {
+                setPredictions(data);
+                setIsFetching(false);
+            })
+            .catch(err => {
+                setIsFetching(false);
+                console.log("Error occured: " + err.message);
+            });  
+        }
+
+        getPredictions();
+        window.getPredictionsInterval = setInterval(
+            () => getPredictions(),
+            120000
+        )
+        return () => {
+            clearInterval(window.getPredictionsInterval)
+        }
     }, []);
+
+    if(!isFetching && predictions.length === 0) {
+        return (
+            <VStack 
+                w="100%"
+                py={14}
+                borderY="1px solid"
+                borderColor="whiteAlpha.300"
+            >
+                <Image src={emptyPredictions} height="64px" alt="no active predictions" my="10px" />
+                <Text size="md" color="gray.200" fontWeight="700" textAlign="center">
+                    Generating Predictions
+                </Text>
+                <Text size="md" color="gray.200" fontWeight="400" textAlign="center">
+                    Please, wait a few minutes to get a list of new predictions. 
+                </Text>
+            </VStack>
+        )
+    }
     
     return (
         <Flex

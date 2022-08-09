@@ -8,7 +8,7 @@ module.exports = async (req, res) => {
     await connectToDatabase();
   
     const searchQuery  = req.query
-    const bets = await Bet.find(searchQuery).populate("prediction");
+    const bets = await Bet.find(searchQuery).sort('-createdAt').populate("prediction");
     res.send(bets);
   } catch (err) {
     console.error("Failed to get bets, with error code: " + err.message);

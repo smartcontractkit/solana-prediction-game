@@ -1,5 +1,6 @@
 name: bet-status-cron
 on:
+  pull_request:
   schedule:
     - cron: '*/5 * * * *'
 jobs:
@@ -8,10 +9,6 @@ jobs:
     steps:
       - name: Update Bet Status every 5 minutes
         run: |
-          touch .env
-          echo API_SECRET_KEY=${{ secrets.API_SECRET_KEY }} >> .env
-          echo API_URL=${{ secrets.API_URL }} >> .env
-          cat .env
           curl --request POST \
-          --url '$API_URL/bets/status' \
-          --header 'Authorization: Bearer $API_SECRET_KEY'
+          --url '${{ secrets.API_URL }}/bets/status' \
+          --header 'Authorization: Bearer ${{ secrets.API_SECRET_KEY }}'
