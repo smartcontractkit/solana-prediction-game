@@ -12,11 +12,11 @@ const BetCard = ({ prediction, feed }) => {
     const pairURL = `https://data.chain.link/ethereum/mainnet/crypto-usd/${firstCurrency}-${secondCurrency}`.toLowerCase();
     const logoImage = require(`../../assets/logos/${firstCurrency.toLowerCase()}.png`);
 
-    const { setBetSlip } = useContext(UserDataContext);
+    const { setBetslip } = useContext(UserDataContext);
 
     const placeBet = () => {
         document.getElementById('bet-tabs').scrollIntoView({ behavior: 'smooth' });
-        setBetSlip({
+        setBetslip({
             prediction, 
             firstCurrency,
             secondCurrency,

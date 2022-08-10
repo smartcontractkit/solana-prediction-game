@@ -9,7 +9,7 @@ import { useToast } from "@chakra-ui/react";
 const UserDataProvider = (props) => {
     const { connected, publicKey } = useWallet();
     const { connection } = useConnection();
-    const [betSlip, setBetSlip] = useState(null);
+    const [betSlip, setBetslip] = useState(null);
     const [balance, setBalance] = useState(null);
     const [user, setUser] = useState(null);
     const [myBets, setMyBets] = useState(null);
@@ -139,7 +139,7 @@ const UserDataProvider = (props) => {
       user : null,
       myBets : null,
       betSlip, 
-      setBetSlip,
+      setBetslip,
       betPlaced,
       setBetPlaced
     };
@@ -151,7 +151,7 @@ const UserDataProvider = (props) => {
         user,
         myBets,
         betSlip, 
-        setBetSlip,
+        setBetslip,
         betPlaced,
         setBetPlaced
       };
@@ -170,7 +170,7 @@ export const UserDataContext = createContext({
   user: null,
   myBets: null,
   betSlip: null,
-  setBetSlip: (betSlip) => {},
+  setBetslip: (betSlip) => {},
   betPlaced: false,
   setBetPlaced: (betPlaced) => {},
 }); 

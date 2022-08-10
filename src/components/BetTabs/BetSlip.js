@@ -1,6 +1,6 @@
 import { Flex, FormControl, HStack, Image, InputGroup, InputRightAddon, NumberInput, NumberInputField, Text, VStack } from "@chakra-ui/react";
 import { useContext, useState } from "react";
-import emptyBetSlip from '../../assets/icons/empty-betslip.svg';
+import emptyBetslip from '../../assets/icons/empty-betslip.svg';
 import CreateBetButton from "./CreateBetButton";
 import { CloseIcon } from "@chakra-ui/icons";
 import { UserDataContext } from "../../contexts/UserDataProvider";
@@ -10,19 +10,19 @@ import placeholder from "../../assets/logos/placeholder.png";
 import { useWallet } from "@solana/wallet-adapter-react";
 import WalletModalButton from "../WalletModalButton/WalletModalButton";
 
-const BetSlip = () => {
+const Betslip = () => {
 
     const { connected } = useWallet();
-    const { balance, betSlip, setBetSlip, betPlaced, setBetPlaced } = useContext(UserDataContext);
+    const { balance, betSlip, setBetslip, betPlaced, setBetPlaced } = useContext(UserDataContext);
 
     const [ amount, setAmount ] = useState(0);
 
     if(!betSlip) {
         return (
             <VStack>
-                <Image src={emptyBetSlip} height="64px" alt="empty bet slip" my="10px" />
+                <Image src={emptyBetslip} height="64px" alt="empty bet slip" my="10px" />
                 <Text fontWeight={700} color="gray.200">
-                    BetSlip is empty
+                    Betslip is empty
                 </Text>
                 <Text color="gray.500">
                     To add a bet to your betslip, please select a prediction from the list.
@@ -47,7 +47,7 @@ const BetSlip = () => {
     const isError = connected ? isInsufficientBalance || isInsufficientAmount: false;
 
     const removeBet = () => {
-        setBetSlip(null);
+        setBetslip(null);
     }
 
     const BottomButton = (props) => {
@@ -58,7 +58,7 @@ const BetSlip = () => {
                 disabled={isError}
                 predictionId={_id}
                 amount={amount}
-                setBetSlip={setBetSlip}
+                setBetslip={setBetslip}
                 betPlaced={betPlaced}
                 setBetPlaced={setBetPlaced}
                 {...props}
@@ -208,4 +208,4 @@ const BetSlip = () => {
     )
 }
 
-export default BetSlip;
+export default Betslip;

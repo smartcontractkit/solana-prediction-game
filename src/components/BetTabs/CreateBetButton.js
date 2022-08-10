@@ -10,7 +10,7 @@ export default function CreateBetButton(
     { 
         predictionId,
         amount,
-        setBetSlip,
+        setBetslip,
         betPlaced,
         setBetPlaced,
         ...props
@@ -79,7 +79,7 @@ export default function CreateBetButton(
         .then(res => res.data)
         .then(data => {
             setIsSaving(false);
-            setBetSlip(null);
+            setBetslip(null);
             setBetPlaced(!betPlaced);
             const transactionUrl = `https://explorer.solana.com/tx/${transactionSignature}?cluster=${network}`;
     
@@ -93,7 +93,7 @@ export default function CreateBetButton(
         })
         .catch(err => {
             setIsSaving(false);
-            setBetSlip(null);
+            setBetslip(null);
             toast({
                 title: 'Error creating bet.',
                 description: err.message,
