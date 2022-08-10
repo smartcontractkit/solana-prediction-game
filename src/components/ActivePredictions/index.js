@@ -66,7 +66,7 @@ const ActivePredictions = () => {
     
     return (
         <Flex
-            gap={2}
+            gap="1.5rem"
             flexWrap="wrap"
             justifyContent={["center", "center", "flex-start", "flex-start"]}
         >

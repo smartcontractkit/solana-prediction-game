@@ -6,7 +6,7 @@ const theme = extendTheme(
             global: {
                 html: {
                     margin: '0 auto',
-                    maxWidth: '1272px',
+                    maxWidth: '1300px',
                 },
                 body: {
                     bg: 'gray.900',
