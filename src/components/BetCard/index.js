@@ -53,7 +53,7 @@ const BetCard = ({ prediction, feed }) => {
                             {firstCurrency}
                         </Text>
                         <Text fontSize="sm">
-                            will settle at
+                            will settle
                         </Text>
                         <Text fontSize="sm" color={ direction ? 'green.200' : 'pink.200' } >
                             { direction ? 'above' : 'below' } 
