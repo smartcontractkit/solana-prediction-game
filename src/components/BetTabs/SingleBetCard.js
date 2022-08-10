@@ -1,4 +1,4 @@
-import { Button, HStack, Image, Text, VStack } from "@chakra-ui/react";
+import { Button, HStack, Image, Text, useToast, VStack } from "@chakra-ui/react";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import { useContext, useState } from "react";
 import placeholder from "../../assets/logos/placeholder.png";
@@ -10,10 +10,11 @@ import { DIVISOR } from "../../lib/constants";
 const SingleBetCard = ({ bet }) => {
     const { prediction, amount, status, transactionSignature } = bet;
     const { pair, predictionPrice, expiryTime, direction } = prediction;
-    const { address } = useContext(UserDataContext);
+    const { address, betplaced, setBetPlaced } = useContext(UserDataContext);
     const { firstCurrency, secondCurrency } = getCurrenciesFromPairs(pair);
     const logoImage = require(`../../assets/logos/${firstCurrency.toLowerCase()}.png`);
     const [isSaving, setIsSaving] = useState(false);
+    const toast = useToast();
 
     let statusText = "";
     let statusColor = "";
@@ -41,7 +42,13 @@ const SingleBetCard = ({ bet }) => {
     }
 
     const withdraw = async () => {
-        console.log("Withdrawing"); // TODO: show alert notification
+        toast({
+            title: 'Withdrawing...',
+            description: "Sending Solana to your account",
+            status: 'info',
+            duration: 9000,
+            isClosable: true,
+        })
 
         axiosInstance.post("/api/transactions/withdraw", {
             _id: bet._id,
@@ -51,11 +58,24 @@ const SingleBetCard = ({ bet }) => {
         .then(res => res.data)
         .then(data => {
             setIsSaving(false);
-            console.log("Transaction completed" + data.transactionId);
+            setBetPlaced(!betplaced);
+            toast({
+                title: 'Transaction complete',
+                description: "Refreshing your account balance...",
+                status: 'success',
+                duration: 9000,
+                isClosable: true,
+            })
         })
         .catch(err => {
             setIsSaving(false);
-            console.log("Error occured: " + err.message);
+            toast({
+                title: 'Error withdrawing funds',
+                description: err.message,
+                status: 'error',
+                duration: 9000,
+                isClosable: true,
+            })
         });  
 
     }

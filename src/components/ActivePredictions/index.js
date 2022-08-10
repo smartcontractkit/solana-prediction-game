@@ -1,4 +1,4 @@
-import { Flex, Image, Text, VStack } from "@chakra-ui/react";
+import { Flex, Image, ScaleFade, Text, useToast, VStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import axiosInstance from "../../helpers/axiosInstance";
 import useDataFeeds from "../../hooks/useDataFeeds";
@@ -12,6 +12,8 @@ const ActivePredictions = () => {
 
     const dataFeeds = useDataFeeds();
 
+    const toast = useToast();
+
     useEffect(() => {
         const getPredictions = async () => {
             axiosInstance.get('/api/predictions/active')
@@ -22,7 +24,13 @@ const ActivePredictions = () => {
             })
             .catch(err => {
                 setIsFetching(false);
-                console.log("Error occured: " + err.message);
+                toast({
+                    title: 'Error getting predictions.',
+                    description: err.message,
+                    status: 'error',
+                    duration: 9000,
+                    isClosable: true,
+                })
             });  
         }
 
@@ -34,6 +42,7 @@ const ActivePredictions = () => {
         return () => {
             clearInterval(window.getPredictionsInterval)
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     if(!isFetching && predictions.length === 0) {
@@ -57,22 +66,23 @@ const ActivePredictions = () => {
     
     return (
         <Flex
-            gap={2}
+            gap="1.5rem"
             flexWrap="wrap"
             justifyContent={["center", "center", "flex-start", "flex-start"]}
         >
             {
                 isFetching 
-                ? [...Array(12)].map((_, i) => <CardSKeleton key={i} />)
+                ? [...Array(12)].map((_, i) => <CardSKeleton />)
                 : predictions.map(prediction => {
                     const { _id, pair } = prediction;
                     const feed = dataFeeds.find(data => data.pair === pair);
                     return (
-                        <BetCard 
-                            key={_id}
-                            prediction={prediction}
-                            feed={feed}
-                        />
+                        <ScaleFade in={true} initialScale={0.5} key={_id}>
+                            <BetCard
+                                prediction={prediction}
+                                feed={feed}
+                            />
+                        </ScaleFade>
                     );
                 })
             }

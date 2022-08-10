@@ -18,19 +18,19 @@ function App() {
       <Hero />
       {
         <Flex
-          gap={[8, 8, 2, 2]}
-          direction={['column-reverse', 'column-reverse' , 'row', 'row']}
+          gap={[8, 8, 8, "1.5rem", "1.5rem"]}
+          direction={['column-reverse', 'column-reverse' , 'column-reverse', 'row', 'row']}
           w="100%"
         >
           <VStack
-            width={['100%', '100%' , '59%', '75%']}
+            width={['100%', '100%', '100%', '59%', '75%']}
             gap={4}
           >
             <Subheader />
             <ActivePredictions />
           </VStack>
           <VStack
-            width={['100%', '100%', '38%', '25%']}
+            width={['100%', '100%', '100%', '38%', '25%']}
             flexGrow={[1, 1, 1, 0]}
             gap={2}
           >

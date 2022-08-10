@@ -27,7 +27,7 @@ const MenuWallet = ({ children, ...props }) => {
       if (base58) {
         await navigator.clipboard.writeText(base58);
         setCopied(true);
-        setTimeout(() => setCopied(false), 400);
+        setTimeout(() => setCopied(false), 800);
       }
     }, [base58]);
 
@@ -136,7 +136,7 @@ const MenuWallet = ({ children, ...props }) => {
           role="menu"
       >
           <li onClick={copyAddress} className="wallet-adapter-dropdown-list-item" role="menuitem">
-              {copied ? 'Copied' : 'Copy address'}
+              {copied ? <Text color="green.200">Copied!</Text> : 'Copy address'}
           </li>
           <li onClick={openModal} className="wallet-adapter-dropdown-list-item" role="menuitem">
               Change wallet

@@ -4,17 +4,19 @@ import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 
 import { createContext } from "react"; 
 import axiosInstance from "../../helpers/axiosInstance";
+import { useToast } from "@chakra-ui/react";
 
 const UserDataProvider = (props) => {
     const { connected, publicKey } = useWallet();
     const { connection } = useConnection();
-    const [betSlip, setBetSlip] = useState(null);
+    const [betSlip, setBetslip] = useState(null);
     const [balance, setBalance] = useState(null);
     const [user, setUser] = useState(null);
     const [myBets, setMyBets] = useState(null);
     const [betPlaced, setBetPlaced] = useState(false);
 
-    
+    const toast = useToast();
+
     const getBalance = async () => {
       return await connection.getBalance(publicKey)
     }
@@ -51,7 +53,13 @@ const UserDataProvider = (props) => {
         })
       })
       .catch(err => {
-        console.log("Error occured: " + err.message);
+        toast({
+            title: 'Error getting user details',
+            description: err.message,
+            status: 'error',
+            duration: 9000,
+            isClosable: true,
+        })
       });
     }
 
@@ -67,7 +75,13 @@ const UserDataProvider = (props) => {
         setMyBets(data);
       })
       .catch(err => {
-        console.log("Error occured: " + err.message);
+        toast({
+            title: 'Error getting your previous bets',
+            description: err.message,
+            status: 'error',
+            duration: 9000,
+            isClosable: true,
+        })
       });
     }
 
@@ -87,9 +101,22 @@ const UserDataProvider = (props) => {
         getBalance()
         .then(res => {
           setBalance(res/LAMPORTS_PER_SOL);
+          toast({
+              title: 'Balance Updated',
+              description: "Your balance has been updated",
+              status: 'info',
+              duration: 9000,
+              isClosable: true,
+          })
         })
         .catch(err => {
-          console.log(err);
+          toast({
+              title: 'Error getting your balance',
+              description: err.message,
+              status: 'error',
+              duration: 9000,
+              isClosable: true,
+          })
         });
 
         window.getMyBetsInterval = setInterval(
@@ -112,7 +139,7 @@ const UserDataProvider = (props) => {
       user : null,
       myBets : null,
       betSlip, 
-      setBetSlip,
+      setBetslip,
       betPlaced,
       setBetPlaced
     };
@@ -124,7 +151,7 @@ const UserDataProvider = (props) => {
         user,
         myBets,
         betSlip, 
-        setBetSlip,
+        setBetslip,
         betPlaced,
         setBetPlaced
       };
@@ -143,7 +170,7 @@ export const UserDataContext = createContext({
   user: null,
   myBets: null,
   betSlip: null,
-  setBetSlip: (betSlip) => {},
+  setBetslip: (betSlip) => {},
   betPlaced: false,
   setBetPlaced: (betPlaced) => {},
 }); 

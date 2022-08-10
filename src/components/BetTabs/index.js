@@ -1,5 +1,5 @@
 import { Tabs, TabList, Tab, TabPanels, TabPanel, Box } from '@chakra-ui/react';
-import BetSlip from './BetSlip';
+import Betslip from './Betslip';
 import MyBets from './MyBets';
 
 const BetTabs = () => {
@@ -13,15 +13,16 @@ const BetTabs = () => {
             h="max-content"
             alignItems="center"
             direction="column" 
+            id="bet-tabs"
         >
             <Tabs variant='soft-rounded' colorScheme='blue' align="center">
                 <TabList>
-                    <Tab>BetSlip</Tab>
+                    <Tab>Betslip</Tab>
                     <Tab>My Bets</Tab>
                 </TabList>
                 <TabPanels>
                     <TabPanel>
-                        <BetSlip />
+                        <Betslip />
                     </TabPanel>
                     <TabPanel>
                         <MyBets/>
