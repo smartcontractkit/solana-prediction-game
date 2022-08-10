@@ -150,6 +150,7 @@ const BetCard = ({ prediction, feed }) => {
                 <Button
                     width="100%"
                     rounded="md"
+                    size="sm"
                     color="blue.200"
                     border="1px solid"
                     borderColor="blue.200"
@@ -164,7 +165,7 @@ const BetCard = ({ prediction, feed }) => {
                     disabled={!status && predictionDeadline > Date.now()}
                     onClick={placeBet}
                 >
-                    Place bet
+                    Make a bet
                 </Button>
             </VStack>
 

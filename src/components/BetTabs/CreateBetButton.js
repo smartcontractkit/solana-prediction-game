@@ -113,12 +113,13 @@ export default function CreateBetButton(
     return (
         <>
             <Button
+                size="sm"
                 onClick={showDialog}
                 isLoading={isSaving}
                 loadingText="Placing bet..."
                 {...props}
             >
-                Make Bet
+                Place Bet
             </Button>
             <AlertDialog
                 motionPreset='slideInBottom'
@@ -130,7 +131,7 @@ export default function CreateBetButton(
                 <AlertDialogOverlay>
                     <AlertDialogContent bg="gray.800">
                         <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-                            Make Bet
+                            Place Bet
                         </AlertDialogHeader>
             
                         <AlertDialogBody>
