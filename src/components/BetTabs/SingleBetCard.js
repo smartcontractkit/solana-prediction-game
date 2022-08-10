@@ -61,7 +61,7 @@ const SingleBetCard = ({ bet }) => {
             setBetPlaced(!betplaced);
             toast({
                 title: 'Transaction complete',
-                description: "Refreshing your account balance",
+                description: "Refreshing your account balance...",
                 status: 'success',
                 duration: 9000,
                 isClosable: true,
