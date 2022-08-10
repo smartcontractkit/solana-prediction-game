@@ -1,8 +1,8 @@
-import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Button, useDisclosure } from "@chakra-ui/react";
+import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Button, useDisclosure, useToast } from "@chakra-ui/react";
 import { useCallback, useContext, useRef, useState } from "react";
 import axiosInstance from "../../helpers/axiosInstance";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
-import { WalletNotConnectedError } from "@solana/wallet-adapter-base";
+import { WalletAdapterNetwork, WalletNotConnectedError } from "@solana/wallet-adapter-base";
 import { Keypair, LAMPORTS_PER_SOL, SystemProgram, Transaction } from "@solana/web3.js";
 import { UserDataContext } from "../../contexts/UserDataProvider";
 
@@ -23,6 +23,10 @@ export default function CreateBetButton(
     
     const { isOpen, onOpen, onClose } = useDisclosure();
     const cancelRef = useRef();
+
+    const toast = useToast();
+
+    const network = WalletAdapterNetwork.Devnet;
 
     const sendSolana = useCallback(async () => {
         if (!publicKey) throw new WalletNotConnectedError();
@@ -49,8 +53,6 @@ export default function CreateBetButton(
             setIsSaving(false);
         })
 
-        console.log("Transaction:", signature);
-
         await connection.confirmTransaction({
             blockhash: latestBlockHash.blockhash,
             lastValidBlockHeight: latestBlockHash.lastValidBlockHeight,
@@ -59,6 +61,7 @@ export default function CreateBetButton(
 
         return signature;
 
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [amount, connection, publicKey, sendTransaction]);
 
     const createBet = async () => {
@@ -78,12 +81,26 @@ export default function CreateBetButton(
             setIsSaving(false);
             setBetSlip(null);
             setBetPlaced(!betPlaced);
-            console.log("Bet created");
+            const transactionUrl = `https://explorer.solana.com/tx/${transactionSignature}?cluster=${network}`;
+    
+            toast({
+                title: 'Bet created.',
+                description: "View on explorer: " + transactionUrl,
+                status: 'success',
+                duration: 9000,
+                isClosable: true,
+            })
         })
         .catch(err => {
             setIsSaving(false);
             setBetSlip(null);
-            console.log("Error occured: " + err.message);
+            toast({
+                title: 'Error creating bet.',
+                description: err.message,
+                status: 'success',
+                duration: 9000,
+                isClosable: true,
+            })
         });  
     }
 

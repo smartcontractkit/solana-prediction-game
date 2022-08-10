@@ -4,6 +4,7 @@ import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 
 import { createContext } from "react"; 
 import axiosInstance from "../../helpers/axiosInstance";
+import { useToast } from "@chakra-ui/react";
 
 const UserDataProvider = (props) => {
     const { connected, publicKey } = useWallet();
@@ -14,7 +15,8 @@ const UserDataProvider = (props) => {
     const [myBets, setMyBets] = useState(null);
     const [betPlaced, setBetPlaced] = useState(false);
 
-    
+    const toast = useToast();
+
     const getBalance = async () => {
       return await connection.getBalance(publicKey)
     }
@@ -48,10 +50,23 @@ const UserDataProvider = (props) => {
         getBalance()
         .then(res => {
           setBalance(res/LAMPORTS_PER_SOL);
+          toast({
+              title: 'Balance Updated',
+              description: "Your balance has been updated",
+              status: 'error',
+              duration: 9000,
+              isClosable: true,
+          })
         })
       })
       .catch(err => {
-        console.log("Error occured: " + err.message);
+        toast({
+            title: 'Error getting user details',
+            description: err.message,
+            status: 'error',
+            duration: 9000,
+            isClosable: true,
+        })
       });
     }
 
@@ -67,7 +82,13 @@ const UserDataProvider = (props) => {
         setMyBets(data);
       })
       .catch(err => {
-        console.log("Error occured: " + err.message);
+        toast({
+            title: 'Error getting your previous bets',
+            description: err.message,
+            status: 'error',
+            duration: 9000,
+            isClosable: true,
+        })
       });
     }
 
@@ -87,9 +108,22 @@ const UserDataProvider = (props) => {
         getBalance()
         .then(res => {
           setBalance(res/LAMPORTS_PER_SOL);
+          toast({
+              title: 'Balance Updated',
+              description: "Your balance has been updated",
+              status: 'error',
+              duration: 9000,
+              isClosable: true,
+          })
         })
         .catch(err => {
-          console.log(err);
+          toast({
+              title: 'Error getting your balance',
+              description: err.message,
+              status: 'error',
+              duration: 9000,
+              isClosable: true,
+          })
         });
 
         window.getMyBetsInterval = setInterval(
