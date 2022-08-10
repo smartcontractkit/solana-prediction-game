@@ -2,12 +2,12 @@ name: schedule-predictions-cron
 on:
   pull_request:
   schedule:
-    - cron: '*/10 * * * *'
+    - cron: '0 * * * *'
 jobs:
   cron:
     runs-on: ubuntu-latest
     steps:
-      - name: Schedule Predictions every 10 minutes
+      - name: Schedule Predictions every 1 hr
         run: |
           curl --request POST \
           --url '${{ secrets.API_URL }}/predictions/schedulePredictions' \

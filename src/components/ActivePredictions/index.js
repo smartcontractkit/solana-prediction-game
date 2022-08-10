@@ -37,7 +37,7 @@ const ActivePredictions = () => {
         getPredictions();
         window.getPredictionsInterval = setInterval(
             () => getPredictions(),
-            120000
+            60000 * 30
         )
         return () => {
             clearInterval(window.getPredictionsInterval)
