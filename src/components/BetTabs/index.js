@@ -13,6 +13,7 @@ const BetTabs = () => {
             h="max-content"
             alignItems="center"
             direction="column" 
+            id="bet-tabs"
         >
             <Tabs variant='soft-rounded' colorScheme='blue' align="center">
                 <TabList>

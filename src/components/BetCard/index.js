@@ -15,6 +15,7 @@ const BetCard = ({ prediction, feed }) => {
     const { setBetSlip } = useContext(UserDataContext);
 
     const placeBet = () => {
+        document.getElementById('bet-tabs').scrollIntoView({ behavior: 'smooth' });
         setBetSlip({
             prediction, 
             firstCurrency,
