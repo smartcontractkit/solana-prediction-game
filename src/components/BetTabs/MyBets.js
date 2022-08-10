@@ -30,7 +30,7 @@ const MyBets = () => {
     }
 
 
-    const myBetsWon = myBets.filter(bet => bet.status === "won");
+    const myBetsWon = myBets.filter(bet => (bet.status === "won" || bet.status === "completed"));
     const winRate = ((myBetsWon.length || myBets.length) === 0) ? 0 : roundOff(myBetsWon.length / myBets.length, 2) * 100;
 
     return (
