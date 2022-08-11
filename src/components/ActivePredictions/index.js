@@ -1,4 +1,4 @@
-import { Flex, Image, ScaleFade, Text, useToast, VStack } from "@chakra-ui/react";
+import { Flex, Image, Text, useToast, VStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import axiosInstance from "../../helpers/axiosInstance";
 import useDataFeeds from "../../hooks/useDataFeeds";
@@ -37,7 +37,7 @@ const ActivePredictions = () => {
         getPredictions();
         window.getPredictionsInterval = setInterval(
             () => getPredictions(),
-            120000
+            60000 * 30
         )
         return () => {
             clearInterval(window.getPredictionsInterval)
@@ -72,17 +72,16 @@ const ActivePredictions = () => {
         >
             {
                 isFetching 
-                ? [...Array(12)].map((_, i) => <CardSKeleton />)
+                ? [...Array(12)].map((_, i) => <CardSKeleton key={i} />)
                 : predictions.map(prediction => {
                     const { _id, pair } = prediction;
                     const feed = dataFeeds.find(data => data.pair === pair);
                     return (
-                        <ScaleFade in={true} initialScale={0.5} key={_id}>
-                            <BetCard
-                                prediction={prediction}
-                                feed={feed}
-                            />
-                        </ScaleFade>
+                        <BetCard
+                            prediction={prediction}
+                            feed={feed}
+                            key={_id}
+                        />
                     );
                 })
             }

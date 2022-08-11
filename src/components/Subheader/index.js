@@ -6,22 +6,22 @@ import { useEffect, useState } from "react";
 
 const NextPredictionTimer = () => {
     const date = new Date();
-    const [predictionTime, setPredictionTime] = useState(date.getTime() + (60000 * (10 - (date.getMinutes() % 10))));
+    const [predictionTime, setPredictionTime] = useState(date.getTime() + (60000 * (60 - (date.getMinutes() % 60))));
 
     useEffect(() => {
-        window.interval10min = setInterval(
+        window.nextPredictionInterval = setInterval(
             () => {
                 let currentDate = new Date();
-                if(currentDate.getMinutes() % 10 === 0) {
-                    setPredictionTime(new Date(new Date().getTime() + (60000 * 10)));
+                if(currentDate.getMinutes() % 60 === 0) {
+                    setPredictionTime(new Date(new Date().getTime() + (60000 * 60)));
                     return
                 }
                 return
             },
-            6000
+            60000 
         )
         return () => {
-            clearInterval(window.interval10min)
+            clearInterval(window.nextPredictionInterval)
         }
     }, []);
   
