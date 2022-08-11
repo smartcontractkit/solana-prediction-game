@@ -11,7 +11,7 @@ const CardSKeleton = () => (
         maxWidth={["100%", "100%", "100%", "300px"]}
         alignItems="flex-start"
         direction="column"   
-        flexGrow={[1, 1, 1, 1]}
+        flexGrow={1}
     >
 
         <SkeletonText mt='4' noOfLines={4} spacing='4' opacity={0.3} />

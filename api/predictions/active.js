@@ -7,7 +7,7 @@ module.exports = async (req, res) => {
         await connectToDatabase();
         
         const predictions = await Prediction.find({
-            predictionDeadline: {
+            expiryTime: {
                 $gte: new Date()
             }
         });
