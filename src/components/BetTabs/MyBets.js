@@ -18,7 +18,7 @@ const MyBets = () => {
                     No bets here yet
                 </Text>
                 <Text color="gray.500">
-                    Connect your wallet first and it they will appear here.
+                    Connect your wallet to see your bets.
                 </Text>
                 <WalletModalButton 
                     width="100%"
@@ -61,7 +61,7 @@ const MyBets = () => {
                     No bets here yet
                 </Text>
                 <Text color="gray.500">
-                    Make your first one and it will appear here.
+                    Make a bet and it will appear here
                 </Text>
             </VStack>
         )
