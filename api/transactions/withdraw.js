@@ -10,7 +10,6 @@ module.exports = async (req, res) => {
             await connectToDatabase();
 
             const { withdrawAddress, amount, _id } = req.body;
-            console.log(req.body);
 
             if (!withdrawAddress || !amount || !_id) {
                 res.status(400).send('Missing withdrawAddress or amount or _id');
@@ -20,7 +19,7 @@ module.exports = async (req, res) => {
             const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
             const toPubkey = new PublicKey(withdrawAddress);
 
-            const secret = Uint8Array.from(process.env.REACT_APP_WALLET_PRIVATE_KEY.split(','));
+            const secret = Uint8Array.from(process.env.WALLET_PRIVATE_KEY.split(','));
             const escrowKeyPair = Keypair.fromSecretKey(secret);
 
             const transaction = new Transaction().add(
