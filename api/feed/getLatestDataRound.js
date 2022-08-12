@@ -55,8 +55,6 @@ module.exports = async (req, res) => {
         return;
     }
 
-    console.log(address, pair);
-
     try {
         const round = await getLatestDataRound(address, pair);
         res.status(200).send(round);
