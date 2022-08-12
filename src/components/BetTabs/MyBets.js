@@ -9,7 +9,7 @@ const MyBets = () => {
 
     const { myBets } = useContext(UserDataContext);
     
-    if(!myBets && myBets.length > 0) {
+    if(!myBets) {
         return (
             <VStack
                 rounded="md"
