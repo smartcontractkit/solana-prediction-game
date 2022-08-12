@@ -4,10 +4,34 @@ import { UserDataContext } from "../../contexts/UserDataProvider";
 import emptyBets from '../../assets/icons/empty-bets.svg';
 import SingleBetCard from "./SingleBetCard";
 import { roundOff } from "../../helpers/solHelpers";
+import WalletModalButton from "../WalletModalButton/WalletModalButton";
 
 const MyBets = () => {
 
-    const { myBets } = useContext(UserDataContext);
+    const { myBets, user } = useContext(UserDataContext);
+
+    if(!user){
+        return (
+            <VStack>
+                <Image src={emptyBets} height="64px" alt="empty bet slip" my="10px" />
+                <Text fontWeight={700} color="gray.200">
+                    No bets here yet
+                </Text>
+                <Text color="gray.500">
+                    Connect your wallet first and it they will appear here.
+                </Text>
+                <WalletModalButton 
+                    width="100%"
+                    rounded="md"
+                    color="gray.800"
+                    bg="blue.200"
+                    _hover={{
+                        bg: "blue.100",
+                    }}
+                />
+            </VStack>
+        )
+    }
     
     if(!myBets) {
         return (
