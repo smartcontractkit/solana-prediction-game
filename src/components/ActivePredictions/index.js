@@ -63,7 +63,19 @@ const ActivePredictions = () => {
             </VStack>
         )
     }
-    
+
+    if(isFetching) {
+        return (
+            <Flex
+                gap="1.5rem"
+                flexWrap="wrap"
+                justifyContent={["center", "center", "flex-start", "flex-start"]}
+            >
+                {[...Array(12)].map((_, i) => <CardSKeleton key={i} />)}
+            </Flex>
+        )
+    }
+
     return (
         <Flex
             gap="1.5rem"
@@ -71,9 +83,7 @@ const ActivePredictions = () => {
             justifyContent={["center", "center", "flex-start", "flex-start"]}
         >
             {
-                isFetching 
-                ? [...Array(12)].map((_, i) => <CardSKeleton key={i} />)
-                : predictions.map(prediction => {
+                predictions.map(prediction => {
                     const { _id, pair } = prediction;
                     const feed = dataFeeds.find(data => data.pair === pair);
                     return (
