@@ -1,4 +1,4 @@
-import { HStack, Image, Text, VStack } from "@chakra-ui/react";
+import { HStack, Image, Skeleton, SkeletonCircle, SkeletonText, Text, VStack } from "@chakra-ui/react";
 import { useContext } from "react";
 import { UserDataContext } from "../../contexts/UserDataProvider";
 import emptyBets from '../../assets/icons/empty-bets.svg';
@@ -9,26 +9,39 @@ const MyBets = () => {
 
     const { myBets } = useContext(UserDataContext);
     
-    const EmptyBets = () => (
-        <VStack>
-            <Image src={emptyBets} height="64px" alt="empty bet slip" my="10px" />
-            <Text fontWeight={700} color="gray.200">
-                No bets here yet
-            </Text>
-            <Text color="gray.500">
-                Make your first one and it will appear here.
-            </Text>
-        </VStack>
-    )
-
-    if(!myBets) {
-        return <EmptyBets />
+    if(!myBets && myBets.length > 0) {
+        return (
+            <VStack
+                rounded="md"
+                bg="whiteAlpha.100"
+                alignItems="flex-start"
+                p="12px"
+                gap="8px"
+                w="100%"
+                boxShadow='lg' 
+            >
+                <SkeletonCircle boxSize='24px' opacity={0.3} />
+                <SkeletonText noOfLines={1} spacing='4' opacity={0.3} w='100%' />
+                <SkeletonText noOfLines={1} spacing='4' opacity={0.3} w='70%' />
+                <SkeletonText noOfLines={1} spacing='4' opacity={0.3} w='100%' />
+                <Skeleton height='32px' rounded="sm" opacity={0.3} w='100%' />
+            </VStack>
+        )
     }
 
     if(myBets.length === 0) {
-        return <EmptyBets />
+        return (
+            <VStack>
+                <Image src={emptyBets} height="64px" alt="empty bet slip" my="10px" />
+                <Text fontWeight={700} color="gray.200">
+                    No bets here yet
+                </Text>
+                <Text color="gray.500">
+                    Make your first one and it will appear here.
+                </Text>
+            </VStack>
+        )
     }
-
 
     const myBetsWon = myBets.filter(bet => (bet.status === "won" || bet.status === "completed"));
     const winRate = ((myBetsWon.length || myBets.length) === 0) ? 0 : roundOff(myBetsWon.length / myBets.length, 2) * 100;
