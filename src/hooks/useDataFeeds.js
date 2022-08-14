@@ -17,13 +17,17 @@ const useDataFeeds = () => {
 
             return new Promise(async (res, rej) => {
                 return axiosInstance.get(`/api/feed/getLatestDataRound?${queryParams}`)
-                .then(res => res.data);
+                .then(response => {
+                    res(response.data)
+                })
+                .catch(err => {
+                    rej(err)
+                })
             });
         })
 
         Promise.all(promises)
         .then(data => {
-            console.log(data);
             setDataFeeds(data);
         })
         .catch(console.error);
