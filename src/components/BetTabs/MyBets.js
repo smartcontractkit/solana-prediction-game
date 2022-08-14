@@ -5,12 +5,14 @@ import emptyBets from '../../assets/icons/empty-bets.svg';
 import SingleBetCard from "./SingleBetCard";
 import { roundOff } from "../../helpers/solHelpers";
 import WalletModalButton from "../WalletModalButton/WalletModalButton";
+import { useWallet } from "@solana/wallet-adapter-react";
 
 const MyBets = () => {
 
-    const { myBets, user } = useContext(UserDataContext);
+    const { myBets } = useContext(UserDataContext);
+    const { connected } = useWallet();
 
-    if(!user){
+    if(!connected){
         return (
             <VStack>
                 <Image src={emptyBets} height="64px" alt="empty bet slip" my="10px" />

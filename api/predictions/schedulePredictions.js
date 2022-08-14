@@ -1,4 +1,3 @@
-
 const solanaWeb3 = require("@solana/web3.js");
 const anchor = require("@project-serum/anchor");
 const chainlink = require("@chainlink/solana-sdk");
@@ -6,7 +5,7 @@ const { connectToDatabase } = require("../../lib/mongoose");
 const Prediction = require("../../models/prediction.model");
 const { Wallet } = require("../../models/wallet.model");
 
-const secret = Uint8Array.from(process.env.REACT_APP_WALLET_PRIVATE_KEY.split(','));
+const secret = Uint8Array.from(process.env.WALLET_PRIVATE_KEY.split(','));
 const wallet = new Wallet(solanaWeb3.Keypair.fromSecretKey(secret));
 
 
