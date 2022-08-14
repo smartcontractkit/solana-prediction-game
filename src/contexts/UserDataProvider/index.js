@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 
 import { createContext } from "react"; 
-import axiosInstance from "../../helpers/axiosInstance";
+import axiosInstance from "../../lib/axiosInstance";
 import { useToast } from "@chakra-ui/react";
 
 const UserDataProvider = (props) => {

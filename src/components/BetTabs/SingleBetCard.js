@@ -3,8 +3,8 @@ import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import { useContext, useState } from "react";
 import placeholder from "../../assets/logos/placeholder.png";
 import { UserDataContext } from "../../contexts/UserDataProvider";
-import axiosInstance from "../../helpers/axiosInstance";
-import { getCurrenciesFromPairs, roundOff } from "../../helpers/solHelpers";
+import axiosInstance from "../../lib/axiosInstance";
+import { getCurrenciesFromPairs, roundOff } from "../../lib/solHelpers";
 import { DIVISOR } from "../../lib/constants";
 
 const SingleBetCard = ({ bet }) => {

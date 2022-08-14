@@ -1,6 +1,6 @@
 import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Button, useDisclosure, useToast } from "@chakra-ui/react";
 import { useCallback, useContext, useRef, useState } from "react";
-import axiosInstance from "../../helpers/axiosInstance";
+import axiosInstance from "../../lib/axiosInstance";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { WalletAdapterNetwork, WalletNotConnectedError } from "@solana/wallet-adapter-base";
 import { Keypair, LAMPORTS_PER_SOL, SystemProgram, Transaction } from "@solana/web3.js";

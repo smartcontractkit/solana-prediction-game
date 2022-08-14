@@ -1,6 +1,6 @@
 import { Flex, HStack, Text, VStack, Image, Button, Tooltip, Link, ScaleFade, Box } from "@chakra-ui/react";
 import { DIVISOR } from "../../lib/constants";
-import { getCurrenciesFromPairs, roundOff } from "../../helpers/solHelpers";
+import { getCurrenciesFromPairs, roundOff } from "../../lib/solHelpers";
 import { useContext } from "react";
 import { UserDataContext } from "../../contexts/UserDataProvider";
 import { ArrowDownIcon, ArrowUpIcon } from "@chakra-ui/icons";

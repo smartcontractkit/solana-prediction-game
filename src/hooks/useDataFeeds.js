@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { CURRENCY_PAIRS } from "../lib/constants";
-import axiosInstance from "../helpers/axiosInstance";
+import axiosInstance from "../lib/axiosInstance";
 
 
 const useDataFeeds = () => {
