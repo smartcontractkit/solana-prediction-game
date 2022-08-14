@@ -23,6 +23,7 @@ const useDataFeeds = () => {
 
         Promise.all(promises)
         .then(data => {
+            console.log(data);
             setDataFeeds(data);
         })
         .catch(console.error);
