@@ -4,7 +4,7 @@ const Prediction = require("../../models/prediction.model");
 
 /**
  * Vercel cloud function 
- * Udates all bets with the status of "ongoing"
+ * Updates all bets with the status of "ongoing"
  * Checks if the bet expiryTime has passed
  * if so, updates the bet status based on the direction of the prediction and opening prediction price
 */
