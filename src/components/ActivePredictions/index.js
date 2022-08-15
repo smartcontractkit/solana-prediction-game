@@ -1,6 +1,6 @@
 import { Flex, Image, Text, useToast, VStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import axiosInstance from "../../helpers/axiosInstance";
+import axiosInstance from "../../lib/axiosInstance";
 import useDataFeeds from "../../hooks/useDataFeeds";
 import BetCard from "../BetCard";
 import CardSKeleton from "../BetCardSkeleton";

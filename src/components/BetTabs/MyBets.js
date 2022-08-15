@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { UserDataContext } from "../../contexts/UserDataProvider";
 import emptyBets from '../../assets/icons/empty-bets.svg';
 import SingleBetCard from "./SingleBetCard";
-import { roundOff } from "../../helpers/solHelpers";
+import { roundOff } from "../../lib/solHelpers";
 import WalletModalButton from "../WalletModalButton/WalletModalButton";
 import { useWallet } from "@solana/wallet-adapter-react";
 

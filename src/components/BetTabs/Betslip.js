@@ -4,7 +4,7 @@ import emptyBetslip from '../../assets/icons/empty-betslip.svg';
 import CreateBetButton from "./CreateBetButton";
 import { CloseIcon } from "@chakra-ui/icons";
 import { UserDataContext } from "../../contexts/UserDataProvider";
-import { roundOff } from "../../helpers/solHelpers";
+import { roundOff } from "../../lib/solHelpers";
 import { DIVISOR } from "../../lib/constants";
 import placeholder from "../../assets/logos/placeholder.png";
 import { useWallet } from "@solana/wallet-adapter-react";
