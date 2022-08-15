@@ -1,5 +1,4 @@
 import { Button, HStack, Image, Text, useToast, VStack } from "@chakra-ui/react";
-import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import { useContext, useState } from "react";
 import placeholder from "../../assets/logos/placeholder.png";
 import { UserDataContext } from "../../contexts/UserDataProvider";
@@ -80,7 +79,7 @@ const SingleBetCard = ({ bet }) => {
 
     }
 
-    const network = WalletAdapterNetwork.Devnet;
+    const network = 'devnet';
 
     const transactionUrl = `https://explorer.solana.com/tx/${transactionSignature}?cluster=${network}`;
 
