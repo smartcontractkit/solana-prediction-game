@@ -2,6 +2,12 @@ const { connectToDatabase } = require("../../lib/mongoose");
 const Bet = require("../../models/bet.model");
 const Prediction = require("../../models/prediction.model");
 
+/**
+ * Vercel cloud function 
+ * Udates all bets with the status of "ongoing"
+ * Checks if the bet expiryTime has passed
+ * if so, updates the bet status based on the direction of the prediction and opening prediction price
+*/
 module.exports = async (req, res) => {
 
     if (req.method === ('POST' || 'PUT' || 'PATCH')) {
