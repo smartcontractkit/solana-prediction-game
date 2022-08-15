@@ -1,3 +1,4 @@
+// user wallet class to allow for creation of a custom anchor provider
 export class Wallet {
 
     constructor(payer) {
