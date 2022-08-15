@@ -1,6 +1,9 @@
 const { connectToDatabase } = require("../../lib/mongoose");
 const User = require("../../models/user.model");
 
+/**
+ * Vercel cloud function for the creation of a new user
+*/
 module.exports = async (req, res) => {
 
   if (req.method === 'POST') {

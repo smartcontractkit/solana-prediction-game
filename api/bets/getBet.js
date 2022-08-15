@@ -3,7 +3,7 @@ const Bet = require("../../models/bet.model");
 const Prediction = require("../../models/prediction.model");
 
 /**
- * Vercel cloud function for the getting single bet data
+ * Vercel cloud function for the getting single bet data based on query params
 */
 module.exports = async (req, res) => {
 
