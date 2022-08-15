@@ -38,7 +38,6 @@ const getLatestDataRound = async (address, pair) => {
                 slot: event.slot,
             };
             if((round) !== undefined) {
-                console.log(`Received event ${address}: ${round.answerToNumber}`);
                 provider.connection.removeOnLogsListener(listener);
                 res(round);
             }
