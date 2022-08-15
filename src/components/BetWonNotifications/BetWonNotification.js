@@ -5,6 +5,8 @@ import prizeIcon from '../../assets/icons/prize.svg';
 
 const BetWonNotification = () => {
     const [display, setDisplay] = useState('flex');
+
+    // clear notification when user clicks on close button
     const clearNotification = () => {
         setDisplay('none');
     }

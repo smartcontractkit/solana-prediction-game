@@ -1,4 +1,4 @@
-const getLatestDataRound = require("../../lib/getLatestDataRound");
+const latestDataRound = require("../../lib/latestDataRound");
 
 module.exports = async (req, res) => {
 
@@ -9,7 +9,7 @@ module.exports = async (req, res) => {
     }
 
     try {
-        const round = await getLatestDataRound(address, pair);
+        const round = await latestDataRound(address, pair);
         res.status(200).send(round);
     }
 
