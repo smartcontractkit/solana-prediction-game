@@ -1,6 +1,9 @@
 const User = require("../../models/user.model");
 const { connectToDatabase } = require("../../lib/mongoose");
 
+/**
+ * Vercel cloud function for getting users' data based on query params
+*/
 module.exports = async (req, res) => {
 
     try {
