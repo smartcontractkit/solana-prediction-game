@@ -1,10 +1,10 @@
 const { connectToDatabase } = require("../../lib/mongoose");
 const Prediction = require("../../models/prediction.model");
-const getLatestDataRound = require("../feed/getLatestDataRound");
+const latestDataRound = require("../../lib/latestDataRound");
 const solanaWeb3 = require("@solana/web3.js");
+const { Wallet } = require("../../models/wallet.model");
 
 // Create a wallet for the prediction owner
-const { Wallet } = require("../../models/wallet.model");
 const secret = Uint8Array.from(process.env.WALLET_PRIVATE_KEY.split(','));
 const wallet = new Wallet(solanaWeb3.Keypair.fromSecretKey(secret));
 
@@ -87,7 +87,7 @@ module.exports = async (req, res) => {
 
             let promises = pairs.map(async (pair) => {
 
-                const latestRound = await getLatestDataRound(pair.feedAddress, pair.pair);
+                const latestRound = await latestDataRound(pair.feedAddress, pair.pair);
             
                 const { answerToNumber, observationsTS, slot, roundId } = latestRound;
             

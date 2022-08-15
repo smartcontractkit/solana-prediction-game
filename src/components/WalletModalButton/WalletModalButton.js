@@ -5,6 +5,7 @@ import { useCallback } from 'react';
 export const WalletModalButton = ({ children = 'Connect Wallet', onClick, ...props }) => {
     const { visible, setVisible } = useWalletModal();
 
+    // show wallet modal when button is clicked
     const handleClick = useCallback(
         (event) => {
             if (onClick) onClick(event);
