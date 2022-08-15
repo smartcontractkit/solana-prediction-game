@@ -2,7 +2,10 @@ import { useState, useEffect } from "react";
 import { CURRENCY_PAIRS } from "../lib/constants";
 import axiosInstance from "../lib/axiosInstance";
 
-
+/**
+ * 
+ * @returns price feeds from getLatestDataRound api every 30 seconds
+ */
 const useDataFeeds = () => {
     const [dataFeeds, setDataFeeds] = useState([]);
 
