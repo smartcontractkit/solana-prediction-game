@@ -1,54 +1,18 @@
-const solanaWeb3 = require("@solana/web3.js");
-const anchor = require("@project-serum/anchor");
-const chainlink = require("@chainlink/solana-sdk");
 const { connectToDatabase } = require("../../lib/mongoose");
 const Prediction = require("../../models/prediction.model");
-const { Wallet } = require("../../models/wallet.model");
+const getLatestDataRound = require("../feed/getLatestDataRound");
+const solanaWeb3 = require("@solana/web3.js");
 
+// Create a wallet for the prediction owner
+const { Wallet } = require("../../models/wallet.model");
 const secret = Uint8Array.from(process.env.WALLET_PRIVATE_KEY.split(','));
 const wallet = new Wallet(solanaWeb3.Keypair.fromSecretKey(secret));
 
-
-const getLatestDataRound = async (address, pair) => {
-  
-    let round = null;
-    
-    const options = anchor.AnchorProvider.defaultOptions();
-    const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('devnet'), 'confirmed');
-    
-    const provider = new anchor.AnchorProvider(connection, wallet, options);
-    anchor.setProvider(provider);
-    
-    const CHAINLINK_FEED_ADDRESS = address; 
-    const CHAINLINK_PROGRAM_ID = new anchor.web3.PublicKey("cjg3oHmg9uuPsP8D6g29NWvhySJkdYdAo9D25PRbKXJ");
-    const feedAddress = new anchor.web3.PublicKey(CHAINLINK_FEED_ADDRESS);
-  
-    //load the data feed account
-    let dataFeed = await chainlink.OCR2Feed.load(CHAINLINK_PROGRAM_ID, provider);
-    let listener = null;
-
-    return new Promise(async (res, rej) => {
-        //listen for events agains the price feed, and grab the latest rounds price data
-        listener = dataFeed.onRound(feedAddress, (event) => {
-            round = {
-                pair: pair,
-                feed: address,
-                answer: event.answer,
-                answerToNumber: event.answer.toNumber(),
-                roundId: event.roundId,
-                observationsTS: event.observationsTS,
-                slot: event.slot,
-            };
-            if((round) !== undefined) {
-                console.log(`Received event ${address}: ${round.answerToNumber}`);
-                provider.connection.removeOnLogsListener(listener);
-                res(round);
-            }
-        });
-    });
-  
-}
-
+/**
+ * 
+ * @param {*} prediction 
+ * @returns prediction created with prediction id
+ */
 const createPrediction = async (prediction) => {
     try {
         await connectToDatabase();
@@ -66,6 +30,7 @@ const createPrediction = async (prediction) => {
   
 }
 
+// token pairs on chainlink solana data feeds
 const pairs = [
     {
         pair: 'SOL/USD',
@@ -93,10 +58,21 @@ const pairs = [
     }
 ];
 
+/** 
+ * 
+ * @param {date, minutes}
+ * @returns date with added minutes
+*/
 const addMinutesToDate = (date, minutes) => {
     return new Date(date.getTime() + minutes * 60000);
 }
 
+/**
+ * Creates a 2 prediction for each pair in the pairs array
+ * One prediction is one percent above the current price and the other is one percent below the current price
+ * The expiry time is set to the next hour
+ * The deadline is set to the 10 minutes before the expiry time
+*/
 module.exports = async (req, res) => {
 
     if (req.method === 'POST') {

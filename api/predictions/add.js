@@ -1,6 +1,11 @@
 const { connectToDatabase } = require("../../lib/mongoose");
 const Prediction = require("../../models/prediction.model");
 
+/**
+ * Vercel cloud function 
+ * Creates a new prediction
+*/
+
 module.exports = async (req, res) => {
 
     if (req.method === 'POST') {
