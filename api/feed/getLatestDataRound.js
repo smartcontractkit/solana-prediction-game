@@ -7,8 +7,17 @@ const { Wallet } = require("../../models/wallet.model");
 const secret = Uint8Array.from(process.env.WALLET_PRIVATE_KEY.split(','));
 const wallet = new Wallet(solanaWeb3.Keypair.fromSecretKey(secret));
 
-// Using Data Feeds Off-Chain (Solana) to get the latest data round
-// https://docs.chain.link/docs/solana/using-data-feeds-off-chain/
+/**
+ * This function is deployed as a standalone endpoint via Vercel Cloud Functions. Given the expected 
+ * request query payload, it retrieves the latest price feed data round from MongoDB based on queries from the Mongoose driver. 
+ * The request is expected to come in as a GET request to `/api/feed/getLatestDataRound`. 
+ * The request body should have the shape: 
+ * { address: "0x...", pair: "XXX-USD" }
+ * For more info view How to get Data Feeds Off-Chain (Solana) via the link:
+ * https://docs.chain.link/docs/solana/using-data-feeds-off-chain/
+ * @param req NextApiRequest HTTP request object wrapped by Vercel function helpers
+ * @param res NextApiResponse HTTP response object wrapped by Vercel function helpers
+ */
 const getLatestDataRound = async (address, pair) => {
 
     let round = null;
