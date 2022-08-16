@@ -2,8 +2,14 @@ const { connectToDatabase } = require("../../lib/mongoose");
 const User = require("../../models/user.model");
 
 /**
- * Vercel cloud function for the creation of a new user
-*/
+ * This function is deployed as a standalone endpoint via Vercel Cloud Functions. Given the expected 
+ * request payload, it generates a new user entity and stores it in MongoDB. The request
+ * is expected to come in as a POST request to `/api/users/add`. The request body should have the shape:
+ * The request body should have the shape based on the user model (see api/models/user.model.js).
+ * 
+ * @param req NextApiRequest HTTP request object wrapped by Vercel function helpers
+ * @param res NextApiResponse HTTP response object wrapped by Vercel function helpers
+ */
 module.exports = async (req, res) => {
 
   if (req.method === 'POST') {
