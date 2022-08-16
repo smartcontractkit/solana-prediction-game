@@ -34,7 +34,7 @@ const getLatestDataRound = async (address, pair) => {
     const feedAddress = new anchor.web3.PublicKey(CHAINLINK_FEED_ADDRESS);
 
     // load the data feed account using the predefined chainlink program ID
-    const CHAINLINK_PROGRAM_ID = new anchor.web3.PublicKey("cjg3oHmg9uuPsP8D6g29NWvhySJkdYdAo9D25PRbKXJ");
+    const CHAINLINK_PROGRAM_ID = new anchor.web3.PublicKey(process.env.CHAINLINK_PROGRAM_ID_ADDRESS);
     let dataFeed = await chainlink.OCR2Feed.load(CHAINLINK_PROGRAM_ID, provider);
     let listener = null;
 
