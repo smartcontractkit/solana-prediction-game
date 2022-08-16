@@ -13,13 +13,13 @@ const Prediction = require("../../models/prediction.model");
  */
 module.exports = async (req, res) => {
 
-    if (req.method === ('POST' || 'PUT' || 'PATCH')) {
+    if (req.method === ('POST')) {
         try {
             await connectToDatabase();
             
             const bets = await Bet
-            .find({ status: "ongoing" }) // casts a filter based on the query object and returns a list of bets with status 'ongoing'
-            .populate("prediction"); // Populate prediction data to each bet
+                .find({ status: "ongoing" }) // casts a filter based on the query object and returns a list of bets with status 'ongoing'
+                .populate("prediction"); // Populate prediction data to each bet
 
             let promises = bets.map(async (bet) => {
                 // Check if the bet expiryTime has passed if not the function returns
@@ -56,8 +56,6 @@ module.exports = async (req, res) => {
         } 
     } else {
         res.setHeader('Allow', 'POST');
-        res.setHeader('Allow', 'PUT');
-        res.setHeader('Allow', 'PATCH');
         res.status(405).end('Method Not Allowed');
     }
 
