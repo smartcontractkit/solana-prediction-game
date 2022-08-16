@@ -55,9 +55,9 @@ const getLatestDataRound = async (address, pair) => {
 }
 
 /**
- * 
- * @param {*} prediction 
- * @returns prediction created with prediction id
+ * Given the expected prediction entity, this function generates a new prediction entity and stores it in MongoDB.
+ *
+ * @param prediction Prediction entity (see api/models/prediction.model.js).
  */
 const createPrediction = async (prediction) => {
     try {
@@ -106,7 +106,8 @@ const pairs = [
 
 /** 
  * 
- * @param {date, minutes}
+ * @param date Date object
+ * @param minutes number of minutes to add to the date
  * @returns date with added minutes
 */
 const addMinutesToDate = (date, minutes) => {
@@ -114,10 +115,15 @@ const addMinutesToDate = (date, minutes) => {
 }
 
 /**
- * Creates a 2 prediction for each pair in the pairs array
- * One prediction is one percent above the current price and the other is one percent below the current price
- * The expiry time is set to the next hour
- * The deadline is set to the 10 minutes before the expiry time
+ * This function is deployed as a standalone endpoint via Vercel Cloud Functions. 
+ * The request is expected to come in as a POST request to `/api/predictions/add`. 
+ * Creates 2 predictions for each pair in the pairs array.
+ * One prediction is one percent above the current price and the other is one percent below the current price.
+ * The expiry time is set to the next hour.
+ * The deadline is set to the 10 minutes before the expiry time.
+ *
+ * @param req NextApiRequest HTTP request object wrapped by Vercel function helpers
+ * @param res NextApiResponse HTTP response object wrapped by Vercel function helpers
 */
 module.exports = async (req, res) => {
 

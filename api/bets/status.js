@@ -3,11 +3,10 @@ const Bet = require("../../models/bet.model");
 const Prediction = require("../../models/prediction.model");
 /**
  * This function is deployed as a standalone endpoint via Vercel Cloud Functions. 
- * It updates all bet entities from MongoDB with a 'status' of 'ongoing' via the Mongoose driver. 
  * The request is expected to come in as a POST request to `/api/bets/status`. 
- * Updates all bets with the status of "ongoing"
+ * It updates all bet entities from MongoDB with a 'status' of 'ongoing' via the Mongoose driver. 
  * Checks if the bet expiryTime has passed
- * if so, updates the bet status based on the direction of the prediction and opening prediction price
+ * if so, updates the bet status based on the direction of the prediction and opening prediction price to 'won' or 'lost'
  *
  * @param req NextApiRequest HTTP request object wrapped by Vercel function helpers
  * @param res NextApiResponse HTTP response object wrapped by Vercel function helpers

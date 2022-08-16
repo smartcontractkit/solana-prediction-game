@@ -7,8 +7,8 @@ const Prediction = require("../../models/prediction.model");
  * This function is deployed as a standalone endpoint via Vercel Cloud Functions. Given the expected 
  * request payload, it generates a new bet entity and stores it in MongoDB. The request
  * is expected to come in as a POST request to `/api/bets/add`. The request body should have the shape:
- * { user: string, prediction: string, amount: number, transactionSignature: string, status: "completed" | "won" | "lost" | "ongoing" }
- *
+ * The request body should have the shape based on the bet model (see api/models/bet.model.js).
+ * 
  * @param req NextApiRequest HTTP request object wrapped by Vercel function helpers
  * @param res NextApiResponse HTTP response object wrapped by Vercel function helpers
  */
