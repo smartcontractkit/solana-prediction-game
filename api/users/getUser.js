@@ -17,6 +17,12 @@ module.exports = async (req, res) => {
         await connectToDatabase();
         
         const { address }  = req.query;
+
+        if (!address) {
+            return res.status(400).json({
+                message: "Address is required"
+            });
+        }
         const user = await User.findOne({ address });
 
         res.send(user);
