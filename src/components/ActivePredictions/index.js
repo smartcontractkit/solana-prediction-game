@@ -38,7 +38,7 @@ const ActivePredictions = () => {
         // calls getPredictions every 10 minutes
         window.getPredictionsInterval = setInterval(
             () => getPredictions(),
-            60000 * 10 // 10 minutes
+            1000 * 60 * 10 //  1000 ms/s * 60 s/min * 10 min = # ms
         )
         return () => {
             clearInterval(window.getPredictionsInterval)
