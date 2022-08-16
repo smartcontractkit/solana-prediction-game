@@ -17,8 +17,12 @@ module.exports = async (req, res) => {
   
     const searchQuery  = req.query;
 
-    // Get the bet with prediction data from latest to oldest
-    const bets = await Bet.find(searchQuery).sort('-createdAt').populate("prediction");
+    
+    const bets = await Bet
+    .find(searchQuery) // find casts a filter based on the searchQuery object and returns a list of bets
+    .sort('-createdAt') // Sort the bets by createdAt field descending
+    .populate("prediction"); // Populate prediction data to each 
+
     res.send(bets);
   } catch (err) {
     console.error("Failed to get bets, with error code: " + err.message);
