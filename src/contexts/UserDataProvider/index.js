@@ -34,11 +34,7 @@ const UserDataProvider = (props) => {
 
     // Get user from database
     const getUser = async (address) => {
-      axiosInstance.get(`/api/users/getUser`, {
-        params: {
-          address
-        }
-      })
+      axiosInstance.get(`/api/users/${address}`)
       .then(res => res.data)
       .then(async (result) => {
         let loggedInUser = null;
@@ -71,11 +67,7 @@ const UserDataProvider = (props) => {
     // Get user bets from database
     const getMyBets = async (user) => {
       if(!user) return;
-      axiosInstance.get(`/api/bets`, {
-        params: {
-          user: user._id
-        }
-      })
+      axiosInstance.get(`/api/bets/user/${user._id}`)
       .then(res => res.data)
       .then(data => {
         setMyBets(data);

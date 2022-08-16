@@ -1,11 +1,11 @@
-const { connectToDatabase } = require("../../lib/mongoose");
-const Bet = require("../../models/bet.model");
-const Prediction = require("../../models/prediction.model");
+const { connectToDatabase } = require("../../../lib/mongoose");
+const Bet = require("../../../models/bet.model");
+const Prediction = require("../../../models/prediction.model");
 /**
  * This function is deployed as a standalone endpoint via Vercel Cloud Functions. 
  * Given the expected request query payload, it retrieves bet entities from MongoDB 
  * based on queries from the Mongoose driver. 
- * The request is expected to come in as a GET request to `/api/bets?user=[user_id]`. 
+ * The request is expected to come in as a GET request to `/api/bets/user/[user]`. 
  * The request query must have user paramater to filter by user.
  *
  * @param req NextApiRequest HTTP request object wrapped by Vercel function helpers

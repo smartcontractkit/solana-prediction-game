@@ -6,7 +6,7 @@ const User = require("../../models/user.model");
  * Given the expected request query payload of a user address, 
  * it retrieves a single bet entity from MongoDB based on from the Mongoose driver. 
  * For more info: (https://mongoosejs.com/docs/queries.html).
- * The request is expected to come in as a GET request to `/api/users/getUser?address=[address]`. 
+ * The request is expected to come in as a GET request to `/api/users/[address]`. 
  * The request query requires an address parameter.
  *
  * @param req NextApiRequest HTTP request object wrapped by Vercel function helpers
