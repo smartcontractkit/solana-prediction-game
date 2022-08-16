@@ -19,9 +19,9 @@ module.exports = async (req, res) => {
 
     
     const bets = await Bet
-    .find(searchQuery) // find casts a filter based on the searchQuery object and returns a list of bets
+    .find(searchQuery) // casts a filter based on the searchQuery object and returns a list of bets
     .sort('-createdAt') // Sort the bets by createdAt field descending
-    .populate("prediction"); // Populate prediction data to each 
+    .populate("prediction"); // Populate prediction data to each bet
 
     res.send(bets);
   } catch (err) {
