@@ -9,9 +9,23 @@ const { Wallet } = require("../../models/wallet.model");
 const secret = Uint8Array.from(process.env.WALLET_PRIVATE_KEY.split(','));
 const wallet = new Wallet(solanaWeb3.Keypair.fromSecretKey(secret));
 
-
-// Using Data Feeds Off-Chain (Solana) to get the latest data round
-// https://docs.chain.link/docs/solana/using-data-feeds-off-chain/
+/**
+ * This function retrieves the latest price feed data round from Chainlink Data Feeds.
+ * 
+ * 
+ * It creates it connects to solana cluster (devnet | mainnet)
+ * Then creates an anchor client provider that uses:
+ * 1. A solana connection
+ * 2. A wallet to sign transactions and pay for fees
+ * 3. Options to confirm transactions
+ * 
+ * Then retrieves the latest price feed data round from Chainlink Data Feeds.
+ * 
+ * For more info view How to get Data Feeds Off-Chain (Solana) via the link:
+ * https://docs.chain.link/docs/solana/using-data-feeds-off-chain/
+ * @param address Address of the token pair to retrieve the latest data round from
+ * @param pair Pair of the token price feed to retrieve the latest data round from
+ */
 const getLatestDataRound = async (address, pair) => {
 
     let round = null;

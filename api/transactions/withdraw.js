@@ -4,11 +4,17 @@ const Prediction = require("../../models/prediction.model");
 const solanaWeb3 = require("@solana/web3.js");
 const { clusterApiUrl, Connection, Keypair, PublicKey, sendAndConfirmTransaction, SystemProgram, Transaction, LAMPORTS_PER_SOL } = solanaWeb3;
 
+
 /**
+ * This function is deployed as a standalone endpoint via Vercel Cloud Functions. 
+ * Given the expected request payload, it sends users their winnings via their public address.
+ * The request is expected to come in as a POST request to `/api/transactions/withdraw`. 
+ * The request body should have the shape: 
+ * { withdrawAddress: "0x...", amount: "0x...", _id: "0x..." }
  * 
- * Vercel cloud function triggered by user withdrawing their winnings.
- * 
-*/
+ * @param req NextApiRequest HTTP request object wrapped by Vercel function helpers
+ * @param res NextApiResponse HTTP response object wrapped by Vercel function helpers
+ */
 module.exports = async (req, res) => {
     if (req.method === ('POST')) {
         try {

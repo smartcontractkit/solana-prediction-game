@@ -8,25 +8,34 @@ const secret = Uint8Array.from(process.env.WALLET_PRIVATE_KEY.split(','));
 const wallet = new Wallet(solanaWeb3.Keypair.fromSecretKey(secret));
 
 /**
- * This function is deployed as a standalone endpoint via Vercel Cloud Functions. Given the expected 
- * request query payload, it retrieves the latest price feed data round from MongoDB based on queries from the Mongoose driver. 
- * The request is expected to come in as a GET request to `/api/feed/getLatestDataRound`. 
- * The request body should have the shape: 
- * { address: "0x...", pair: "XXX-USD" }
+ * This function retrieves the latest price feed data round from Chainlink Data Feeds.
+ * 
+ * 
+ * It creates it connects to solana cluster (devnet | mainnet)
+ * Then creates an anchor client provider that uses:
+ * 1. A solana connection
+ * 2. A wallet to sign transactions and pay for fees
+ * 3. Options to confirm transactions
+ * 
+ * Then retrieves the latest price feed data round from Chainlink Data Feeds.
+ * 
  * For more info view How to get Data Feeds Off-Chain (Solana) via the link:
  * https://docs.chain.link/docs/solana/using-data-feeds-off-chain/
- * @param req NextApiRequest HTTP request object wrapped by Vercel function helpers
- * @param res NextApiResponse HTTP response object wrapped by Vercel function helpers
+ * @param address Address of the token pair to retrieve the latest data round from
+ * @param pair Pair of the token price feed to retrieve the latest data round from
  */
 const getLatestDataRound = async (address, pair) => {
 
     let round = null;
 
     //  connection to solana cluster node
-    const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('devnet'), 'confirmed');
+    const connection = new solanaWeb3.Connection(
+        solanaWeb3.clusterApiUrl(process.env.REACT_APP_SOLANA_CLUSTER_NETWORK), 
+        'confirmed'
+    );
 
-    // creation of a new anchor client provider without use of node server & id.json
-    const options = anchor.AnchorProvider.defaultOptions();
+    // creation of a new anchor client provider that uses the connection to solana cluster node
+    const options = anchor.AnchorProvider.defaultOptions(); // default Options for confirming transactions
     const provider = new anchor.AnchorProvider(connection, wallet, options);
     anchor.setProvider(provider);
 
@@ -60,6 +69,17 @@ const getLatestDataRound = async (address, pair) => {
 
 }
 
+/**
+ * This function is deployed as a standalone endpoint via Vercel Cloud Functions. 
+ * Given the expected request query payload, it retrieves the latest price feed data round from Chainlink Data Feeds.
+ * The request is expected to come in as a GET request to `/api/feed/getLatestDataRound`. 
+ * The request body should have the shape: 
+ * { address: "0x...", pair: "XXX-USD" }
+ * For more info view How to get Data Feeds Off-Chain (Solana) via the link:
+ * https://docs.chain.link/docs/solana/using-data-feeds-off-chain/
+ * @param req NextApiRequest HTTP request object wrapped by Vercel function helpers
+ * @param res NextApiResponse HTTP response object wrapped by Vercel function helpers
+ */
 module.exports = async (req, res) => {
 
     const { address, pair } = req.query;
