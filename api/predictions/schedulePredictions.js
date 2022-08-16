@@ -111,7 +111,7 @@ const pairs = [
  * @returns date with added minutes
 */
 const addMinutesToDate = (date, minutes) => {
-    return new Date(date.getTime() + minutes * 60000);
+    return new Date(date.getTime() + minutes * 1000 * 60); //  1000 ms/s * 60 s/min * min = # ms
 }
 
 /**

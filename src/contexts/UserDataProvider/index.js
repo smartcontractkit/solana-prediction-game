@@ -127,7 +127,7 @@ const UserDataProvider = (props) => {
 
         window.getMyBetsInterval = setInterval(
           () => getMyBets(user),
-          60000 * 30 // 30 minutes
+          1000 * 60 * 30 //  1000 ms/s * 60 s/min * 10 min = # ms
         )
         return () => {
             clearInterval(window.getMyBetsInterval)

@@ -12,8 +12,6 @@ const BetCard = ({ prediction, feed }) => {
     // get currencies from pair and link to their respective data feeds on https://data.chain.link/ 
     const { firstCurrency, secondCurrency } = getCurrenciesFromPairs(pair);
     const pairURL = `https://data.chain.link/ethereum/mainnet/crypto-usd/${firstCurrency}-${secondCurrency}`.toLowerCase();
-
-    // get logo of token
     const logoImage = require(`../../assets/logos/${firstCurrency.toLowerCase()}.png`);
 
     // data is added to betslip when user clicks on place bet button

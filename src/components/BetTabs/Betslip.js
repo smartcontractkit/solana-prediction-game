@@ -41,7 +41,9 @@ const Betslip = () => {
     } = betSlip;
     const { _id, pair, predictionPrice, expiryTime } = prediction;
 
-    // show form errors when user tries to place bet with insufficient balance or with amount less than 0.1 SOL
+    // show form errors when user tries to place bet with insufficient balance 
+    // or with amount less than 0.1 SOL.
+    // the minimum bet amount is 0.1 SOL.
     const isInsufficientBalance = amount >= balance;
     const isInsufficientAmount = amount < 0.1;
     const isError = connected ? isInsufficientBalance || isInsufficientAmount: false;
