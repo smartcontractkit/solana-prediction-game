@@ -16,7 +16,11 @@ const ActivePredictions = () => {
 
     useEffect(() => {
         const getPredictions = async () => {
-            axiosInstance.get('/api/predictions/active')
+            axiosInstance.get('/api/predictions', {
+                params: {
+                  active: true
+                }
+              })
             .then(res => res.data)
             .then(data => {
                 setPredictions(data);

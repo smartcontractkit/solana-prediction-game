@@ -27,6 +27,7 @@ module.exports = async (req, res) => {
 
             // This instantiates the bet with our modified payload and stores the object 
             // into our MongoDB database using the mongoose driver.
+            // Note that mongoose also provides validation.
             const betObject = new Bet(bet);
             const result = await betObject.save();
             console.log(`Bet was inserted with the _id: ${result._id}`);

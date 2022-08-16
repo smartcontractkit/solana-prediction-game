@@ -13,7 +13,7 @@ const Prediction = require("../../models/prediction.model");
  */
 module.exports = async (req, res) => {
 
-    if (req.method === ('POST')) {
+    if (req.method === 'POST') {
         try {
             await connectToDatabase();
             
