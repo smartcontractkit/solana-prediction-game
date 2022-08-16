@@ -26,7 +26,7 @@ export default function CreateBetButton(
 
     const toast = useToast();
 
-    const network = 'devnet';
+    const network = process.env.REACT_APP_SOLANA_CLUSTER_NETWORK;
 
     const sendSolana = useCallback(async () => {
         // if user is not connected to wallet, show error

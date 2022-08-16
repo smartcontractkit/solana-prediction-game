@@ -17,7 +17,7 @@ const getLatestDataRound = async (address, pair) => {
     let round = null;
 
     //  connection to solana cluster node
-    const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('devnet'), 'confirmed');
+    const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl(process.env.REACT_APP_SOLANA_CLUSTER_NETWORK), 'confirmed');
 
     // creation of a new anchor client provider without use of node server & id.json
     const options = anchor.AnchorProvider.defaultOptions();

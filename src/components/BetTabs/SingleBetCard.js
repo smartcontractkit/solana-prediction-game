@@ -79,7 +79,7 @@ const SingleBetCard = ({ bet }) => {
 
     }
 
-    const network = 'devnet';
+    const network = process.env.REACT_APP_SOLANA_CLUSTER_NETWORK;
 
     const transactionUrl = `https://explorer.solana.com/tx/${transactionSignature}?cluster=${network}`;
 
