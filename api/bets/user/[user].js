@@ -16,9 +16,9 @@ module.exports = async (req, res) => {
   try {
     await connectToDatabase();
   
-    // This is not a secure way to lookup bets. For demo purposes, we did not implement API authorization. 
+    // This is not a secure way to lookup users. For demo purposes, we did not implement API authorization. 
     // In your application, you should implement some authorization strategy, such as JWTs, that you can validate 
-    // and securely retrieve the bet's ID.
+    // and securely retrieve the user's ID.
     const { user } = req.query;
 
     if (!user) { 
