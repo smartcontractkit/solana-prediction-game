@@ -1,7 +1,7 @@
 import { Avatar, HStack, Text, VStack } from "@chakra-ui/react";
 import { getTruncatedAddress } from "../../lib/solHelpers";
 
-const UserLeaderBoard = ({ rank, address, winRate}) => {
+const UserLeaderBoard = ({ rank, address, winRate }) => {
     return (
         <HStack
             justifyContent="space-between"

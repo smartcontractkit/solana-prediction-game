@@ -1,6 +1,7 @@
 const { connectToDatabase } = require("../../lib/mongoose");
 const Bet = require("../../models/bet.model");
 const Prediction = require("../../models/prediction.model");
+const User = require("../../models/user.model");
 
 module.exports = async (req, res) => {
 
@@ -28,11 +29,29 @@ module.exports = async (req, res) => {
                     ? currentStatus = 'won' 
                     : currentStatus = 'lost';
                 }
-                const result = await Bet.findOneAndUpdate({ _id: bet._id }, { status: currentStatus }, {
-                    new: true
-                });
 
+                const result = await Bet
+                    .findOneAndUpdate({ _id: bet._id }, { status: currentStatus }, { new: true })
+                    .populate("user");
                 console.log(`Bet was inserted with the _id: ${result._id}`);
+
+                const user = result.user;
+                let totalWonBets = user.wonTotalBets; 
+                let winRate = user.winRate;
+
+                if(currentStatus === 'won') {
+                    totalWonBets += 1;
+                    winRate = (totalWonBets / user.totalBets) * 100;
+
+                    const userUpdate = await User
+                        .findByIdAndUpdate(
+                            user._id, 
+                            { winRate: winRate, wonTotalBets: totalWonBets }, 
+                            { new: true }
+                        );
+                    console.log(`User was updated with the _id: ${userUpdate._id}`);
+                }
+
                 return result;
             })
             

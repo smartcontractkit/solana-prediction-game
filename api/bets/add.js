@@ -2,6 +2,7 @@ const { connectToDatabase } = require("../../lib/mongoose");
 const { Types } = require("mongoose");
 const Bet = require("../../models/bet.model");
 const Prediction = require("../../models/prediction.model");
+const User = require("../../models/user.model");
 
 module.exports = async (req, res) => {
 
@@ -16,6 +17,15 @@ module.exports = async (req, res) => {
             
             const result = await betObject.save();
             console.log(`Bet was inserted with the _id: ${result._id}`);
+
+            // const user = await User
+            //     .findByIdAndUpdate(
+            //         bet.user, 
+            //         { winRate: winRate, wonTotalBets: totalWonBets }, 
+            //         { new: true }
+            //     );
+
+            // console.log(`Bet was inserted with the _id: ${result._id}`);
     
             res.send(result);
         } catch (err) {
