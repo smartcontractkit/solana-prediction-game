@@ -44,14 +44,14 @@ module.exports = async (req, res) => {
                 }
 
                 winRate = (totalWonBets / user.totalBets) * 100;
-                
-                const userUpdate = await User
+
+                const userUpdated = await User
                 .findByIdAndUpdate(
                     user._id, 
                     { winRate: winRate, wonTotalBets: totalWonBets }, 
                     { new: true }
                 );
-                console.log(`User was updated with the _id: ${userUpdate._id}`);
+                console.log(`User was updated with the _id: ${userUpdated._id}`);
 
                 return result;
             })

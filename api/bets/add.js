@@ -20,14 +20,14 @@ module.exports = async (req, res) => {
 
             let totalBets = result.user.totalBets + 1;
 
-            const user = await User
+            const userUpdated = await User
                 .findByIdAndUpdate(
                     bet.user, 
                     { totalBets: totalBets },
                     { new: true }
                 );
 
-            console.log(`Bet was inserted with the _id: ${result._id}`);
+            console.log(`User was update with the _id: ${userUpdated._id}`);
     
             res.send(result);
         } catch (err) {
