@@ -41,16 +41,17 @@ module.exports = async (req, res) => {
 
                 if(currentStatus === 'won') {
                     totalWonBets += 1;
-                    winRate = (totalWonBets / user.totalBets) * 100;
-
-                    const userUpdate = await User
-                        .findByIdAndUpdate(
-                            user._id, 
-                            { winRate: winRate, wonTotalBets: totalWonBets }, 
-                            { new: true }
-                        );
-                    console.log(`User was updated with the _id: ${userUpdate._id}`);
                 }
+
+                winRate = (totalWonBets / user.totalBets) * 100;
+                
+                const userUpdate = await User
+                .findByIdAndUpdate(
+                    user._id, 
+                    { winRate: winRate, wonTotalBets: totalWonBets }, 
+                    { new: true }
+                );
+                console.log(`User was updated with the _id: ${userUpdate._id}`);
 
                 return result;
             })

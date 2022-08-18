@@ -15,17 +15,19 @@ module.exports = async (req, res) => {
             bet.user = Types.ObjectId(bet.user);
             const betObject = new Bet(bet);
             
-            const result = await betObject.save();
+            const result = await (await betObject.save()).populate("user");
             console.log(`Bet was inserted with the _id: ${result._id}`);
 
-            // const user = await User
-            //     .findByIdAndUpdate(
-            //         bet.user, 
-            //         { winRate: winRate, wonTotalBets: totalWonBets }, 
-            //         { new: true }
-            //     );
+            let totalBets = result.user.totalBets + 1;
 
-            // console.log(`Bet was inserted with the _id: ${result._id}`);
+            const user = await User
+                .findByIdAndUpdate(
+                    bet.user, 
+                    { totalBets: totalBets },
+                    { new: true }
+                );
+
+            console.log(`Bet was inserted with the _id: ${result._id}`);
     
             res.send(result);
         } catch (err) {
