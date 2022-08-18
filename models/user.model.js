@@ -7,7 +7,7 @@ const UserSchema = new Schema({
         required: true,
     },
     winRate: {
-        type: Float32Array,
+        type: Number,
         default: 0,
     },
     wonTotalBets:{
