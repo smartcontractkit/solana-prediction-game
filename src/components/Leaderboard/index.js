@@ -63,7 +63,7 @@ const LeaderboardSkeleton = () => Array(5).fill(0).map((_, index) => {
                 >
                     <Skeleton height="10px" width="20px" />
                     <SkeletonCircle boxSize="14px" />
-                    <Skeleton height="10px" width="50px" />
+                    <Skeleton height="10px" width="70px" />
                 </HStack>
                 <Skeleton height="10px" width="30px" />
             </HStack>
