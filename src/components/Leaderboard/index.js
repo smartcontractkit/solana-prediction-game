@@ -75,7 +75,7 @@ const Leaderboard = () => {
     const [usersLeaderboard, setUsersLeaderboard] = useState(null);
 
     useEffect(() => {
-        axiosInstance
+        const getLeaderBoard = () => axiosInstance
             .get(`/api/users/leaderboard`)
             .then(res => res.data)
             .then(data => {
@@ -84,8 +84,17 @@ const Leaderboard = () => {
             .catch(err => {
                 console.error("Failed to get users, with error code: " + err.message);
             });
-    }, []);
+        
+        getLeaderBoard();
 
+        window.getLeaderBoardInterval = setInterval(
+            () => getLeaderBoard(),
+            60000 * 10
+        )
+        return () => {
+            clearInterval(window.getLeaderBoardInterval)
+        }
+    }, []);
 
     const LeaderBoardContent = () => {
         if(!usersLeaderboard) {
