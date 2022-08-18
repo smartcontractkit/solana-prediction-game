@@ -7,8 +7,6 @@
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
 
-
-
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
@@ -19,7 +17,7 @@
 <h3 align="center">Blockchain Prediction Game</h3>
 
   <p align="center">
-    This Project utilizes <a href="https://chain.link"><strong>Chainlink Price Feeds</strong></a> to demostrates how to build a simple Prediction Game using Solana. This project works on both Solana Mainnet Beta & Devnet.
+    This Project utilizes <a href="https://docs.chain.link/docs/solana/data-feeds-solana/#Solana%20Devnet"><strong>Off-Chain Chainlink Price Feeds</strong></a> to demostrates how to build a simple Prediction Game using Solana. This project works on both Solana Mainnet Beta & Devnet.
     <br />
     <a href="https://github.com/thisdot/blockchain-prediction-game"><strong>Explore the docs »</strong></a>
     <br />
@@ -69,26 +67,39 @@ To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
+1. Install the latest Mainnet version of the Solana CLI and export the path to the CLI:
+  ```sh 
+  -c "$(curl -sSfL https://release.solana.com/v1.9.28/install)" && export PATH="~/.local/share/solana/install/active_release/bin:$PATH"
   ```
+Run `solana --version` to make sure the Solana CLI is installed correctly.
+  ```sh
+    solana --version
+  ```
+2. Install [Node.js 14 or higher][node.js-url]. Run `node --version` to verify which version you have installed:
+  ```sh
+    node --version
+  ```
+
 
 ### Installation
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Copy `.env.example` into to `.env` in the main folder and provide Biconomy API Keys:
-3. Clone the repo
+1. Run `cp .env.example .env`
+2. Create a temporary Solana wallet to use for this example. Alternatively, if you have an existing wallet that you want to use, locate the path to your [keypair][keypair-url] file and use it as the keypair for the rest of this guide.
+   ```sh 
+    solana-keygen new --outfile ./id.json
+   ```
+   Copy the contents of the array in `./id.json` to `WALLET_PRIVATE_KEY=`
+3. Copy `.env.example` into to `.env` in the main folder and provide Biconomy API Keys:
+4. Clone the repo
    ```sh
    git clone https://github.com/thisdot/blockchain-prediction-game.git
    cd blockchain-prediction-game
    ```
-4. Install NPM packages
+5. Install NPM packages
    ```sh
    yarn
    ```
-5. Enter your API in `config.js`
+6. Enter your API in `config.js`
    ```js
    const API_KEY = 'ENTER YOUR API';
    ```
@@ -158,6 +169,8 @@ Don't forget to give the project a star! Thanks again!
 [license-shield]: https://img.shields.io/github/license/thisdot/blockchain-prediction-game.svg?style=for-the-badge
 [license-url]: https://github.com/thisdot/blockchain-prediction-game/blob/master/LICENSE.txt
 [product-screenshot]: images/screenshot.png
+[node.js-url]: https://nodejs.org/en/download/
+[keypair-url]: https://docs.solana.com/terminology#keypair
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
 [React-url]: https://reactjs.org/
 [Chainlink-url]: https://chain.link/
