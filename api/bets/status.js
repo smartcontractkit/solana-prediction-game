@@ -6,7 +6,11 @@ const Prediction = require("../../models/prediction.model");
  * The request is expected to come in as a POST request to `/api/bets/status`. 
  * It updates all bet entities from MongoDB with a 'status' of 'ongoing' via the Mongoose driver. 
  * Checks if the bet expiryTime has passed
- * if so, updates the bet status based on the direction of the prediction and opening prediction price to 'won' or 'lost'
+ * if so, updates the bet status based on the direction of the prediction and opening prediction price to 'won' or 'lost'.
+ * 
+ * This function is used in conjuction with github actions to update the status of all bets on a hourly basis  using cron
+ * Checkout .github/workflows/bet-status-cron.yml for more details
+ * This function can be used AWS SQS or Lambda as well
  *
  * @param req NextApiRequest HTTP request object wrapped by Vercel function helpers
  * @param res NextApiResponse HTTP response object wrapped by Vercel function helpers

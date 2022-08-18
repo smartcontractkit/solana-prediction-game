@@ -12,7 +12,6 @@ const wallet = new Wallet(solanaWeb3.Keypair.fromSecretKey(secret));
 /**
  * This function retrieves the latest price feed data round from Chainlink Data Feeds.
  * 
- * 
  * It creates it connects to solana cluster (devnet | mainnet)
  * Then creates an anchor client provider that uses:
  * 1. A solana connection
@@ -20,6 +19,10 @@ const wallet = new Wallet(solanaWeb3.Keypair.fromSecretKey(secret));
  * 3. Options to confirm transactions
  * 
  * Then retrieves the latest price feed data round from Chainlink Data Feeds.
+ * 
+ * This function is used in conjuction with github actions to update the schedule hourly predictions using cron.
+ * Checkout .github/workflows/predictions-cron.yml for more details
+ * This function can be used AWS SQS or Lambda as well
  * 
  * For more info view How to get Data Feeds Off-Chain (Solana) via the link:
  * https://docs.chain.link/docs/solana/using-data-feeds-off-chain/
