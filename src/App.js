@@ -5,6 +5,7 @@ import { Flex, VStack } from '@chakra-ui/react';
 import Subheader from './components/Subheader';
 import Hero from './components/Hero';
 import BetWonNotifications from './components/BetWonNotifications';
+import Leaderboard from './components/Leaderboard';
 
 function App() {
 
@@ -32,10 +33,11 @@ function App() {
           <VStack
             width={['100%', '100%', '100%', '38%', '25%']}
             flexGrow={[1, 1, 1, 0]}
-            gap={2}
+            gap={4}
           >
             <BetWonNotifications />
             <BetTabs />
+            <Leaderboard />
           </VStack>
         </Flex>
       }
