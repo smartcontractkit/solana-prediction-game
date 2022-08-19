@@ -17,6 +17,7 @@ const Betslip = () => {
 
     const [ amount, setAmount ] = useState(0);
 
+    // show empty bet slip if no bets are placed
     if(!betSlip) {
         return (
             <VStack>
@@ -31,7 +32,6 @@ const Betslip = () => {
         )
     }
 
-
     const { 
         prediction,
         firstCurrency,
@@ -41,15 +41,19 @@ const Betslip = () => {
     } = betSlip;
     const { _id, pair, predictionPrice, expiryTime } = prediction;
 
-
+    // show form errors when user tries to place bet with insufficient balance 
+    // or with amount less than 0.1 SOL.
+    // the minimum bet amount is 0.1 SOL.
     const isInsufficientBalance = amount >= balance;
     const isInsufficientAmount = amount < 0.1;
     const isError = connected ? isInsufficientBalance || isInsufficientAmount: false;
 
+    // set betslip to empty if user clicks on close button
     const removeBet = () => {
         setBetslip(null);
     }
 
+    // show connect button if user is not connected to a solana wallet
     const BottomButton = (props) => {
         return connected 
         ? (

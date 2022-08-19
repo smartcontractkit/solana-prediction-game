@@ -8,12 +8,14 @@ import placeholder from "../../assets/logos/placeholder.png";
 
 const BetCard = ({ prediction, feed }) => {
     const { pair, predictionPrice, predictionDeadline, expiryTime, ROI, direction, createdAt } = prediction;
+    
+    // get currencies from pair and link to their respective data feeds on https://data.chain.link/ 
     const { firstCurrency, secondCurrency } = getCurrenciesFromPairs(pair);
     const pairURL = `https://data.chain.link/ethereum/mainnet/crypto-usd/${firstCurrency}-${secondCurrency}`.toLowerCase();
     const logoImage = require(`../../assets/logos/${firstCurrency.toLowerCase()}.png`);
 
+    // data is added to betslip when user clicks on place bet button
     const { setBetslip } = useContext(UserDataContext);
-
     const placeBet = () => {
         document.getElementById('bet-tabs').scrollIntoView({ behavior: 'smooth' });
         setBetslip({

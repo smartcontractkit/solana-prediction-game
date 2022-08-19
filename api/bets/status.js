@@ -2,18 +2,32 @@ const { connectToDatabase } = require("../../lib/mongoose");
 const Bet = require("../../models/bet.model");
 const Prediction = require("../../models/prediction.model");
 const User = require("../../models/user.model");
-
+/**
+ * This function is deployed as a standalone endpoint via Vercel Cloud Functions. 
+ * The request is expected to come in as a POST request to `/api/bets/status`. 
+ * It updates all bet entities from MongoDB with a 'status' of 'ongoing' via the Mongoose driver. 
+ * Checks if the bet expiryTime has passed
+ * if so, updates the bet status based on the direction of the prediction and opening prediction price to 'won' or 'lost'.
+ * 
+ * This function is used in conjuction with github actions to update the status of all bets on a hourly basis  using cron
+ * Checkout .github/workflows/bet-status-cron.yml for more details
+ * This function can be used AWS SQS or Lambda as well
+ *
+ * @param req NextApiRequest HTTP request object wrapped by Vercel function helpers
+ * @param res NextApiResponse HTTP response object wrapped by Vercel function helpers
+ */
 module.exports = async (req, res) => {
 
-    if (req.method === ('POST' || 'PUT' || 'PATCH')) {
+    if (req.method === 'POST') {
         try {
             await connectToDatabase();
             
-            const bets = await Bet.find({
-                status: "ongoing"
-            }).populate("prediction");
+            const bets = await Bet
+                .find({ status: "ongoing" }) // casts a filter based on the query object and returns a list of bets with status 'ongoing'
+                .populate("prediction"); // Populate prediction data to each bet
 
             let promises = bets.map(async (bet) => {
+                // Check if the bet expiryTime has passed if not the function returns
                 if(bet.prediction.expiryTime < new Date().toISOString()) {
                     return bet;
                 }
@@ -66,8 +80,6 @@ module.exports = async (req, res) => {
         } 
     } else {
         res.setHeader('Allow', 'POST');
-        res.setHeader('Allow', 'PUT');
-        res.setHeader('Allow', 'PATCH');
         res.status(405).end('Method Not Allowed');
     }
 

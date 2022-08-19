@@ -5,6 +5,7 @@ import { useCallback, useMemo } from "react";
 const WalletConnectButton = ({ children, disabled, onClick, ...props }) => {
     const { wallet, connect, connecting, connected } = useWallet();
   
+    // connect to wallet if not connected
     const handleClick = useCallback(
         (event) => {
             if (onClick) onClick(event);
@@ -12,7 +13,8 @@ const WalletConnectButton = ({ children, disabled, onClick, ...props }) => {
         },
         [onClick, connect]
     );
-
+    
+    // show button text content based on connection status
     const content = useMemo(() => {
         if (children) return children;
         if (connecting) return 'Connecting ...';

@@ -16,7 +16,11 @@ const ActivePredictions = () => {
 
     useEffect(() => {
         const getPredictions = async () => {
-            axiosInstance.get('/api/predictions/active')
+            axiosInstance.get('/api/predictions', {
+                params: {
+                  active: true
+                }
+              })
             .then(res => res.data)
             .then(data => {
                 setPredictions(data);
@@ -35,9 +39,10 @@ const ActivePredictions = () => {
         }
 
         getPredictions();
+        // calls getPredictions every 10 minutes
         window.getPredictionsInterval = setInterval(
             () => getPredictions(),
-            60000 * 30
+            1000 * 60 * 10 //  1000 ms/s * 60 s/min * 10 min = # ms
         )
         return () => {
             clearInterval(window.getPredictionsInterval)

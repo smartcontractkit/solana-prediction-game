@@ -9,6 +9,7 @@ import { useToast } from "@chakra-ui/react";
 const UserDataProvider = (props) => {
     const { connected, publicKey } = useWallet();
     const { connection } = useConnection();
+
     const [betSlip, setBetslip] = useState(null);
     const [balance, setBalance] = useState(null);
     const [user, setUser] = useState(null);
@@ -17,10 +18,12 @@ const UserDataProvider = (props) => {
 
     const toast = useToast();
 
+    // Get user balance from solana network based on public key
     const getBalance = async () => {
       return await connection.getBalance(publicKey)
     }
 
+    // Add User to database
     const addUser = async () => {
       const newUser = {
         address: publicKey.toBase58(),
@@ -29,16 +32,14 @@ const UserDataProvider = (props) => {
       return await axiosInstance.post("/api/users/add", newUser);
     }
 
+    // Get user from database
     const getUser = async (address) => {
-      axiosInstance.get(`/api/users/getUser`, {
-        params: {
-          address
-        }
-      })
+      axiosInstance.get(`/api/users/${address}`)
       .then(res => res.data)
       .then(async (result) => {
         let loggedInUser = null;
         
+        // If user is not in database, add user to database
         if(!result){
           loggedInUser = await addUser();
         }else{
@@ -63,13 +64,10 @@ const UserDataProvider = (props) => {
       });
     }
 
+    // Get user bets from database
     const getMyBets = async (user) => {
       if(!user) return;
-      axiosInstance.get(`/api/bets`, {
-        params: {
-          user: user._id
-        }
-      })
+      axiosInstance.get(`/api/bets/user/${user._id}`)
       .then(res => res.data)
       .then(data => {
         setMyBets(data);
@@ -121,7 +119,7 @@ const UserDataProvider = (props) => {
 
         window.getMyBetsInterval = setInterval(
           () => getMyBets(user),
-          60000 * 30
+          1000 * 60 * 10 //  1000 ms/s * 60 s/min * 10 min = 10 minutes
         )
         return () => {
             clearInterval(window.getMyBetsInterval)
