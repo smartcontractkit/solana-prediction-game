@@ -67,7 +67,15 @@ To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-1. Install the latest Mainnet version of the Solana CLI and export the path to the CLI:
+1. Setup `gh` on your machine
+   ```sh
+   npm install -g gh
+   ```
+2. Fork and clone the repo
+   ```sh
+   gh repo fork https://github.com/thisdot/blockchain-prediction-game.git --clone
+   ```
+3. Install the latest Mainnet version of the Solana CLI and export the path to the CLI:
   ```sh 
   -c "$(curl -sSfL https://release.solana.com/v1.9.28/install)" && export PATH="~/.local/share/solana/install/active_release/bin:$PATH"
   ```
@@ -75,33 +83,46 @@ Run `solana --version` to make sure the Solana CLI is installed correctly.
   ```sh
     solana --version
   ```
-2. Install [Node.js 14 or higher][node.js-url]. Run `node --version` to verify which version you have installed:
+3. Install [Node.js 14 or higher][node.js-url]. Run `node --version` to verify which version you have installed:
   ```sh
     node --version
   ```
-
+4. Setup vercel
+   1. To install the latest version of Vercel CLI, run this command:
+    ```sh
+    npm i -g vercel
+    ```
+   2. To quickly start a new project, run the following commands:
+    ```sh
+    cd blockchain-prediction-game    # Change directory to the project
+    vercel          # Deploy to the cloud
+    ```
+   3. Finally, [connect your Git repository](https://vercel.com/docs/git) to Vercel and deploy with git push.
 
 ### Installation
 
 1. Run `cp .env.example .env`
-2. Create a temporary Solana wallet to use for this example. Alternatively, if you have an existing wallet that you want to use, locate the path to your [keypair][keypair-url] file and use it as the keypair for the rest of this guide.
-   ```sh 
-    solana-keygen new --outfile ./id.json
-   ```
-   Copy the contents of the array in `./id.json` to `WALLET_PRIVATE_KEY=`
-3. Copy `.env.example` into to `.env` in the main folder and provide Biconomy API Keys:
-4. Clone the repo
-   ```sh
-   git clone https://github.com/thisdot/blockchain-prediction-game.git
-   cd blockchain-prediction-game
-   ```
-5. Install NPM packages
+2. Install NPM packages
    ```sh
    yarn
    ```
-6. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
+3. Create a temporary Solana wallet to use for this example. Alternatively, if you have an existing wallet that you want to use, locate the path to your [keypair][keypair-url] file and use it as the keypair for the rest of this guide.
+   ```sh 
+    solana-keygen new --outfile ./id.json
+   ```
+   Copy the contents of the array in `./id.json` to `WALLET_PRIVATE_KEY=` 
+4. Setup MongoDB database
+   1. Setup a Mongodb account via the following tutorial: [Create Mongodb Account](https://www.mongodb.com/docs/guides/atlas/account/). 
+   2. Setup Mongodb cluster. [Create Cluster](https://www.mongodb.com/docs/guides/atlas/cluster/)
+   3. Setup Mongodb User. [Create User](https://www.mongodb.com/docs/guides/atlas/db-user/)
+   4. After the account has been setup get the connection url via this tutorial: [Get Mongodb Connection Uri](https://www.mongodb.com/docs/guides/atlas/connection-string/)
+   5. Copy connection uri string to `MONGODB_URI=`
+   6. Copy database name to `MONGODB_DB=`
+   
+5. Generate a random API key:  `https://generate-random.org/api-key-generator` and copy it to `API_SECRET_KEY=`
+6. Finally, run the following command to start the application:
+   ```sh
+   yarn development
    ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -173,4 +194,4 @@ Don't forget to give the project a star! Thanks again!
 [keypair-url]: https://docs.solana.com/terminology#keypair
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
 [React-url]: https://reactjs.org/
-[Chainlink-url]: https://chain.link/
+[chainlink-url]: https://chain.link/
