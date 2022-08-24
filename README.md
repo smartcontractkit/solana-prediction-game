@@ -47,18 +47,19 @@
         <li><a href="#built-with">Built With</a></li>
         <li><a href="#context">Context</a></li>
         <li><a href="#file-structure">File Structure</a></li>
+        <li><a href="#system-design-architecture">System Design and Architecture</a></li>
         <li>
           <a href="#usage">Usage</a>
           <ul>
-            <li><a href="#web3">Web3</a>
+            <li><a href="#chainlink-data-feeds">Chainlink Data Feeds</a>
+            <li><a href="#solana-wallet-adapter">Solana Wallet Adapter</a>
+            <li><a href="#solana-web3.js">Solana/web3.js</a>
             <li><a href="#vercel-serverless-functions">Vercel Serveless Functions</a>
             <li><a href="#mongodb-mongoose">MongoDB and Mongoose</a>
           </ul>
         </li>
         <li><a href="#constraints-assumptions">Constraints & Assumptions</a></li> 
         <li><a href="#design-considerations">Design Considerations</a></li>
-        <li><a href="#proposed-design">Proposed Design</a></li>
-        <li><a href="#architectural-constraints">Architectural Constraints</a></li>
         <li><a href="#additional-considerations">Additional Considerations</a></li>
       </ul>
     </li>
@@ -168,6 +169,11 @@ The application shows you how to setup a simple game that allows its users to do
 4. Users get a notification if they win the prediction.
 5. Users are rewarded with double of their stake if their predictions are correct and allowed to withdraw these funds to their wallet.
 6. Users can view the top 5 users based on the percentage of predictions won.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### System Design and Architecture
+TODO
 
 **Image of the system design**
 
@@ -792,10 +798,32 @@ The major folders for the application are as follows:
 #### Vercel Serveless Functions
 
 
-####
+#### MongoDB and Mongoose
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+### Constraints & Assumptions
+TODO
+
+**Image of the system design**
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+### Design Considerations
+TODO
+
+**Image of the system design**
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+### Additional Considerations
+TODO
+
+**Image of the system design**
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 <!-- CONTRIBUTING -->
