@@ -334,14 +334,460 @@ The major folders for the application are as follows:
 
   ```
 
-#### Solana/web3.js
-- How to transfer solana tokens to a public address triggered by a user on the browser (User to Escrow account)
-- How to transfer solana tokens from an escrow account(account with known private key) to public address (Escrow to User)
-- How to transfer save data on the solana
-
 #### Solana Wallet Adapter
 - How to setup solana wallet adapter
+  ```
+  import React, { FC, useMemo } from 'react';
+  import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
+  import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
+  import { FakeWalletAdapter } from '@solana/wallet-adapter-wallets';
+  import {
+      WalletModalProvider,
+      WalletDisconnectButton,
+      WalletMultiButton
+  } from '@solana/wallet-adapter-react-ui';
+  import { clusterApiUrl } from '@solana/web3.js';
+
+  // Default styles that can be overridden by your app
+  require('@solana/wallet-adapter-react-ui/styles.css');
+
+  export const Wallet: FC = () => {
+      // The network can be set to 'devnet', 'testnet', or 'mainnet-beta'.
+      const network = WalletAdapterNetwork.Devnet;
+
+      // You can also provide a custom RPC endpoint.
+      const endpoint = useMemo(() => clusterApiUrl(network), [network]);
+
+      const wallets = useMemo(
+          () => [
+              /**
+              * Select the wallets you wish to support, by instantiating wallet adapters here.
+              *
+              * Common adapters can be found in the npm package `@solana/wallet-adapter-wallets`.
+              * That package supports tree shaking and lazy loading -- only the wallets you import
+              * will be compiled into your application, and only the dependencies of wallets that
+              * your users connect to will be loaded.
+              */
+              new FakeWalletAdapter(),
+          ],
+          []
+      );
+
+      return (
+          <ConnectionProvider endpoint={endpoint}>
+              <WalletProvider wallets={wallets} autoConnect>
+                  <WalletModalProvider>
+                      <WalletMultiButton />
+                      <WalletDisconnectButton />
+                      { /* Your app's components go here, nested within the context providers. */ }
+                  </WalletModalProvider>
+              </WalletProvider>
+          </ConnectionProvider>
+      );
+  };
+  ```
 - How to setup custom wallet adapter modal and button
+  ```
+  // Custom Modal Button showing balance and address
+  import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
+  import { Text, Button, Stack, HStack, Avatar, Show } from "@chakra-ui/react";
+  import { ChevronDownIcon } from '@chakra-ui/icons';
+  import { useWalletModal } from "@solana/wallet-adapter-react-ui";
+  import { useWallet } from "@solana/wallet-adapter-react";
+  import { UserDataContext } from "../../contexts/UserDataProvider";
+  import WalletModalButton from "../WalletModalButton/WalletModalButton";
+  import WalletConnectButton from "../WalletConnectButton";
+
+  const WalletConnectButton = ({ children, disabled, onClick, ...props }) => {
+      const { wallet, connect, connecting, connected } = useWallet();
+    
+      // connect to wallet if not connected
+      const handleClick = useCallback(
+          (event) => {
+              if (onClick) onClick(event);
+              if (!event.defaultPrevented) connect().catch(() => {});
+          },
+          [onClick, connect]
+      );
+      
+      // show button text content based on connection status
+      const content = useMemo(() => {
+          if (children) return children;
+          if (connecting) return 'Connecting ...';
+          if (connected) return 'Connected';
+          if (wallet) return 'Connect Wallet';
+          return 'Connect Wallet';
+      }, [children, connecting, connected, wallet]);
+
+      return (
+          <Button
+              onClick={handleClick}
+              disabled={disabled || !wallet || connecting || connected}
+              {...props}
+          >
+              {content}
+          </Button>
+      );
+  }
+
+  export const WalletModalButton = ({ children = 'Connect Wallet', onClick, ...props }) => {
+    const { visible, setVisible } = useWalletModal();
+
+    // show wallet modal when button is clicked
+    const handleClick = useCallback(
+        (event) => {
+            if (onClick) onClick(event);
+            if (event.defaultPrevented) {
+                return
+            }
+            setVisible(!visible);
+        },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [onClick, visible]
+    );
+
+    return (
+        <Button
+            onClick={handleClick}
+            {...props}
+        >
+            {children}
+        </Button>
+    );
+  };
+
+  const MenuWalletButton = ({ children, ...props }) => {
+      const { publicKey, wallet, disconnect } = useWallet();
+      const { setVisible } = useWalletModal();
+      const { balance } = useContext(UserDataContext);
+      const [copied, setCopied] = useState(false);
+      const [active, setActive] = useState(false);
+      const ref = useRef(null);
+
+      const base58 = useMemo(() => publicKey?.toBase58(), [publicKey]);
+      const content = useMemo(() => {
+        if (children) return children;
+        if (!wallet || !base58) return null;
+        return base58.slice(0, 4) + '..' + base58.slice(-4);
+      }, [children, wallet, base58]);
+
+      const copyAddress = useCallback(async () => {
+        if (base58) {
+          await navigator.clipboard.writeText(base58);
+          setCopied(true);
+          setTimeout(() => setCopied(false), 800);
+        }
+      }, [base58]);
+
+      const openDropdown = useCallback(() => {
+        setActive(true);
+      }, []);
+
+      const closeDropdown = useCallback(() => {
+        setActive(false);
+      }, []);
+
+      const openModal = useCallback(() => {
+        setVisible(true);
+        closeDropdown();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+      }, [closeDropdown]);
+
+      useEffect(() => {
+        const listener = (event) => {
+          const node = ref.current;
+
+          // Do nothing if clicking dropdown or its descendants
+          if (!node || node.contains(event.target)) return;
+
+          closeDropdown();
+        };
+
+        document.addEventListener('mousedown', listener);
+        document.addEventListener('touchstart', listener);
+
+        return () => {
+          document.removeEventListener('mousedown', listener);
+          document.removeEventListener('touchstart', listener);
+        };
+      }, [ref, closeDropdown]);
+
+      if (!wallet) return (
+        <WalletModalButton
+          size="sm"
+          rounded="md"
+          bg="blue.200"
+          color="gray.800"
+          _hover={{
+              bg: "blue.100",
+          }}
+          {...props}
+        >
+          {children}
+        </WalletModalButton>
+      );
+      if (!base58) return (
+        <WalletConnectButton
+          size="sm"
+          rounded="md"
+          bg="blue.200"
+          color="gray.800"
+          _hover={{
+              bg: "blue.100",
+          }}
+          {...props}
+        >
+          {children}
+        </WalletConnectButton>
+      );
+
+      return (
+        <div className="wallet-adapter-dropdown">
+          <Button 
+            size="sm"
+            rounded="md"
+            bg="whiteAlpha.50"
+            _hover={{
+              bg: "whiteAlpha.300",
+            }}
+            onClick={openDropdown}
+          >
+            <Stack
+              spacing={[2, 4, 8, 8]}
+              align="center"
+              justify="space-between"
+              direction="row"
+            >
+              {
+                balance && 
+                (
+                <Text fontWeight="bold">
+                  { `${roundOff(balance, 3)} SOL` }
+                </Text>
+                )
+              }
+              <HStack>
+                <Show above="sm">
+                  <Text color="gray.400" fontWeight={400}>
+                    { content }
+                  </Text>
+                </Show>
+                <Avatar size="xs" bg='red.500' src={`https://api.multiavatar.com/${base58}.png`} />
+                <ChevronDownIcon />
+              </HStack>
+            </Stack>
+        </Button>
+        <ul
+            aria-label="dropdown-list"
+            className={`wallet-adapter-dropdown-list ${active && 'wallet-adapter-dropdown-list-active'}`}
+            ref={ref}
+            role="menu"
+        >
+            <li onClick={copyAddress} className="wallet-adapter-dropdown-list-item" role="menuitem">
+                {copied ? <Text color="green.200">Copied!</Text> : 'Copy address'}
+            </li>
+            <li onClick={openModal} className="wallet-adapter-dropdown-list-item" role="menuitem">
+                Change wallet
+            </li>
+            <li onClick={disconnect} className="wallet-adapter-dropdown-list-item" role="menuitem">
+                Disconnect
+            </li>
+        </ul>
+      </div>
+    );
+  };
+
+  export default MenuWalletButton;
+  ```
+
+#### Solana/web3.js
+- How to transfer solana tokens to a public address triggered by a user on the browser (User to Escrow account)
+  ```
+  import { WalletNotConnectedError } from '@solana/wallet-adapter-base';
+  import { useConnection, useWallet } from '@solana/wallet-adapter-react';
+  import { Keypair, SystemProgram, Transaction } from '@solana/web3.js';
+  import { useCallback } from 'react';
+
+  export const SendOneLamportToEscrowAddress = () => {
+    const { connection } = useConnection();
+    const { publicKey, sendTransaction } = useWallet();
+
+    const sendSolana = useCallback(async () => {
+      const network = process.env.REACT_APP_SOLANA_CLUSTER_NETWORK;
+
+      // if user is not connected to wallet, show error
+      if (!publicKey) throw new WalletNotConnectedError();
+      
+      // get public key from escrow account address
+      const escrowPubKey = Keypair.generate(process.env.REACT_APP_WALLET_PUB_ADDRESS).publicKey;
+
+      // get latest block hash from cluster
+      const latestBlockHash = await connection.getLatestBlockhash();
+
+      // create transaction to show latest block hash and user address is paying for transaction on solana
+      const transaction = new Transaction({
+          feePayer: publicKey,
+          blockhash: latestBlockHash.blockhash,
+          lastValidBlockHeight: latestBlockHash.lastValidBlockHeight
+      });
+
+      // add program to transaction
+      transaction.add(
+          SystemProgram.transfer({
+              fromPubkey: publicKey,
+              toPubkey: escrowPubKey,
+              lamports: 1 * LAMPORTS_PER_SOL
+          })
+      );
+
+      // send transaction and return tx signature
+      const signature = await sendTransaction(transaction, connection).catch(err => {
+          throw new Error('ailed to get transaction signature')
+      })
+
+      // confirm transaction was sent
+      await connection.confirmTransaction({
+          blockhash: latestBlockHash.blockhash,
+          lastValidBlockHeight: latestBlockHash.lastValidBlockHeight,
+          signature: signature,
+      });
+
+      return signature;
+    }, [connection, publicKey, sendTransaction]);
+
+
+    return (
+        <button onClick={sendSolana} disabled={!publicKey}>
+            Send 1 lamport to a random address!
+        </button>
+    );
+
+  }
+  ```
+- How to transfer solana tokens from an escrow account(account with known private key) to public address (Escrow to User)
+  NB: this is to be done on the backend to ensure your Wallet Secret Key is unexposed.
+  ```
+  async function SendOneLamportToUserAddress(withdrawAddress, amount) {
+    // connect to solana cluster
+    const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
+
+    // get public key of bet owner address
+    const toPubkey = new PublicKey(withdrawAddress);
+
+    // get escrow account key pair from private key
+    const secret = Uint8Array.from(process.env.WALLET_PRIVATE_KEY.split(','));
+    const escrowKeyPair = Keypair.fromSecretKey(secret);
+
+    // create transaction to transfer funds from escrow account to bet owner address
+    const transaction = new Transaction().add(
+        SystemProgram.transfer({
+            fromPubkey: escrowKeyPair.publicKey,
+            toPubkey,
+            lamports: LAMPORTS_PER_SOL * amount,
+        })
+    );
+
+    // sign transaction with escrow account key pair
+    return sendAndConfirmTransaction(
+        connection,
+        transaction,
+        [escrowKeyPair]
+    )
+    .then(async (response) => {
+        // return transaction id for confirmation on https://explorer.solana.com/tx/[transactionId]
+        return {
+            transactionId: response
+        };
+    })
+    .catch(error => {
+        console.error("error", error);  
+    })
+  }
+  ```
+- How to save meta data on the solana for transactions. [More details](https://spl.solana.com/memo)
+  - Install `bs58` npm package
+    ```sh
+      yarn add bs58
+    ```
+  - Save and read data from the solana network
+    ```
+    const web3 = require('@solana/web3.js');
+    var bs58 = require('bs58');
+    let keypair;
+    const memoProgramId = "MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr"; // 
+    const memoProgramKey = new web3.PublicKey(memoProgramId);
+    const programId = new web3.PublicKey("7bAt59dk7gSgxTG4pqMFKGuPcvV541NT9k1MnkbahFsm");
+    let connection;
+
+
+    const establishConnection = async () =>{
+        let rpcUrl = web3.clusterApiUrl('devnet')
+        connection = new web3.Connection(rpcUrl, 'confirmed');   
+        console.log('Connection to cluster established:', rpcUrl);
+    }
+
+    const connectWallet = async () => {
+        let secretKey = Uint8Array.from(process.env.WALLET_PRIVATE_KEY.split(','));
+        keypair = web3.Keypair.fromSecretKey(secretKey);
+        console.log('keypair created: ' + keypair.publicKey.toString());
+    }
+
+    saveData = async (data) => {
+        let transferTransaction = new web3.Transaction();
+
+        transferTransaction.add(new web3.TransactionInstruction({
+            programId: memoProgramId,
+            keys: [{
+                pubkey: keypair.publicKey,
+                isSigner: true,
+                isWritable: false,
+            }],
+            data: Buffer.from(JSON.stringify(data))
+        }))
+
+        const transcationHash =  await web3.sendAndConfirmTransaction(
+            connection, 
+            transferTransaction, 
+            [keypair]
+        );
+
+        return transcationHash;
+    }
+
+    readTransaction = async (signature) => {
+        const transaction = await connection.getTransaction(signature);
+        return transaction.transaction.message.instructions[0].data;
+    }
+
+    saveReadData = async () => {
+        const signature = await saveData({
+            amount: 1,
+            isWon: true,
+            ROI: 2,
+        });
+
+        console.log(signature);
+
+        const b58Address = await readTransaction(signature);
+        const dataAsUint8Arr = bs58.decode(b58Address);
+        const jsonString = new Buffer.from(dataAsUint8Arr).toString('utf8');
+        const data = JSON.parse(jsonString);
+
+        console.log(data);
+    }
+
+    initConnection = async () => {
+        await establishConnection();
+        await connectWallet();
+    }
+
+    initTestReadSaveData = async () => {
+        await initConnection();
+        await saveReadData();
+    }
+
+    initTestReadSaveData();
+    ```
 
 #### Vercel Serveless Functions
 
