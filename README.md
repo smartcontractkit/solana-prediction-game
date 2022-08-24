@@ -47,6 +47,14 @@
         <li><a href="#built-with">Built With</a></li>
         <li><a href="#context">Context</a></li>
         <li><a href="#file-structure">File Structure</a></li>
+        <li>
+          <a href="#usage">Usage</a>
+          <ul>
+            <li><a href="#web3">Web3</a>
+            <li><a href="#vercel-serverless-functions">Vercel Serveless Functions</a>
+            <li><a href="#mongodb-mongoose">MongoDB and Mongoose</a>
+          </ul>
+        </li>
         <li><a href="#constraints-assumptions">Constraints & Assumptions</a></li> 
         <li><a href="#design-considerations">Design Considerations</a></li>
         <li><a href="#proposed-design">Proposed Design</a></li>
@@ -180,6 +188,165 @@ The major folders for the application are as follows:
 4. `lib` - This stores the MongoDB connection
 5. `src` - This stores the `create-react-app` files
 6. `config-overrides.js` - This file overrrides `webpack` configurations for `react-app-rewired`
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+### Usage
+
+#### Chainlink Data Feeds
+- How to setup anchor provider in node.js backend 
+  ```
+  const anchor = require("@project-serum/anchor");
+  const chainlink = require("@chainlink/solana-sdk");
+  const provider = anchor.AnchorProvider.env();
+  
+  // set up provider
+  anchor.setProvider(provider);
+  ```
+- How to setup custom anchor provider to use in serveless functions
+  ```
+  const solanaWeb3 = require("@solana/web3.js");
+  const anchor = require("@project-serum/anchor");
+  export class Wallet {
+
+    constructor(payer) {
+        this.payer = payer
+    }
+
+    // Asynchronous function that allows for signing a single transaction 
+    async signTransaction(tx) {
+        tx.partialSign(this.payer);
+        return tx;
+    }
+
+    // Asynchronous function that allows for signing a multiple transactions
+    async signAllTransactions(txs) {
+        return txs.map((t) => {
+            t.partialSign(this.payer);
+            return t;
+        });
+    }
+
+    // This returns the public key of the wallet
+    get publicKey() {
+        return this.payer.publicKey;
+    }
+  }
+
+  // Create a wallet for the prediction owner
+  const secret = Uint8Array.from(process.env.WALLET_PRIVATE_KEY.split(','));
+  const wallet = new Wallet(solanaWeb3.Keypair.fromSecretKey(secret));
+
+  //  connection to solana cluster node
+  const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl(process.env.REACT_APP_SOLANA_CLUSTER_NETWORK), 'confirmed');
+
+  // creation of a new anchor client provider without use of node server & id.json
+  const options = anchor.AnchorProvider.defaultOptions();
+  const provider = new anchor.AnchorProvider(connection, wallet, options);
+  
+  // set up provider
+  anchor.setProvider(provider);
+
+  ```
+- How to setup get data feeds based on token pair address using custom anchor provider
+  ```
+  const solanaWeb3 = require("@solana/web3.js");
+  const anchor = require("@project-serum/anchor");
+  const chainlink = require("@chainlink/solana-sdk");
+  export class Wallet {
+
+    constructor(payer) {
+        this.payer = payer
+    }
+
+    // Asynchronous function that allows for signing a single transaction 
+    async signTransaction(tx) {
+        tx.partialSign(this.payer);
+        return tx;
+    }
+
+    // Asynchronous function that allows for signing a multiple transactions
+    async signAllTransactions(txs) {
+        return txs.map((t) => {
+            t.partialSign(this.payer);
+            return t;
+        });
+    }
+
+    // This returns the public key of the wallet
+    get publicKey() {
+        return this.payer.publicKey;
+    }
+  }
+
+  // Create a wallet for the prediction owner
+  const secret = Uint8Array.from(process.env.WALLET_PRIVATE_KEY.split(','));
+  const wallet = new Wallet(solanaWeb3.Keypair.fromSecretKey(secret));
+
+  const getLatestDataRound = async (address, pair) => {
+
+      let round = null;
+
+      //  connection to solana cluster node
+      const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl(process.env.REACT_APP_SOLANA_CLUSTER_NETWORK), 'confirmed');
+
+      // creation of a new anchor client provider without use of node server & id.json
+      const options = anchor.AnchorProvider.defaultOptions();
+      const provider = new anchor.AnchorProvider(connection, wallet, options);
+      anchor.setProvider(provider);
+
+      const CHAINLINK_FEED_ADDRESS = address; 
+      const feedAddress = new anchor.web3.PublicKey(CHAINLINK_FEED_ADDRESS);
+
+      // load the data feed account using the predefined chainlink program ID
+      const CHAINLINK_PROGRAM_ID = new anchor.web3.PublicKey("cjg3oHmg9uuPsP8D6g29NWvhySJkdYdAo9D25PRbKXJ");
+      let dataFeed = await chainlink.OCR2Feed.load(CHAINLINK_PROGRAM_ID, provider);
+      let listener = null;
+
+      return new Promise(async (res, rej) => {
+          // listen for events from the price feed, and grab the latest rounds' price data
+          listener = dataFeed.onRound(feedAddress, (event) => {
+              round = {
+                  pair: pair,
+                  feed: address,
+                  answer: event.answer,
+                  answerToNumber: event.answer.toNumber(),
+                  roundId: event.roundId,
+                  observationsTS: event.observationsTS,
+                  slot: event.slot,
+              };
+              // return the latest round only if event data is available
+              if((round) !== undefined) {
+                  provider.connection.removeOnLogsListener(listener);
+                  res(round);
+              }
+          });
+      });
+
+  }
+
+  async function main(){
+    // call getLatestDataRound for SOL/USD token pair
+    const latestRound = await getLatestDataRound('HgTtcbcmp5BeThax5AU8vg4VwK79qAvAKKFMs8txMLW6' ,'SOL/USD');  
+    console.log(latestRound);
+  }
+
+  ```
+
+#### Solana/web3.js
+- How to transfer solana tokens to a public address triggered by a user on the browser (User to Escrow account)
+- How to transfer solana tokens from an escrow account(account with known private key) to public address (Escrow to User)
+- How to transfer save data on the solana
+
+#### Solana Wallet Adapter
+- How to setup solana wallet adapter
+- How to setup custom wallet adapter modal and button
+
+#### Vercel Serveless Functions
+
+
+####
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
