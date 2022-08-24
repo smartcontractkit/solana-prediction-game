@@ -136,16 +136,40 @@ Run `solana --version` to make sure the Solana CLI is installed correctly.
     <img src="src/assets/screenshots/product-screenshot.png" alt="Blockchain Prediction Game Demo" width="80%" height="auto">
 </div>
 
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description`
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 ### Built With
 
 * [![React][React.js]][React-url]
+* [![Chainlink Solana Sdk][Chainlink]][Chainlink-url]
+* [![Chakra UI][Chakra-UI]][Chakra-UI-url]
+* [![Project Serum Anchor][Anchor]][Anchor-url]
+* [![Solana/web3.js][Solana/web3.js]][Solana/web3.js-url]
+* [![Solana Wallet Adapter][Solana-Wallet-Adapter]][Solana-Wallet-Adapter-url]
+* [![Mongoose][Mongoose]][Mongoose-url]
+* [![Vercel][Vercel]][Vercel-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### Context
+
+The application shows you how to setup a simple game that allows its users to do the following:
+1. Users can connect to solana wallet of choice (Solfare, Phantom etc.).
+2. Users can stake solana based on predefined predictions 
+3. The predictions state if the price of blockchain token pair will rise or fall below or above a certain price within a certain time frame (1hr). 
+4. Users get a notification if they win the prediction.
+5. Users are rewarded with double of their stake if their predictions are correct and allowed to withdraw these funds to their wallet.
+
+**Image of the system design**
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### File Structure
+
+
+**Image of the system design**
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 
 
 <!-- CONTRIBUTING -->
@@ -194,4 +218,17 @@ Don't forget to give the project a star! Thanks again!
 [keypair-url]: https://docs.solana.com/terminology#keypair
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
 [React-url]: https://reactjs.org/
-[chainlink-url]: https://chain.link/
+[Chainlink]: https://img.shields.io/badge/Chainlink-375BD2?style=for-the-badge&logo=chainlink&logoColor=61DAFB
+[Chainlink-url]: https://www.npmjs.com/package/@chainlink/solana-sdk
+[Chakra-UI]: https://img.shields.io/badge/Chakra-UI-319795?style=for-the-badge&logo=chakra-ui&logoColor=61DAFB
+[Chakra-UI-url]: https://chakra-ui.com/
+[Anchor]: https://img.shields.io/badge/Anchor-5000B9?style=for-the-badge&logo=anchor&logoColor=61DAFB
+[Anchor-url]: https://github.com/coral-xyz/anchor#readme
+[Solana-Wallet-Adapter]: https://img.shields.io/badge/Wallet-Adapter-375BD2?style=for-the-badge&logo=web3.js&logoColor=61DAFB
+[Solana-Wallet-Adapter-url]: https://github.com/solana-labs/wallet-adapter#readme
+[Solana/web3.js]: https://img.shields.io/badge/Solana/web3.js-F16822?style=for-the-badge&logo=web3.js&logoColor=61DAFB
+[Solana/web3.js-url]: https://github.com/solana-labs/solana-web3.js
+[Mongoose]: https://img.shields.io/badge/Mongoose-47A248?style=for-the-badge&logo=mongodb&logoColor=61DAFB
+[Mongoose-url]: https://mongoosejs.com/
+[Vercel]: https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=61DAFB
+[Vercel-url]: https://vercel.com/
