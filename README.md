@@ -140,6 +140,7 @@ Run `solana --version` to make sure the Solana CLI is installed correctly.
 ### Built With
 
 * [![React][React.js]][React-url]
+* [![Create-React-App][Create-React]][Create-React-url]
 * [![Chainlink Solana Sdk][Chainlink]][Chainlink-url]
 * [![Chakra UI][Chakra-UI]][Chakra-UI-url]
 * [![Project Serum Anchor][Anchor]][Anchor-url]
@@ -158,6 +159,7 @@ The application shows you how to setup a simple game that allows its users to do
 3. The predictions state if the price of blockchain token pair will rise or fall below or above a certain price within a certain time frame (1hr). 
 4. Users get a notification if they win the prediction.
 5. Users are rewarded with double of their stake if their predictions are correct and allowed to withdraw these funds to their wallet.
+6. Users can view the top 5 users based on the percentage of predictions won.
 
 **Image of the system design**
 
@@ -165,8 +167,19 @@ The application shows you how to setup a simple game that allows its users to do
 
 ### File Structure
 
+<div align="left">
+    <img src="src/assets/screenshots/file-structure.png" alt="Blockchain Prediction Game Demo" height="auto">
+</div>
 
-**Image of the system design**
+**Image of the File Structure**
+
+The major folders for the application are as follows:
+1. `.github` - This stores the application [github actions](https://docs.github.com/en/actions)
+2. `api` - This stores the [vercel serverless functions](https://vercel.com/docs/concepts/functions/serverless-functions) that act as our backend.
+3. `models` - This stores Mongoose Schemas
+4. `lib` - This stores the MongoDB connection
+5. `src` - This stores the `create-react-app` files
+6. `config-overrides.js` - This file overrrides `webpack` configurations for `react-app-rewired`
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -218,6 +231,8 @@ Don't forget to give the project a star! Thanks again!
 [keypair-url]: https://docs.solana.com/terminology#keypair
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
 [React-url]: https://reactjs.org/
+[Create-React]: https://img.shields.io/badge/Create-React-09D3AC?style=for-the-badge&logo=create-react-app&logoColor=61DAFB
+[Create-React-url]: https://create-react-app.dev/
 [Chainlink]: https://img.shields.io/badge/Chainlink-375BD2?style=for-the-badge&logo=chainlink&logoColor=61DAFB
 [Chainlink-url]: https://www.npmjs.com/package/@chainlink/solana-sdk
 [Chakra-UI]: https://img.shields.io/badge/Chakra-UI-319795?style=for-the-badge&logo=chakra-ui&logoColor=61DAFB
