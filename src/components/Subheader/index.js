@@ -52,7 +52,7 @@ const ChainlinkFeedButton = () => {
                 bg: "whiteAlpha.300",
             }}
             onClick={() => {
-                window.open("https://docs.chain.link/docs/solana/data-feeds-solana/", "_blank");
+                window.open("https://data.chain.link", "_blank");
             }}
         >
             <Stack
