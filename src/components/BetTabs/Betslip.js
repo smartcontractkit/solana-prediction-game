@@ -15,7 +15,7 @@ const Betslip = () => {
     const { connected } = useWallet();
     const { balance, betSlip, setBetslip, betPlaced, setBetPlaced } = useContext(UserDataContext);
 
-    const [ amount, setAmount ] = useState(0);
+    const [ amount, setAmount ] = useState(1);
 
     // show empty bet slip if no bets are placed
     if(!betSlip) {
@@ -172,7 +172,7 @@ const Betslip = () => {
                         {isError && (
                             <Text as="span" mt="0px!important" fontWeight={500} fontSize="xs" 
                                 color="red.500" alignSelf="flex-start">
-                                    {isInsufficientBalance ? 'Insufficient Balance' : 'Insufficient Amount'}
+                                    {isInsufficientBalance ? 'Insufficient Balance' : 'Minimum of 0.1 SOL'}
                             </Text>               
                         )}
                     </VStack>
