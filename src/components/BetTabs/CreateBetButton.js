@@ -13,6 +13,10 @@ export default function CreateBetButton(
         setBetslip,
         betPlaced,
         setBetPlaced,
+        firstCurrency,
+        direction,
+        expiryTime,
+        predictionPrice,
         ...props
     }
     ) {
@@ -162,7 +166,7 @@ export default function CreateBetButton(
                         </AlertDialogHeader>
             
                         <AlertDialogBody>
-                            Are you sure you want to make this bet?
+                            You are betting {amount} SOL that {firstCurrency} will settle { direction ? 'above' : 'below' } {predictionPrice} at {new Date(expiryTime).toLocaleString()}
                         </AlertDialogBody>
             
                         <AlertDialogFooter>
@@ -171,16 +175,13 @@ export default function CreateBetButton(
                             </Button>
                             <Button 
                                 color="gray.800"
-                                bg="blue.200"
-                                _hover={{
-                                    bg: "blue.100",
-                                }} 
+                                bg="green.200"
                                 onClick={createBet} 
                                 isLoading={isSaving}
                                 loadingText="Placing bet..."
                                 ml={3}
                             >
-                                Continue
+                                Confirm
                             </Button>
                         </AlertDialogFooter>
                     </AlertDialogContent>

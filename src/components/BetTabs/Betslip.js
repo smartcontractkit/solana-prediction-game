@@ -39,7 +39,7 @@ const Betslip = () => {
         logoImage,
         ROI,
     } = betSlip;
-    const { _id, pair, predictionPrice, expiryTime } = prediction;
+    const { _id, pair, predictionPrice, expiryTime, direction } = prediction;
 
     // show form errors when user tries to place bet with insufficient balance 
     // or with amount less than 0.1 SOL.
@@ -65,6 +65,10 @@ const Betslip = () => {
                 setBetslip={setBetslip}
                 betPlaced={betPlaced}
                 setBetPlaced={setBetPlaced}
+                firstCurrency={firstCurrency}
+                direction={direction}
+                predictionPrice={`${roundOff((predictionPrice / DIVISOR), 3)}  ${secondCurrency}`}
+                expiryTime={expiryTime}
                 {...props}
             />
         )
