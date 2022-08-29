@@ -796,7 +796,7 @@ The major folders for the application are as follows:
     ```
 
 #### Vercel Serveless Functions
-
+- Majorly act as our backend, providing an api to add and manipulate data for our mongodb database and initiate transactions between our escrow account and users.
 
 #### MongoDB and Mongoose
 
