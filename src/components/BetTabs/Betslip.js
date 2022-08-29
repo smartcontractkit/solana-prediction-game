@@ -143,7 +143,7 @@ const Betslip = () => {
                                     disabled={!connected}
                                     max={10}
                                     min={0.1} 
-                                    defaultValue={0} 
+                                    defaultValue={1} 
                                     precision={4}
                                     placeholder="Bet Amount" 
                                     rounded="md" 
