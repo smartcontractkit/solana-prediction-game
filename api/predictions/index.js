@@ -26,7 +26,10 @@ module.exports = async (req, res) => {
             }
         }
         
-        const predictions = await Prediction.find(query);
+        const predictions = await Prediction
+            .find(query)
+            .sort('-createdAt'); // Sort the bets by createdAt field descending
+        
         res.send(predictions);
     } catch (err) {
         console.error("Failed to get predictions, with error code: " + err.message);
