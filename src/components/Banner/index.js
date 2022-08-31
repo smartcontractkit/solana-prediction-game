@@ -1,6 +1,6 @@
 import { Flex, Text } from "@chakra-ui/react"
 
-const Hero = () => {
+const Banner = () => {
     return (
         <Flex 
             h="30vh"
@@ -24,4 +24,4 @@ const Hero = () => {
     );
 }
 
-export default Hero;
+export default Banner;
