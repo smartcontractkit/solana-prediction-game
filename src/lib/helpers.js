@@ -1,3 +1,4 @@
+import { add, format, sub } from 'date-fns';
 export const getTruncatedAddress = (address) => {
     return `${ address.slice(0, 6) }...${ address.slice(-4) }`
 }
@@ -17,26 +18,27 @@ export const getCurrenciesFromPairs = (pair) => {
 } 
 
 export const formatDate = (date) => {
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
+    const tomorrow = add(new Date(),{
+        days: 1
+    })
+    const yesterday = sub(new Date(),{
+        days: 1
+    })
 
     const theDate = new Date(date);
 
     let day = 'Today';
-  
+
     if (tomorrow.toDateString() === theDate.toDateString()) {
-      day = 'Tomorrow';
+        day = 'Tomorrow';
     }
 
-    let h = theDate.getHours();
-    let m = theDate.getMinutes();
-    let s = theDate.getSeconds();
+    if (yesterday.toDateString() === theDate.toDateString()) {
+        day = 'Yesterday';
+    }
 
-    h = h < 10 ? "0" + h : h;
-    m = m < 10 ? "0" + m : m;
-    s = s < 10 ? "0" + s : s;
-
-    let time = h + ":" + m + ":" + s;
+    let time = format(theDate, 'hh:mm:ss');
 
     return `${time}, ${day}`
+    
 }
