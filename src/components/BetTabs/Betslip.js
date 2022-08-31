@@ -4,7 +4,7 @@ import emptyBetslip from '../../assets/icons/empty-betslip.svg';
 import CreateBetButton from "./CreateBetButton";
 import { CloseIcon } from "@chakra-ui/icons";
 import { UserDataContext } from "../../contexts/UserDataProvider";
-import { roundOff } from "../../lib/solHelpers";
+import { formatDate, roundOff } from "../../lib/helpers";
 import { DIVISOR } from "../../lib/constants";
 import placeholder from "../../assets/logos/placeholder.png";
 import { useWallet } from "@solana/wallet-adapter-react";
@@ -126,7 +126,7 @@ const Betslip = () => {
                             </Flex>
                         </HStack>
                         <Text textAlign="left">
-                            {firstCurrency} will settle at {roundOff((predictionPrice / DIVISOR), 3)} {secondCurrency} at {new Date(expiryTime).toLocaleString()}
+                            {firstCurrency} will settle at {roundOff((predictionPrice / DIVISOR), 3)} {secondCurrency} at {formatDate(expiryTime)}
                         </Text>
                         <HStack textAlign="left">
                             <Text fontWeight={500} fontSize="xs" color="gray.500">

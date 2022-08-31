@@ -1,6 +1,6 @@
 import { Flex, HStack, Text, VStack, Image, Button, Tooltip, Link, ScaleFade, Box } from "@chakra-ui/react";
 import { DIVISOR } from "../../lib/constants";
-import { getCurrenciesFromPairs, roundOff } from "../../lib/solHelpers";
+import { formatDate, getCurrenciesFromPairs, roundOff } from "../../lib/helpers";
 import { useContext } from "react";
 import { UserDataContext } from "../../contexts/UserDataProvider";
 import { ArrowDownIcon, ArrowUpIcon } from "@chakra-ui/icons";
@@ -74,7 +74,7 @@ const BetCard = ({ prediction, feed }) => {
                                 </Text>
                             </HStack>
                             <Text fontWeight={500} fontSize="xs" color="gray.500">
-                                at {new Date(createdAt).toLocaleString()}
+                                at {formatDate(createdAt)}
                             </Text>
                         </VStack>
                         <Flex
@@ -118,7 +118,7 @@ const BetCard = ({ prediction, feed }) => {
                                 </Text>
                             </HStack>
                             <Text fontWeight={500} fontSize="xs" color="gray.500">
-                                Closing at {new Date(expiryTime).toLocaleString()}
+                                Closing at {formatDate(expiryTime)}
                             </Text>
                         </VStack>
 
@@ -145,7 +145,7 @@ const BetCard = ({ prediction, feed }) => {
                                 <Text fontWeight={500} fontSize="xs" color="gray.500">
                                     {pair}
                                 </Text>
-                                <Tooltip label={`Price @ ${new Date(createdAt).toLocaleString()} from Chainlink Oracle`}>
+                                <Tooltip label={`Price @ ${formatDate(createdAt)} from Chainlink Oracle`}>
                                     <Text fontWeight={500} textDecorationLine="underline" fontSize="xs" color="gray.500">
                                         { feed ? roundOff((feed.answerToNumber / DIVISOR), 4) : "-" }
                                     </Text>

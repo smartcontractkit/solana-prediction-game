@@ -1,7 +1,7 @@
 import { Avatar, HStack, Skeleton, SkeletonCircle, Text, VStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import axiosInstance from "../../lib/axiosInstance";
-import { getTruncatedAddress } from "../../lib/solHelpers";
+import { getTruncatedAddress } from "../../lib/helpers";
 
 const UserLeaderBoard = ({ rank, address, winRate }) => {
     return (
