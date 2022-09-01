@@ -16,6 +16,7 @@ function App() {
         py={8}
         px={4}
         gap={8}
+        maxWidth='1300px'
         >
         {
           <Flex
