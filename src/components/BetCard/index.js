@@ -73,8 +73,8 @@ const BetCard = ({ prediction, feed }) => {
                                     {roundOff((predictionPrice / DIVISOR), 3)}  {secondCurrency}
                                 </Text>
                             </HStack>
-                            <Text fontWeight={500} fontSize="xs" color="gray.500">
-                                at {formatDate(createdAt)}
+                            <Text fontWeight={500} fontSize="xs" color="gray.500" textTransform="uppercase">
+                                {formatDate(createdAt)}
                             </Text>
                         </VStack>
                         <Flex
@@ -118,7 +118,7 @@ const BetCard = ({ prediction, feed }) => {
                                 </Text>
                             </HStack>
                             <Text fontWeight={500} fontSize="xs" color="gray.500">
-                                Closing at {formatDate(expiryTime)}
+                                Closing {formatDate(expiryTime)}
                             </Text>
                         </VStack>
 

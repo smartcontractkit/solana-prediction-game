@@ -126,7 +126,7 @@ const Betslip = () => {
                             </Flex>
                         </HStack>
                         <Text textAlign="left">
-                            {firstCurrency} will settle at {roundOff((predictionPrice / DIVISOR), 3)} {secondCurrency} at {formatDate(expiryTime)}
+                            {firstCurrency} will settle at {roundOff((predictionPrice / DIVISOR), 3)} {secondCurrency} {formatDate(expiryTime)}
                         </Text>
                         <HStack textAlign="left">
                             <Text fontWeight={500} fontSize="xs" color="gray.500">
