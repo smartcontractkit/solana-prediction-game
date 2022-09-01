@@ -94,7 +94,7 @@ const WalletButton = ({ children, ...props }) => {
     );
 
     return (
-      <div className="wallet-adapter-dropdown" {...props}>
+      <div className="wallet-adapter-dropdown" style={{ width: '100%' }}>
         <Button 
           size="md"
           rounded="md"
