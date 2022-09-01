@@ -5,6 +5,7 @@ import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { WalletNotConnectedError } from "@solana/wallet-adapter-base";
 import { Keypair, LAMPORTS_PER_SOL, SystemProgram, Transaction } from "@solana/web3.js";
 import { UserDataContext } from "../../contexts/UserDataProvider";
+import { formatDate } from "../../lib/helpers";
 
 export default function CreateBetButton( 
     { 
@@ -166,7 +167,7 @@ export default function CreateBetButton(
                         </AlertDialogHeader>
             
                         <AlertDialogBody>
-                            You are betting {amount} SOL that {firstCurrency} will settle { direction ? 'above' : 'below' } {predictionPrice} at {new Date(expiryTime).toLocaleString()}
+                            You are betting {amount} SOL that {firstCurrency} will settle { direction ? 'above' : 'below' } {predictionPrice} at {formatDate(expiryTime)}
                         </AlertDialogBody>
             
                         <AlertDialogFooter>

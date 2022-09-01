@@ -3,7 +3,7 @@ import { useContext, useState } from "react";
 import placeholder from "../../assets/logos/placeholder.png";
 import { UserDataContext } from "../../contexts/UserDataProvider";
 import axiosInstance from "../../lib/axiosInstance";
-import { getCurrenciesFromPairs, roundOff } from "../../lib/solHelpers";
+import { formatDate, getCurrenciesFromPairs, roundOff } from "../../lib/helpers";
 import { DIVISOR } from "../../lib/constants";
 
 const SingleBetCard = ({ bet }) => {
@@ -115,7 +115,7 @@ const SingleBetCard = ({ bet }) => {
                 </Text>
             </HStack>
             <Text textAlign="left">
-                {firstCurrency} will settle { direction ? 'above' : 'below' } {roundOff((predictionPrice / DIVISOR), 5)} {secondCurrency} at {new Date(expiryTime).toLocaleString()}
+                {firstCurrency} will settle { direction ? 'above' : 'below' } {roundOff((predictionPrice / DIVISOR), 5)} {secondCurrency} on {formatDate(expiryTime)}
             </Text>
             <HStack textAlign="left">
                 <Text fontWeight={500} fontSize="xs" color="gray.500">
