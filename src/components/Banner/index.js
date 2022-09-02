@@ -47,11 +47,11 @@ const Banner = () => {
             px="8px"
         >
             <Flex 
-                direction="row"
+                direction={["column", "column", "column", "row"]}
                 maxWidth="1300px"
                 w="100%"
                 justifyContent="space-between"
-                alignItems="flex-start"
+                alignItems={["center", "center", "center", "flex-start"]}
                 gap="48px"
             >
                 {/* section 1 */}
