@@ -3,6 +3,21 @@ import logo from "../../assets/logos/logo.svg";
 import solanaLogo from "../../assets/logos/sol.png";
 
 const Banner = () => {
+    const wallets = [ 
+        'phantom', 
+        'solfare', 
+        'torus',
+        'coinbase',
+        'glow',
+        'slope'
+    ];
+
+    const faucets = [
+        'solfare',
+        'glow',
+        'slope'
+    ]
+
     return (
         <Flex 
             w="100%"
@@ -20,6 +35,7 @@ const Banner = () => {
                 alignItems="flex-start"
                 gap="48px"
             >
+                {/* section 1 */}
                 <VStack
                     gap="51px"
                     justifyContent="space-between"
@@ -101,9 +117,84 @@ const Banner = () => {
                         </VStack>
                     </VStack>
                 </VStack>
-                <VStack>
-                    <Text>Hey</Text>
+                {/* sectioni 2 */}
+                <VStack
+                    justifyContent="space-between"
+                    alignItems="flex-start"
+                    minW="300px"
+                    maxW="360px"
+                    gap="16px"
+                >
+                    <Text 
+                        size="lg" 
+                        pb="4px"
+                        fontSize="18px"
+                        fontWeight="600"
+                    >
+                        How to get started?
+                    </Text>
+                    <Text>1. Install & connect a wallet</Text>
+                    <HStack
+                        w="100%"
+                        bg="whiteAlpha.50"
+                        p="8px 12px"
+                        alignItems="center"
+                        borderRadius="6px"
+                        justifyContent="space-between"
+                    >
+                        <Text size="xs" color="gray.500">
+                            Wallets
+                        </Text>
+                        <HStack>
+                            {
+                                wallets.map(wallet => {
+                                    const walletImage = require(`../../assets/logos/${wallet}.svg`);
+                                    return (
+                                        <Image
+                                            key={wallet}
+                                            borderRadius='full'
+                                            boxSize='24px'
+                                            src={walletImage}
+                                            alt={`${wallet} logo`}
+                                        />
+                                    )
+                                })
+                            }
+                        </HStack>
+                    </HStack>
+                    <Text>2. Get some SOL’s from the faucets</Text>
+                    <HStack
+                        w="100%"
+                        bg="whiteAlpha.50"
+                        p="8px 12px"
+                        alignItems="center"
+                        borderRadius="6px"
+                        justifyContent="space-between"
+                    >
+                        <Text size="xs" color="gray.500">
+                            Faucets
+                        </Text>
+                        <HStack>
+                            {
+                                faucets.map(faucet => {
+                                    const faucetImage = require(`../../assets/logos/${faucet}.svg`);
+                                    return (
+                                        <Image
+                                            key={faucet}
+                                            borderRadius='full'
+                                            boxSize='24px'
+                                            src={faucetImage}
+                                            alt={`${faucet} logo`}
+                                        />
+                                    )
+                                })
+                            }
+                        </HStack>
+                    </HStack>
+                    <Text>3. Choose a prediction & make a bet</Text>
+                    <Text>4. Withdraw your winning! If you were right :) </Text>
                 </VStack>
+                {/* section 3 */}
                 <VStack>
                     <Text>Hey</Text>
                 </VStack>
