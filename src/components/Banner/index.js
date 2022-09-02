@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, HStack, Image, Text, VStack } from "@chakra-ui/react"
+import { Box, Flex, Heading, HStack, Image, Link, ListItem, Text, UnorderedList, VStack } from "@chakra-ui/react"
 import logo from "../../assets/logos/logo.svg";
 import solanaLogo from "../../assets/logos/sol.png";
 
@@ -18,6 +18,25 @@ const Banner = () => {
         'slope'
     ]
 
+    const devLinks = [
+        {
+            href: "https://github.com/thisdot/blockchain-prediction-game/blob/main/README.md",
+            text: "How to get started"
+        },
+        {
+            href: "https://github.com/thisdot/blockchain-prediction-game",
+            text: "Browse the Code"
+        },
+        {
+            href: "https://solanacookbook.com/",
+            text: "Solana Cookbook"
+        },
+        {
+            href: "https://docs.chain.link/docs/solana/data-feeds-solana/",
+            text: "Solana Chainlink Docs"
+        }
+    ]
+
     return (
         <Flex 
             w="100%"
@@ -31,7 +50,7 @@ const Banner = () => {
                 direction="row"
                 maxWidth="1300px"
                 w="100%"
-                justifyContent="space-evenly"
+                justifyContent="space-between"
                 alignItems="flex-start"
                 gap="48px"
             >
@@ -123,7 +142,7 @@ const Banner = () => {
                     alignItems="flex-start"
                     minW="300px"
                     maxW="360px"
-                    gap="16px"
+                    gap="8px"
                 >
                     <Text 
                         size="lg" 
@@ -195,8 +214,40 @@ const Banner = () => {
                     <Text>4. Withdraw your winning! If you were right :) </Text>
                 </VStack>
                 {/* section 3 */}
-                <VStack>
-                    <Text>Hey</Text>
+                <VStack
+                    justifyContent="space-between"
+                    alignItems="flex-start"
+                    minW="300px"
+                    maxW="360px"
+                    gap="96px"
+                >
+                    <VStack
+                        alignItems="flex-start"
+                    >
+                        <Text 
+                            size="lg" 
+                            pb="4px"
+                            fontSize="18px"
+                            fontWeight="600"
+                        >
+                            For Developers
+                        </Text>
+
+                        <Text>
+                        PD is built on top of Solana, that enables users from any corner of the world to trade and interact markets using trustless solutions.
+                        </Text>
+                    </VStack>
+                    <UnorderedList>
+                    {
+                        devLinks.map((link, i) => (
+                            <ListItem key={i}>
+                                <Link href={link.href} isExternal textDecorationLine="underline">
+                                    {link.text}
+                                </Link>
+                            </ListItem>
+                        ))
+                    }
+                    </UnorderedList>
                 </VStack>
             </Flex>
         </Flex>
