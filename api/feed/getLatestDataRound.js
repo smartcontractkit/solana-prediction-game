@@ -60,7 +60,7 @@ const getLatestDataRound = async (address, pair) => {
                 slot: event.slot,
             };
             // return the latest round only if event data is available
-            if((round) !== undefined) {
+            if((round) !== (undefined || null)) {
                 provider.connection.removeOnLogsListener(listener);
                 res(round);
             }
