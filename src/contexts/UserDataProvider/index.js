@@ -99,13 +99,6 @@ const UserDataProvider = (props) => {
         getBalance()
         .then(res => {
           setBalance(res/LAMPORTS_PER_SOL);
-          toast({
-              title: 'Balance Updated',
-              description: "Your balance has been updated",
-              status: 'info',
-              duration: 9000,
-              isClosable: true,
-          })
         })
         .catch(err => {
           toast({
