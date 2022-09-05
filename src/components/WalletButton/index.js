@@ -1,14 +1,14 @@
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
-import { Text, Button, Stack, HStack, Avatar, Show } from "@chakra-ui/react";
+import { Text, Button, Stack, HStack, Avatar } from "@chakra-ui/react";
 import { ChevronDownIcon } from '@chakra-ui/icons';
 import { roundOff } from "../../lib/helpers";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { UserDataContext } from "../../contexts/UserDataProvider";
-import WalletModalButton from "../WalletModalButton/WalletModalButton";
+import WalletModalButton from "../WalletModalButton";
 import WalletConnectButton from "../WalletConnectButton";
 
-const MenuWallet = ({ children, ...props }) => {
+const WalletButton = ({ children, ...props }) => {
     const { publicKey, wallet, disconnect } = useWallet();
     const { setVisible } = useWalletModal();
     const { balance } = useContext(UserDataContext);
@@ -66,7 +66,7 @@ const MenuWallet = ({ children, ...props }) => {
 
     if (!wallet) return (
       <WalletModalButton
-        size="sm"
+        size="md"
         rounded="md"
         bg="blue.200"
         color="gray.800"
@@ -80,7 +80,7 @@ const MenuWallet = ({ children, ...props }) => {
     );
     if (!base58) return (
       <WalletConnectButton
-        size="sm"
+        size="md"
         rounded="md"
         bg="blue.200"
         color="gray.800"
@@ -94,14 +94,15 @@ const MenuWallet = ({ children, ...props }) => {
     );
 
     return (
-      <div className="wallet-adapter-dropdown">
+      <div className="wallet-adapter-dropdown" style={{ width: '100%' }}>
         <Button 
-          size="sm"
+          size="md"
           rounded="md"
           bg="whiteAlpha.50"
           _hover={{
             bg: "whiteAlpha.300",
           }}
+          w="100%"
           onClick={openDropdown}
         >
           <Stack
@@ -109,6 +110,7 @@ const MenuWallet = ({ children, ...props }) => {
             align="center"
             justify="space-between"
             direction="row"
+            w="100%"
           >
             {
               balance && 
@@ -119,11 +121,9 @@ const MenuWallet = ({ children, ...props }) => {
               )
             }
             <HStack>
-              <Show above="sm">
-                <Text color="gray.400" fontWeight={400}>
-                  { content }
-                </Text>
-              </Show>
+              <Text color="gray.400" fontWeight={400}>
+                { content }
+              </Text>
               <Avatar size="xs" bg='red.500' src={`https://api.multiavatar.com/${base58}.png`} />
               <ChevronDownIcon />
             </HStack>
@@ -149,4 +149,4 @@ const MenuWallet = ({ children, ...props }) => {
   );
 };
 
-export default MenuWallet;
+export default WalletButton;

@@ -8,7 +8,7 @@ import { formatDate, roundOff } from "../../lib/helpers";
 import { DIVISOR } from "../../lib/constants";
 import placeholder from "../../assets/logos/placeholder.png";
 import { useWallet } from "@solana/wallet-adapter-react";
-import WalletModalButton from "../WalletModalButton/WalletModalButton";
+import WalletModalButton from "../WalletModalButton";
 
 const Betslip = () => {
 
