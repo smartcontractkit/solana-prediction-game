@@ -148,7 +148,7 @@ const Banner = () => {
                     justifyContent="center"
                     flex="0 1 100%"
                     w="100%"
-                    borderLeft={["", "", "", "1px solid grey"]}
+                    borderLeft={["", "", "", "1px solid whiteAlpha.300"]}
                 >
                     <VStack
                         justifyContent="space-between"
@@ -163,10 +163,11 @@ const Banner = () => {
                             pb="4px"
                             fontSize="18px"
                             fontWeight="600"
+                            color="white"
                         >
                             How to get started?
                         </Text>
-                        <Text>1. Install & connect a wallet</Text>
+                        <Text color="gray.300">1. Install & connect a wallet</Text>
                         <HStack
                             w="100%"
                             bg="whiteAlpha.50"
@@ -195,7 +196,7 @@ const Banner = () => {
                                 }
                             </HStack>
                         </HStack>
-                        <Text>2. Get some SOL’s from the faucets</Text>
+                        <Text color="gray.300">2. Get some SOL’s from the faucets</Text>
                         <HStack
                             w="100%"
                             bg="whiteAlpha.50"
@@ -224,8 +225,8 @@ const Banner = () => {
                                 }
                             </HStack>
                         </HStack>
-                        <Text>3. Choose a prediction & make a bet</Text>
-                        <Text>4. Withdraw your winning! If you were right :) </Text>
+                        <Text color="gray.300">3. Choose a prediction & make a bet</Text>
+                        <Text color="gray.300">4. Withdraw your winning! If you were right :) </Text>
                     </VStack>
                 </Flex>
                 {/* section 3 */}
@@ -234,7 +235,7 @@ const Banner = () => {
                     justifyContent="center"
                     flex="0 1 100%"
                     w="100%"
-                    borderLeft={["", "", "", "1px solid grey"]}
+                    borderLeft={["", "", "", "1px solid whiteAlpha.300"]}
                 >
                     <VStack
                         justifyContent="space-between"
@@ -255,8 +256,8 @@ const Banner = () => {
                                 For Developers
                             </Text>
 
-                            <Text>
-                            PD is built on top of Solana, that enables users from any corner of the world to trade and interact markets using trustless solutions.
+                            <Text color="gray.300">
+                                PD is built on top of Solana, that enables users from any corner of the world to trade and interact markets using trustless solutions.
                             </Text>
                         </VStack>
                         <UnorderedList>
@@ -264,7 +265,7 @@ const Banner = () => {
                             devLinks.map((link, i) => (
                                 <ListItem key={i}>
                                     <Link href={link.href} isExternal textDecorationLine="underline">
-                                        {link.text}
+                                        <Text color="gray.300">{link.text}</Text>
                                     </Link>
                                 </ListItem>
                             ))
