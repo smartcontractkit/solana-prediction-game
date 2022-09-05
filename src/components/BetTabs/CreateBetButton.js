@@ -92,6 +92,10 @@ export default function CreateBetButton(
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [amount, connection, publicKey, sendTransaction]);
 
+    const showNetwork = () => {
+        console.log(network)
+    }
+
     const createBet = async () => {
         setIsSaving(true);
 
@@ -177,7 +181,7 @@ export default function CreateBetButton(
                             <Button 
                                 color="gray.800"
                                 bg="green.200"
-                                onClick={createBet} 
+                                onClick={showNetwork} 
                                 isLoading={isSaving}
                                 loadingText="Placing bet..."
                                 ml={3}
