@@ -169,7 +169,7 @@ export default function CreateBetButton(
                         </AlertDialogHeader>
             
                         <AlertDialogBody>
-                            You are betting {amount} SOL that {firstCurrency} will settle { direction ? 'above' : 'below' } {predictionPrice} at {formatDate(expiryTime)}
+                            You are betting {amount} SOL that {firstCurrency} will settle { direction ? 'above' : 'below' } {predictionPrice} {formatDate(expiryTime)}
                         </AlertDialogBody>
             
                         <AlertDialogFooter>

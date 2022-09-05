@@ -28,7 +28,7 @@ module.exports = async (req, res) => {
             }
             
             // connect to solana cluster
-            const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
+            const connection = new Connection(clusterApiUrl(process.env.REACT_APP_SOLANA_CLUSTER_NETWORK), "confirmed");
 
             // get public key of bet owner address
             const toPubkey = new PublicKey(withdrawAddress);
@@ -58,12 +58,12 @@ module.exports = async (req, res) => {
                 const result = await Bet.findOneAndUpdate({ _id }, { status: 'completed' }, {
                     new: true
                 });
-                console.log(`Bet was inserted with the _id: ${result._id}`);
+                console.log(`Bet was updated with the _id: ${result._id}`);
                 
                 // return transaction id for confirmation on https://explorer.solana.com/tx/[transactionId]
-                return {
+                res.status(200).send({
                     transactionId: response
-                };
+                })
             })
             .catch(error => {
                 console.error("error", error);  
