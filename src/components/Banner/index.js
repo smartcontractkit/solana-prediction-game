@@ -148,7 +148,7 @@ const Banner = () => {
                     justifyContent="center"
                     flex="0 1 100%"
                     w="100%"
-                    borderLeft={["", "", "", "1px solid whiteAlpha.300"]}
+                    borderLeft={["", "", "", "1px solid rgba(255, 255, 255, 0.16)"]}
                 >
                     <VStack
                         justifyContent="space-between"
@@ -235,7 +235,7 @@ const Banner = () => {
                     justifyContent="center"
                     flex="0 1 100%"
                     w="100%"
-                    borderLeft={["", "", "", "1px solid whiteAlpha.300"]}
+                    borderLeft={["", "", "", "1px solid rgba(255, 255, 255, 0.16)"]}
                 >
                     <VStack
                         justifyContent="space-between"
@@ -264,8 +264,8 @@ const Banner = () => {
                         {
                             devLinks.map((link, i) => (
                                 <ListItem key={i}>
-                                    <Link href={link.href} isExternal textDecorationLine="underline">
-                                        <Text color="gray.300">{link.text}</Text>
+                                    <Link href={link.href} isExternal>
+                                        <Text color="gray.300" textDecorationLine="underline">{link.text}</Text>
                                     </Link>
                                 </ListItem>
                             ))
