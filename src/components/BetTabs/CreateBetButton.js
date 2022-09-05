@@ -69,15 +69,17 @@ export default function CreateBetButton(
         );
 
         // send transaction and return tx signature
-        const signature = await sendTransaction(transaction, connection).catch(err => {
+        const signature = await sendTransaction(transaction, connection, {
+            maxRetries: 5
+        })
+        .catch(err => {
             toast({
-                title: 'Transaction error.',
+                title: 'Transaction error:',
                 description: err.message,
                 status: 'error',
                 duration: 9000,
                 isClosable: true,
             })
-            setIsSaving(false);
         })
 
         // confirm transaction was sent
@@ -91,10 +93,6 @@ export default function CreateBetButton(
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [amount, connection, publicKey, sendTransaction]);
-
-    const showNetwork = () => {
-        console.log(network)
-    }
 
     const createBet = async () => {
         setIsSaving(true);
@@ -181,7 +179,7 @@ export default function CreateBetButton(
                             <Button 
                                 color="gray.800"
                                 bg="green.200"
-                                onClick={showNetwork} 
+                                onClick={createBet} 
                                 isLoading={isSaving}
                                 loadingText="Placing bet..."
                                 ml={3}
