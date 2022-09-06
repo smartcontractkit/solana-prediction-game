@@ -115,7 +115,7 @@ const SingleBetCard = ({ bet }) => {
                 </Text>
             </HStack>
             <Text textAlign="left">
-                {firstCurrency} will settle { direction ? 'above' : 'below' } {roundOff((predictionPrice / DIVISOR), 5)} {secondCurrency} on {formatDate(expiryTime)}
+                {firstCurrency} will settle { direction ? 'above' : 'below' } {roundOff((predictionPrice / DIVISOR), 5)} {secondCurrency} {formatDate(expiryTime)}
             </Text>
             <HStack textAlign="left">
                 <Text fontWeight={500} fontSize="xs" color="gray.500">
