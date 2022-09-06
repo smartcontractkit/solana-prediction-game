@@ -94,6 +94,16 @@ export default function CreateBetButton(
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [amount, connection, publicKey, sendTransaction]);
 
+    const test = () =>{
+        toast({
+            title: 'Bet created.',
+            description: "View on explorer: " + network,
+            status: 'success',
+            duration: 9000,
+            isClosable: true,
+        })
+    }
+
     const createBet = async () => {
         setIsSaving(true);
 
@@ -179,7 +189,7 @@ export default function CreateBetButton(
                             <Button 
                                 color="gray.800"
                                 bg="green.200"
-                                onClick={createBet} 
+                                onClick={test} 
                                 isLoading={isSaving}
                                 loadingText="Placing bet..."
                                 ml={3}
