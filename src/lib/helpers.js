@@ -18,5 +18,13 @@ export const getCurrenciesFromPairs = (pair) => {
 } 
 
 export const formatDate = (date) => {
-    return formatRelative(new Date(date), new Date());
+    let theDate = formatRelative(new Date(date), new Date());
+
+    const isOther = new Date(theDate).toString() !== 'Invalid Date'
+
+    if(isOther){
+        theDate = new Date(date).toLocaleString()
+    }
+
+    return theDate
 }
