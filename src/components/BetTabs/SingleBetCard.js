@@ -13,6 +13,7 @@ const SingleBetCard = ({ bet }) => {
     const { firstCurrency, secondCurrency } = getCurrenciesFromPairs(pair);
     const logoImage = require(`../../assets/logos/${firstCurrency.toLowerCase()}.png`);
     const [isSaving, setIsSaving] = useState(false);
+    const [isWithdrawing, setIsWithdrawing] = useState(false);
     const toast = useToast();
 
     let statusText = "";
@@ -47,6 +48,7 @@ const SingleBetCard = ({ bet }) => {
 
     const withdraw = async () => {
         setIsSaving(true);
+        setIsWithdrawing(true);
         toast({
             title: 'Withdrawing...',
             description: "Sending Solana to your account",
@@ -74,6 +76,7 @@ const SingleBetCard = ({ bet }) => {
         })
         .catch(err => {
             setIsSaving(false);
+            setIsWithdrawing(false);
             toast({
                 title: 'Error withdrawing funds',
                 description: err.message,
@@ -111,6 +114,7 @@ const SingleBetCard = ({ bet }) => {
                     onClick={showDialog}
                     isLoading={isSaving}
                     loadingText="Withdrawing..."
+                    disabled={isWithdrawing}
                 >
                     Withdraw
                 </Button>
@@ -141,6 +145,7 @@ const SingleBetCard = ({ bet }) => {
                                     onClick={withdraw} 
                                     isLoading={isSaving}
                                     loadingText="Withdrawing..."
+                                    disabled={isWithdrawing}
                                     ml={3}
                                 >
                                     Confirm
