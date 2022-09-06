@@ -1,5 +1,5 @@
-import { Button, HStack, Image, Text, useToast, VStack } from "@chakra-ui/react";
-import { useContext, useState } from "react";
+import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Button, HStack, Image, Text, useDisclosure, useToast, VStack } from "@chakra-ui/react";
+import { useContext, useRef, useState } from "react";
 import placeholder from "../../assets/logos/placeholder.png";
 import { UserDataContext } from "../../contexts/UserDataProvider";
 import axiosInstance from "../../lib/axiosInstance";
@@ -8,11 +8,12 @@ import { DIVISOR } from "../../lib/constants";
 
 const SingleBetCard = ({ bet }) => {
     const { prediction, amount, status, transactionSignature } = bet;
-    const { pair, predictionPrice, expiryTime, direction } = prediction;
+    const { pair, predictionPrice, expiryTime, direction, ROI } = prediction;
     const { address, betplaced, setBetPlaced } = useContext(UserDataContext);
     const { firstCurrency, secondCurrency } = getCurrenciesFromPairs(pair);
     const logoImage = require(`../../assets/logos/${firstCurrency.toLowerCase()}.png`);
     const [isSaving, setIsSaving] = useState(false);
+    const [isWithdrawing, setIsWithdrawing] = useState(false);
     const toast = useToast();
 
     let statusText = "";
@@ -40,7 +41,14 @@ const SingleBetCard = ({ bet }) => {
             statusColor = "orange.300";
     }
 
+
+    const network = process.env.REACT_APP_SOLANA_CLUSTER_NETWORK;
+
+    const transactionUrl = `https://explorer.solana.com/tx/${transactionSignature}?cluster=${network}`;
+
     const withdraw = async () => {
+        setIsSaving(true);
+        setIsWithdrawing(true);
         toast({
             title: 'Withdrawing...',
             description: "Sending Solana to your account",
@@ -51,7 +59,7 @@ const SingleBetCard = ({ bet }) => {
 
         axiosInstance.post("/api/transactions/withdraw", {
             _id: bet._id,
-            amount: amount * 2,
+            amount: amount * ROI,
             withdrawAddress: address
         })
         .then(res => res.data)
@@ -68,6 +76,7 @@ const SingleBetCard = ({ bet }) => {
         })
         .catch(err => {
             setIsSaving(false);
+            setIsWithdrawing(false);
             toast({
                 title: 'Error withdrawing funds',
                 description: err.message,
@@ -79,9 +88,75 @@ const SingleBetCard = ({ bet }) => {
 
     }
 
-    const network = process.env.REACT_APP_SOLANA_CLUSTER_NETWORK;
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const cancelRef = useRef();
 
-    const transactionUrl = `https://explorer.solana.com/tx/${transactionSignature}?cluster=${network}`;
+    // show dialog to confirm bet creation
+    const showDialog = (event) => {
+        event.preventDefault();
+        onOpen();
+    }
+
+    const WithdrawButton = () => {
+        return (
+            <>
+                <Button
+                    w="41px"
+                    h="24px"
+                    fontSize="12px"
+                    minW="min-content"
+                    variant="outline"
+                    px="4px"
+                    borderRadius="6px"
+                    flexGrow={1}
+                    color="gray.800"
+                    bg="green.200"
+                    onClick={showDialog}
+                    isLoading={isSaving}
+                    loadingText="Withdrawing..."
+                    disabled={isWithdrawing}
+                >
+                    Withdraw
+                </Button>
+                <AlertDialog
+                    motionPreset='slideInBottom'
+                    leastDestructiveRef={cancelRef}
+                    onClose={onClose}
+                    isOpen={isOpen}
+                    isCentered
+                >
+                    <AlertDialogOverlay>
+                        <AlertDialogContent bg="gray.800">
+                            <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+                                Withdraw
+                            </AlertDialogHeader>
+                
+                            <AlertDialogBody>
+                                You are withdrawing {amount * ROI} SOL 
+                            </AlertDialogBody>
+                
+                            <AlertDialogFooter>
+                                <Button colorScheme='red' ref={cancelRef} onClick={onClose}>
+                                    Cancel
+                                </Button>
+                                <Button 
+                                    color="gray.800"
+                                    bg="green.200"
+                                    onClick={withdraw} 
+                                    isLoading={isSaving}
+                                    loadingText="Withdrawing..."
+                                    disabled={isWithdrawing}
+                                    ml={3}
+                                >
+                                    Confirm
+                                </Button>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialogOverlay>
+                </AlertDialog>
+            </>
+        );
+    }
 
     return (
         <VStack
@@ -145,23 +220,7 @@ const SingleBetCard = ({ bet }) => {
                 </Button>
                 {
                     status === "won" && (
-                        <Button
-                            w="41px"
-                            h="24px"
-                            fontSize="12px"
-                            minW="min-content"
-                            variant="outline"
-                            px="4px"
-                            borderRadius="6px"
-                            flexGrow={1}
-                            color="gray.800"
-                            bg="green.200"
-                            onClick={withdraw}
-                            isLoading={isSaving}
-                            loadingText="Withdrawing..."
-                        >
-                            Withdraw
-                        </Button>
+                        <WithdrawButton />
                     )
                 }
             </HStack>

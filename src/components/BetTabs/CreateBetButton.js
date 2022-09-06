@@ -69,15 +69,17 @@ export default function CreateBetButton(
         );
 
         // send transaction and return tx signature
-        const signature = await sendTransaction(transaction, connection).catch(err => {
+        const signature = await sendTransaction(transaction, connection, {
+            maxRetries: 5
+        })
+        .catch(err => {
             toast({
-                title: 'Transaction error.',
+                title: 'Transaction error:',
                 description: err.message,
                 status: 'error',
                 duration: 9000,
                 isClosable: true,
             })
-            setIsSaving(false);
         })
 
         // confirm transaction was sent
@@ -167,7 +169,7 @@ export default function CreateBetButton(
                         </AlertDialogHeader>
             
                         <AlertDialogBody>
-                            You are betting {amount} SOL that {firstCurrency} will settle { direction ? 'above' : 'below' } {predictionPrice} at {formatDate(expiryTime)}
+                            You are betting {amount} SOL that {firstCurrency} will settle { direction ? 'above' : 'below' } {predictionPrice} {formatDate(expiryTime)}
                         </AlertDialogBody>
             
                         <AlertDialogFooter>
