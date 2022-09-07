@@ -38,3 +38,4 @@ REACT_APP_MORALIS_SERVER_URL = xxx;
 ```sh
 vercel dev
 ```
+
