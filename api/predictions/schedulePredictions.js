@@ -4,6 +4,7 @@ const chainlink = require("@chainlink/solana-sdk");
 const { connectToDatabase } = require("../../lib/mongoose");
 const Prediction = require("../../models/prediction.model");
 const { Wallet } = require("../../models/wallet.model");
+const { addMinutes } = require("date-fns");
 
 // Create a wallet for the prediction owner
 const secret = Uint8Array.from(process.env.WALLET_PRIVATE_KEY.split(','));
@@ -128,7 +129,7 @@ const pairs = [
  * @returns date with added minutes
 */
 const addMinutesToDate = (date, minutes) => {
-    return new Date(date.getTime() + minutes * 1000 * 60); //  1000 ms/s * 60 s/min * min = # ms
+    return addMinutes(date, minutes);//  1000 ms/s * 60 s/min * min = # ms
 }
 
 /**
@@ -166,8 +167,8 @@ module.exports = async (req, res) => {
                     owner: wallet.publicKey,
                     account: pair.feedAddress,
                     pair: pair.pair,
-                    expiryTime: addMinutesToDate(date, 60),
-                    predictionDeadline: addMinutesToDate(date, 50),
+                    expiryTime: addMinutesToDate(date, 120),
+                    predictionDeadline: addMinutesToDate(date, 60),
                     openingPredictionPrice: answerToNumber,
                     openingPredictionTime: observationsTS,
                     openingPredictionSlot: slot,

@@ -1,6 +1,6 @@
 import { Flex, HStack, Text, VStack, Image, Button, Tooltip, Link, ScaleFade, Box } from "@chakra-ui/react";
 import { DIVISOR } from "../../lib/constants";
-import { formatDate, getCurrenciesFromPairs, roundOff } from "../../lib/helpers";
+import { capitalize, formatDate, getCurrenciesFromPairs, roundOff } from "../../lib/helpers";
 import { useContext } from "react";
 import { UserDataContext } from "../../contexts/UserDataProvider";
 import { ArrowDownIcon, ArrowUpIcon } from "@chakra-ui/icons";
@@ -73,8 +73,8 @@ const BetCard = ({ prediction, feed }) => {
                                     {roundOff((predictionPrice / DIVISOR), 3)}  {secondCurrency}
                                 </Text>
                             </HStack>
-                            <Text fontWeight={500} fontSize="xs" color="gray.500" textTransform="capitalize">
-                                {formatDate(createdAt)}
+                            <Text fontWeight={500} fontSize="xs" color="gray.500">
+                                {capitalize(formatDate(expiryTime))}
                             </Text>
                         </VStack>
                         <Flex
@@ -118,7 +118,7 @@ const BetCard = ({ prediction, feed }) => {
                                 </Text>
                             </HStack>
                             <Text fontWeight={500} fontSize="xs" color="gray.500">
-                                Closing {formatDate(expiryTime)}
+                                Closing {formatDate(predictionDeadline)}
                             </Text>
                         </VStack>
 
