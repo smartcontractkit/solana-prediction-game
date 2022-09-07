@@ -9,26 +9,17 @@
 
 <!-- PROJECT LOGO -->
 <br />
-<div align="center">
-  <a href="https://github.com/thisdot/blockchain-prediction-game">
-    <img src="src/assets/logos/logo.svg" alt="Logo" width="80" height="80">
-  </a>
+<a href="https://github.com/thisdot/blockchain-prediction-game">
+  <img src="src/assets/logos/logo.svg" alt="Logo" width="80" height="80">
+</a>
 
-<h3 align="center">Blockchain Prediction Game</h3>
+# Blockchain Prediction Game
 
-  <p align="center">
-    This Project utilizes <a href="https://docs.chain.link/docs/solana/data-feeds-solana/#Solana%20Devnet"><strong>Off-Chain Chainlink Price Feeds</strong></a> to demostrates how to build a simple Prediction Game using Solana. This project works on both Solana Mainnet Beta & Devnet.
-    <br />
-    <a href="https://github.com/thisdot/blockchain-prediction-game"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://blockchain-prediction-game.vercel.app/">View Demo</a>
-    ·
-    <a href="https://github.com/thisdot/blockchain-prediction-game/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/thisdot/blockchain-prediction-game/issues">Request Feature</a>
-  </p>
-</div>
+This Project utilizes [Off-Chain Chainlink Price Feeds](https://docs.chain.link/docs/solana/data-feeds-solana/#Solana%20Devnet) to demostrates how to build a simple Prediction Game using Solana. This project works on both Solana Mainnet Beta & Devnet.
+
+[Explore the docs »](https://github.com/thisdot/blockchain-prediction-game)
+
+[View Demo](https://blockchain-prediction-game.vercel.app/) · [Report Bug](https://github.com/thisdot/blockchain-prediction-game/issues) · [Request Feature](https://github.com/thisdot/blockchain-prediction-game/issues)
 
 <!-- TABLE OF CONTENTS -->
 <details>
@@ -84,19 +75,20 @@ To get a local copy up and running follow these simple example steps.
    ```sh
    gh repo fork https://github.com/thisdot/blockchain-prediction-game.git --clone
    ```
-3. Install the latest Mainnet version of the Solana CLI and export the path to the CLI:
-  ```sh 
-  -c "$(curl -sSfL https://release.solana.com/v1.9.28/install)" && export PATH="~/.local/share/solana/install/active_release/bin:$PATH"
-  ```
-Run `solana --version` to make sure the Solana CLI is installed correctly.
-  ```sh
+3. Setup Solana SDK
+   1. Install the latest Mainnet version of the Solana CLI and export the path to the CLI:
+   ```sh 
+    -c "$(curl -sSfL https://release.solana.com/v1.9.28/install)" && export PATH="~/.local/share/solana/install/active_release/bin:$PATH"
+   ```
+   2. Run `solana --version` to make sure the Solana CLI is installed correctly.
+   ```sh
     solana --version
-  ```
-3. Install [Node.js 14 or higher][node.js-url]. Run `node --version` to verify which version you have installed:
-  ```sh
+   ```
+4. Install [Node.js 14 or higher][node.js-url]. Run `node --version` to verify which version you have installed:
+   ```sh
     node --version
-  ```
-4. Setup vercel
+   ```
+5. Setup vercel
    1. To install the latest version of Vercel CLI, run this command:
     ```sh
     npm i -g vercel
@@ -256,89 +248,7 @@ The major folders for the application are as follows:
 
   ```
 - How to setup get data feeds based on token pair address using custom anchor provider
-  ```
-  const solanaWeb3 = require("@solana/web3.js");
-  const anchor = require("@project-serum/anchor");
-  const chainlink = require("@chainlink/solana-sdk");
-  export class Wallet {
-
-    constructor(payer) {
-        this.payer = payer
-    }
-
-    // Asynchronous function that allows for signing a single transaction 
-    async signTransaction(tx) {
-        tx.partialSign(this.payer);
-        return tx;
-    }
-
-    // Asynchronous function that allows for signing a multiple transactions
-    async signAllTransactions(txs) {
-        return txs.map((t) => {
-            t.partialSign(this.payer);
-            return t;
-        });
-    }
-
-    // This returns the public key of the wallet
-    get publicKey() {
-        return this.payer.publicKey;
-    }
-  }
-
-  // Create a wallet for the prediction owner
-  const secret = Uint8Array.from(process.env.WALLET_PRIVATE_KEY.split(','));
-  const wallet = new Wallet(solanaWeb3.Keypair.fromSecretKey(secret));
-
-  const getLatestDataRound = async (address, pair) => {
-
-      let round = null;
-
-      //  connection to solana cluster node
-      const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl(process.env.REACT_APP_SOLANA_CLUSTER_NETWORK), 'confirmed');
-
-      // creation of a new anchor client provider without use of node server & id.json
-      const options = anchor.AnchorProvider.defaultOptions();
-      const provider = new anchor.AnchorProvider(connection, wallet, options);
-      anchor.setProvider(provider);
-
-      const CHAINLINK_FEED_ADDRESS = address; 
-      const feedAddress = new anchor.web3.PublicKey(CHAINLINK_FEED_ADDRESS);
-
-      // load the data feed account using the predefined chainlink program ID
-      const CHAINLINK_PROGRAM_ID = new anchor.web3.PublicKey("cjg3oHmg9uuPsP8D6g29NWvhySJkdYdAo9D25PRbKXJ");
-      let dataFeed = await chainlink.OCR2Feed.load(CHAINLINK_PROGRAM_ID, provider);
-      let listener = null;
-
-      return new Promise(async (res, rej) => {
-          // listen for events from the price feed, and grab the latest rounds' price data
-          listener = dataFeed.onRound(feedAddress, (event) => {
-              round = {
-                  pair: pair,
-                  feed: address,
-                  answer: event.answer,
-                  answerToNumber: event.answer.toNumber(),
-                  roundId: event.roundId,
-                  observationsTS: event.observationsTS,
-                  slot: event.slot,
-              };
-              // return the latest round only if event data is available
-              if((round) !== undefined) {
-                  provider.connection.removeOnLogsListener(listener);
-                  res(round);
-              }
-          });
-      });
-
-  }
-
-  async function main(){
-    // call getLatestDataRound for SOL/USD token pair
-    const latestRound = await getLatestDataRound('HgTtcbcmp5BeThax5AU8vg4VwK79qAvAKKFMs8txMLW6' ,'SOL/USD');  
-    console.log(latestRound);
-  }
-
-  ```
+  
 
 #### Solana Wallet Adapter
 - How to setup solana wallet adapter
