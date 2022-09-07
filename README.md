@@ -38,7 +38,7 @@ This Project utilizes [Off-Chain Chainlink Price Feeds](https://docs.chain.link/
         <li><a href="#built-with">Built With</a></li>
         <li><a href="#context">Context</a></li>
         <li><a href="#file-structure">File Structure</a></li>
-        <li><a href="#system-design-architecture">System Design and Architecture</a></li>
+        <li><a href="#system-design">System Design</a></li>
         <li>
           <a href="#usage">Usage</a>
           <ul>
@@ -164,10 +164,13 @@ The application shows you how to setup a simple game that allows its users to do
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-### System Design and Architecture
-TODO
+### System Design
 
-**Image of the system design**
+<a align="center">
+  <img src="src/assets/screenshots/system-design.png" alt="System Design" width="80%" height="auto">
+</a>
+
+**System design**
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
