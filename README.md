@@ -46,11 +46,11 @@ This Project utilizes [Off-Chain Chainlink Price Feeds](https://docs.chain.link/
             <li><a href="#solana-wallet-adapter">Solana Wallet Adapter</a>
             <li><a href="#solana-web3.js">Solana/web3.js</a>
             <li><a href="#vercel-serverless-functions">Vercel Serveless Functions</a>
+            <li><a href="#github-actions-and-cron-jobs">Github Actions and Cron Jobs</a>
             <li><a href="#mongodb-mongoose">MongoDB and Mongoose</a>
           </ul>
         </li>
         <li><a href="#constraints-assumptions">Constraints & Assumptions</a></li> 
-        <li><a href="#design-considerations">Design Considerations</a></li>
         <li><a href="#additional-considerations">Additional Considerations</a></li>
       </ul>
     </li>
@@ -449,7 +449,7 @@ Majorly act as our backend, providing an api to add, edit, delete and manipulate
 
 [Explore More about serverless functions »](https://vercel.com/docs/concepts/functions/serverless-functions)
 
-#### Github Actions
+#### Github Actions and Cron Jobs
 In order to automate creation of predictions and getting results of bets, we introduced github actions to initiate cron jobs that periodically run serveless functions. These files are located at `.github/workflows` folder and are written as `.yaml` files.
 
 [To read more about cron jobs with vercel functions »](https://vercel.com/docs/concepts/solutions/cron-jobs)<br/>
@@ -458,29 +458,27 @@ In order to automate creation of predictions and getting results of bets, we int
 
 
 #### MongoDB and Mongoose
+- Mongo DB is a document database used to build highly available and scalable internet applications. With its flexible schema approach, it allows us to quickly setup database schemas located at `models` folder to store `predictions`, `bets` and `users`.
+- Mongoose is Object Data Modeling (ODM) library for MongoDB and Node. js. It manages relationships between data, provides schema validation, and is used to translate between objects in code and the representation of those objects in MongoDB.
+- Mongoose allows for us to connect to our MongoDB cluster quickly and easily using a cached connection. [How to setup a Cached Mongoose Connection »](/lib/mongoose.js)
+
+[Learn more about Mongoose »](https://mongoosejs.com/docs/guide.html)
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Constraints & Assumptions
-TODO
-
-**Image of the system design**
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-### Design Considerations
-TODO
-
-**Image of the system design**
+- [@chainlink/solana-sdk[Chainlink-url] Provider ,`const provider = anchor.AnchorProvider.env()`, can only be called in node.js (backend) which constraints us from using it in vercel serverless functions or the frontend. This is done to prevent the exposure of our wallet private key to the browser. A (custom provider)[#chainlink-data-feeds] to allow us to load OCR feeds from chainlink
+- Lack of a dedicated server prevents us from using (sockets)[https://www.npmjs.com/package/socket.io] that would provide accurate price data on the frontend. We implemented (getLatestDataRound)[/api/feed/getLatestDataRound.js] that is called every few minutes causing timeouts and inaccurate price feed.
+- Lack of resources & tutorials from the Solana Web3.js community. This is a fairly new technology that has only pottential to grow in the future. 
+- Solana Web3.js does not allow us to create our own programs without the use of rust hence limiting us from storing data on-chain. We store predictions and bets on MongoDB.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-### Additional Considerations
-TODO
 
-**Image of the system design**
+### Additional considerations
+- Store data on-chain to ensure integrity and rigidity of bets and predictions. 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -506,9 +504,9 @@ Don't forget to give the project a star! Thanks again!
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-* []()
-* []()
-* []()
+* [Chainlink Docs](https://docs.chain.link/docs)
+* [Solana Cookbook](https://solanacookbook.com/)
+* [Daniel Pyrathon](https://twitter.com/pirosb3?s=21&t=tPkrge52yFaTl0e6Lg9W5w) For help understanding solana transactions, instructions and the Memo program to save data.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
