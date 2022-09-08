@@ -75,10 +75,10 @@ To get a local copy up and running follow these simple example steps.
    ```sh
    gh repo fork https://github.com/thisdot/blockchain-prediction-game.git --clone
    ```
-3. Setup Solana SDK
+3. Setup Solana CLI
    1. Install the latest Mainnet version of the Solana CLI and export the path to the CLI:
    ```sh 
-    -c "$(curl -sSfL https://release.solana.com/v1.9.28/install)" && export PATH="~/.local/share/solana/install/active_release/bin:$PATH"
+    sh -c "$(curl -sSfL https://release.solana.com/v1.9.28/install)" && export PATH="~/.local/share/solana/install/active_release/bin:$PATH"
    ```
    2. Run `solana --version` to make sure the Solana CLI is installed correctly.
    ```sh
@@ -102,17 +102,19 @@ To get a local copy up and running follow these simple example steps.
 
 ### Installation
 
-1. Run `cp .env.example .env`
-2. Install NPM packages
+1. Change to the project directory `cd blockchain-prediction-game`
+2. Run `cp .env.example .env`
+3. Install NPM packages
    ```sh
    yarn
    ```
-3. Create a temporary Solana wallet to use for this example. Alternatively, if you have an existing wallet that you want to use, locate the path to your [keypair][keypair-url] file and use it as the keypair for the rest of this guide.
+4. Create a temporary Solana wallet to use for this example. Alternatively, if you have an existing wallet that you want to use, locate the path to your [keypair][keypair-url] file and use it as the keypair for the rest of this guide.
    ```sh 
     solana-keygen new --outfile ./id.json
    ```
-   Copy the contents of the array in `./id.json` to `WALLET_PRIVATE_KEY=` 
-4. Setup MongoDB database
+   Copy the contents of the array in `./id.json` to `WALLET_PRIVATE_KEY=` in `.env`
+5. Download a wallet extension on your browser, preferably [Phantom](https://phantom.app/download). Follow instructions to setup your wallet.
+6. Setup MongoDB database
    1. Setup a Mongodb account via the following tutorial: [Create Mongodb Account](https://www.mongodb.com/docs/guides/atlas/account/). 
    2. Setup Mongodb cluster. [Create Cluster](https://www.mongodb.com/docs/guides/atlas/cluster/)
    3. Setup Mongodb User. [Create User](https://www.mongodb.com/docs/guides/atlas/db-user/)
@@ -120,8 +122,8 @@ To get a local copy up and running follow these simple example steps.
    5. Copy connection uri string to `MONGODB_URI=`
    6. Copy database name to `MONGODB_DB=`
    
-5. Generate a random API key:  `https://generate-random.org/api-key-generator` and copy it to `API_SECRET_KEY=`
-6. Finally, run the following command to start the application:
+7. Generate a random API key:  `https://generate-random.org/api-key-generator` and copy it to `API_SECRET_KEY=`
+8. Finally, run the following command to start the application:
    ```sh
    yarn development
    ```
@@ -133,22 +135,22 @@ To get a local copy up and running follow these simple example steps.
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-<div align="center">
-    <img src="src/assets/screenshots/product-screenshot.png" alt="Blockchain Prediction Game Demo" width="80%" height="auto">
+<div>
+  <img src="src/assets/screenshots/product-screenshot.png" alt="Blockchain Prediction Game Demo" width="80%" height="auto">
 </div>
 
 
 ### Built With
 
-* [![React][React.js]][React-url]
-* [![Create-React-App][Create-React]][Create-React-url]
-* [![Chainlink Solana Sdk][Chainlink]][Chainlink-url]
-* [![Chakra UI][Chakra-UI]][Chakra-UI-url]
-* [![Project Serum Anchor][Anchor]][Anchor-url]
-* [![Solana/web3.js][Solana/web3.js]][Solana/web3.js-url]
-* [![Solana Wallet Adapter][Solana-Wallet-Adapter]][Solana-Wallet-Adapter-url]
-* [![Mongoose][Mongoose]][Mongoose-url]
-* [![Vercel][Vercel]][Vercel-url]
+[![React][React.js]][React-url]
+[![Create-React-App][Create-React]][Create-React-url]
+[![Chainlink Solana Sdk][Chainlink]][Chainlink-url]
+[![Chakra UI][Chakra-UI]][Chakra-UI-url]
+[![Project Serum Anchor][Anchor]][Anchor-url]
+[![Solana/web3.js][Solana/web3.js]][Solana/web3.js-url]
+[![Solana Wallet Adapter][Solana-Wallet-Adapter]][Solana-Wallet-Adapter-url]
+[![Mongoose][Mongoose]][Mongoose-url]
+[![Vercel][Vercel]][Vercel-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
