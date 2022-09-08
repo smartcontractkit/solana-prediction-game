@@ -271,6 +271,9 @@ const Banner = () => {
                                 onClick={() => {
                                     window.open("https://github.com/thisdot/blockchain-prediction-game", "_blank");
                                 }}
+                                _hover={{
+                                    color:"gray.300"
+                                }}
                             >
                                 Contribute
                             </Button>
