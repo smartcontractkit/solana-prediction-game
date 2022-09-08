@@ -113,10 +113,6 @@ const pairs = [
         feedAddress: process.env.REACT_APP_LINK_USD
     },
     {
-        pair: 'USDC/USD',
-        feedAddress: process.env.REACT_APP_USDC_USD
-    },
-    {
         pair: 'USDT/USD',
         feedAddress: process.env.REACT_APP_USDT_USD
     }
