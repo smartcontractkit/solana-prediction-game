@@ -258,7 +258,7 @@ const Banner = () => {
                             </Text>
 
                             <Text color="gray.300">
-                                PD is built on top of Solana, that enables users from any corner of the world to trade and interact markets using trustless solutions.
+                                Prediction Game is built on top of Solana, that enables users from any corner of the world to trade and interact markets using trustless solutions.
                             </Text>
 
                             <Button 
@@ -271,6 +271,7 @@ const Banner = () => {
                             >
                                 Contribute
                             </Button>
+
                         </VStack>
                         <Box>
                             <UnorderedList>
