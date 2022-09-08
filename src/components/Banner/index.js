@@ -1,6 +1,7 @@
-import { Box, Flex, Heading, HStack, Image, Link, ListItem, Text, UnorderedList, VStack } from "@chakra-ui/react"
+import { Box, Button, Flex, Heading, HStack, Image, Link, ListItem, Text, UnorderedList, VStack } from "@chakra-ui/react"
 import logo from "../../assets/logos/logo.svg";
 import solanaLogo from "../../assets/logos/sol.png";
+import { GithubIcon } from "./GithubIcon";
 
 const Banner = () => {
     const wallets = [ 
@@ -28,12 +29,12 @@ const Banner = () => {
             text: "Browse the Code"
         },
         {
-            href: "https://solanacookbook.com/",
-            text: "Solana Cookbook"
-        },
-        {
             href: "https://docs.chain.link/docs/solana/data-feeds-solana/",
             text: "Solana Chainlink Docs"
+        },
+        {
+            href: "https://docs.solana.com/developing/clients/javascript-api",
+            text: "Solana Web3.js Javascript API"
         }
     ]
 
@@ -259,18 +260,31 @@ const Banner = () => {
                             <Text color="gray.300">
                                 PD is built on top of Solana, that enables users from any corner of the world to trade and interact markets using trustless solutions.
                             </Text>
+
+                            <Button 
+                                leftIcon={<GithubIcon 
+                                    boxSize='24px'
+                                />} 
+                                colorScheme='gray'
+                                variant='outline'
+                                size='sm'
+                            >
+                                Contribute
+                            </Button>
                         </VStack>
-                        <UnorderedList>
-                        {
-                            devLinks.map((link, i) => (
-                                <ListItem key={i}>
-                                    <Link href={link.href} isExternal>
-                                        <Text color="gray.300" textDecorationLine="underline">{link.text}</Text>
-                                    </Link>
-                                </ListItem>
-                            ))
-                        }
-                        </UnorderedList>
+                        <Box>
+                            <UnorderedList>
+                            {
+                                devLinks.map((link, i) => (
+                                    <ListItem key={i}>
+                                        <Link href={link.href} isExternal>
+                                            <Text color="gray.300" textDecorationLine="underline">{link.text}</Text>
+                                        </Link>
+                                    </ListItem>
+                                ))
+                            }
+                            </UnorderedList>
+                        </Box>
                     </VStack>
                 </Flex>
             </Flex>
