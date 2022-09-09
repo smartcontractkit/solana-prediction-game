@@ -266,7 +266,9 @@ const Banner = () => {
                                     boxSize='24px'
                                 />} 
                                 colorScheme='gray'
-                                variant='outline'
+                                variant='ghost'
+                                padding='0px !important'
+                                margin='16px 0 !important'
                                 size='sm'
                                 onClick={() => {
                                     window.open("https://github.com/thisdot/blockchain-prediction-game", "_blank");
