@@ -1,22 +1,59 @@
-import { Box, Button, Flex, Heading, HStack, Image, Link, ListItem, Text, UnorderedList, VStack } from "@chakra-ui/react"
+import { Box, Button, Flex, Heading, HStack, Image, Link, ListItem, Text, Tooltip, UnorderedList, VStack } from "@chakra-ui/react"
 import logo from "../../assets/logos/logo.svg";
 import solanaLogo from "../../assets/logos/sol.png";
+import { capitalize } from "../../lib/helpers";
 import { GithubIcon } from "./GithubIcon";
 
 const Banner = () => {
     const wallets = [ 
-        'phantom', 
-        'solfare', 
-        'torus',
-        'coinbase',
-        'glow',
-        'slope'
+        {
+            name: 'phantom',
+            extension: '.svg',
+            link: 'https://phantom.app'
+        },
+        {
+            name: 'solfare',
+            extension: '.svg',
+            link: 'https://solflare.com'
+        },
+        {
+            name: 'glow',
+            extension: '.svg',
+            link: 'https://glow.app/'
+        },
+        {
+            name: 'slope',
+            extension: '.svg',
+            link: 'https://slope.finance/'
+        }
     ];
 
     const faucets = [
-        'solfare',
-        'glow',
-        'slope'
+        {
+            name: 'sol-faucet',
+            extension: '.png',
+            link: 'https://solfaucet.com/'
+        },
+        {
+            name: 'spl-token-faucet',
+            extension: '.png',
+            link: 'https://spl-token-faucet.com/'
+        },
+        {
+            name: 'solfare',
+            extension: '.svg',
+            link: 'https://solflare.com'
+        },
+        {
+            name: 'glow',
+            extension: '.svg',
+            link: 'https://glow.app/'
+        },
+        {
+            name: 'slope',
+            extension: '.svg',
+            link: 'https://slope.finance/'
+        }
     ]
 
     const devLinks = [
@@ -182,22 +219,31 @@ const Banner = () => {
                             </Text>
                             <HStack>
                                 {
-                                    wallets.map(wallet => {
-                                        const walletImage = require(`../../assets/logos/${wallet}.svg`);
+                                    wallets.map((wallet, i) => {
+                                        const walletImage = require(`../../assets/logos/${wallet.name}${wallet.extension}`);
                                         return (
-                                            <Image
-                                                key={wallet}
-                                                borderRadius='full'
-                                                boxSize='24px'
-                                                src={walletImage}
-                                                alt={`${wallet} logo`}
-                                            />
+                                            <Link 
+                                                key={i}
+                                                href={wallet.link} 
+                                                isExternal
+                                            >
+                                                <Tooltip 
+                                                    label={capitalize(wallet.name)}
+                                                >
+                                                    <Image
+                                                        borderRadius='full'
+                                                        boxSize='24px'
+                                                        src={walletImage}
+                                                        alt={`${wallet.name} logo`}
+                                                    />
+                                                </Tooltip>
+                                            </Link>
                                         )
                                     })
                                 }
                             </HStack>
                         </HStack>
-                        <Text color="gray.300">2. Get some SOL’s from the faucets</Text>
+                        <Text color="gray.300">2. Get some dummy SOL from the faucets</Text>
                         <HStack
                             w="100%"
                             bg="whiteAlpha.50"
@@ -211,16 +257,25 @@ const Banner = () => {
                             </Text>
                             <HStack>
                                 {
-                                    faucets.map(faucet => {
-                                        const faucetImage = require(`../../assets/logos/${faucet}.svg`);
+                                    faucets.map((faucet, i) => {
+                                        const faucetImage = require(`../../assets/logos/${faucet.name}${faucet.extension}`);
                                         return (
-                                            <Image
-                                                key={faucet}
-                                                borderRadius='full'
-                                                boxSize='24px'
-                                                src={faucetImage}
-                                                alt={`${faucet} logo`}
-                                            />
+                                            <Link 
+                                                key={i}
+                                                href={faucet.link} 
+                                                isExternal
+                                            >
+                                                <Tooltip 
+                                                    label={capitalize(faucet.name)}
+                                                >
+                                                    <Image
+                                                        borderRadius='full'
+                                                        boxSize='24px'
+                                                        src={faucetImage}
+                                                        alt={`${faucet.name} logo`}
+                                                    />
+                                                </Tooltip>
+                                            </Link>
                                         )
                                     })
                                 }
