@@ -1,12 +1,10 @@
 import React, { useMemo } from 'react';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import {
-    CoinbaseWalletAdapter,
     GlowWalletAdapter,
     PhantomWalletAdapter,
     SlopeWalletAdapter,
     SolflareWalletAdapter,
-    TorusWalletAdapter,
 } from '@solana/wallet-adapter-wallets';
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
 import { clusterApiUrl } from '@solana/web3.js';
@@ -31,12 +29,10 @@ const SolanaWalletProvider = ({children}) => {
                 appIdentity: { name: 'Solana Wallet Adapter App' },
                 authorizationResultCache: createDefaultAuthorizationResultCache(),
             }),
-            new CoinbaseWalletAdapter(),
             new PhantomWalletAdapter(),
             new GlowWalletAdapter(),
             new SlopeWalletAdapter(),
             new SolflareWalletAdapter({ network }),
-            new TorusWalletAdapter(),
         ],
         [network]
     );

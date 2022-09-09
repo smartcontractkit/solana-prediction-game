@@ -65,7 +65,7 @@ const ChainlinkFeedButton = () => {
             >
             <HStack>
                 <Text color="gray.500" fontWeight={500}>
-                    Live prices from
+                    Live prices from Chainlink
                 </Text>
                 <Image
                     borderRadius='full'
@@ -74,7 +74,7 @@ const ChainlinkFeedButton = () => {
                     alt="Chainlink"
                 />
                 <Text color="gray.400" fontWeight={700}>
-                    Data Feed
+                    Data Feeds
                 </Text>
             </HStack>
             <ArrowUpIcon w="16px" h="16px" color="gray.500" transform="rotate(45deg)" />
