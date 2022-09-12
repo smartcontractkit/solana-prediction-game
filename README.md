@@ -15,7 +15,7 @@
 
 # Blockchain Prediction Game
 
-This Project utilizes [Off-Chain Chainlink Price Feeds](https://docs.chain.link/docs/solana/data-feeds-solana/#Solana%20Devnet) to demostrates how to build a simple Prediction Game using Solana. This project works on both Solana Mainnet Beta & Devnet.
+This Project utilizes [Off-Chain Chainlink Price Feeds](https://docs.chain.link/docs/solana/data-feeds-solana/#Solana%20Devnet) to demostrate how to build a simple Prediction Game using Solana. This project works on both Solana Mainnet Beta & Devnet.
 
 [Explore the docs »](https://github.com/thisdot/blockchain-prediction-game)
 
@@ -188,11 +188,11 @@ The application shows you how to setup a simple game that allows its users to do
 **Image of the File Structure**
 
 The major folders for the application are as follows:
-1. `.github` - This stores the application [github actions](https://docs.github.com/en/actions)
-2. `api` - This stores the [vercel serverless functions](https://vercel.com/docs/concepts/functions/serverless-functions) that act as our backend.
-3. `models` - This stores Mongoose Schemas
-4. `lib` - This stores the MongoDB connection
-5. `src` - This stores the `create-react-app` files
+1. `.github` - This contains the application [github actions](https://docs.github.com/en/actions)
+2. `api` - This contains the [vercel serverless functions](https://vercel.com/docs/concepts/functions/serverless-functions) that act as our backend.
+3. `models` - This contains Mongoose Schemas
+4. `lib` - This contains the MongoDB connection
+5. `src` - This contains the `create-react-app` files
 6. `config-overrides.js` - This file overrrides `webpack` configurations for `react-app-rewired`
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
