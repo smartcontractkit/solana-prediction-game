@@ -453,7 +453,7 @@ The major folders for the application are as follows:
     ```
 
 #### Vercel Serveless Functions
-Majorly act as our backend, providing an api to manipulate data from our mongodb database and initiate transactions between our escrow account and users. These files are located at `/api` folder.
+Majorly act as our backend, providing an api to manipulate data from our MongoDB database and initiate transactions between our escrow account and users. These files are located at `/api` folder.
 
 [Explore More about serverless functions »](https://vercel.com/docs/concepts/functions/serverless-functions)
 
@@ -466,7 +466,7 @@ In order to automate creation of predictions and getting results of bets, we int
 
 
 #### MongoDB and Mongoose
-- Mongo DB is a document database used to build highly available and scalable internet applications. With its flexible schema approach, it allows us to quickly setup database schemas located at `models` folder to store `predictions`, `bets` and `users`.
+- MongoDB is a document database used to build highly available and scalable internet applications. With its flexible schema approach, it allows us to quickly setup database schemas located at `models` folder to store `predictions`, `bets` and `users`.
 - Mongoose is Object Data Modeling (ODM) library for MongoDB and Node. js. It manages relationships between data, provides schema validation, and is used to translate between objects in code and the representation of those objects in MongoDB.
 - Mongoose allows for us to connect to our MongoDB cluster quickly and easily using a cached connection. [How to setup a Cached Mongoose Connection »](/lib/mongoose.js)
 
