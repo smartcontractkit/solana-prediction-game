@@ -367,8 +367,8 @@ The major folders for the application are as follows:
     })
   }
   ```
-- How to save meta data on the solana for transactions. [More details](https://spl.solana.com/memo)
-  - Install `bs58` npm package
+- How to save meta data on the solana for transactions. [Memo Program](https://spl.solana.com/memo) 
+  - Install `bs58` npm package, bs58 is a javaScript component to compute base 58 encoding. This encoding is typically used for crypto currencies such as Bitcoin. [bs58](https://github.com/cryptocoinjs/bs58#readme)
     ```sh
       yarn add bs58
     ```
@@ -453,7 +453,7 @@ The major folders for the application are as follows:
     ```
 
 #### Vercel Serveless Functions
-Majorly act as our backend, providing an api to add, edit, delete and manipulate data from our mongodb database and initiate transactions between our escrow account and users. These files are located at `/api` folder.
+Majorly act as our backend, providing an api to manipulate data from our mongodb database and initiate transactions between our escrow account and users. These files are located at `/api` folder.
 
 [Explore More about serverless functions »](https://vercel.com/docs/concepts/functions/serverless-functions)
 
