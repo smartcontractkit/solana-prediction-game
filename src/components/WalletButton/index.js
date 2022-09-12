@@ -113,10 +113,14 @@ const WalletButton = ({ children, ...props }) => {
             w="100%"
           >
             {
-              balance && 
-              (
+              balance 
+              ? (
               <Text fontWeight="bold">
                 { `${roundOff(balance, 3)} SOL` }
+              </Text>
+              )
+              : ( <Text fontWeight="bold">
+                0 SOL
               </Text>
               )
             }

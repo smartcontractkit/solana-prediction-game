@@ -21,6 +21,18 @@ const UserDataProvider = (props) => {
     // Get user balance from solana network based on public key
     const getBalance = async () => {
       return await connection.getBalance(publicKey)
+      .then((res) => {
+        setBalance(res/LAMPORTS_PER_SOL);
+        return res
+      }).catch(err => {
+        toast({
+          title: 'Error getting user details',
+          description: err.message,
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+        })
+      })
     }
 
     // Add User to database
@@ -29,7 +41,27 @@ const UserDataProvider = (props) => {
         address: publicKey.toBase58(),
       }
 
-      return await axiosInstance.post("/api/users/add", newUser);
+      return await axiosInstance.post("/api/users/add", newUser)
+      .then(res => res.data)
+      .then(res => {
+        toast({
+            title: 'New user add',
+            description: `User ID: ${res._id}`,
+            status: 'info',
+            duration: 9000,
+            isClosable: true,
+        })
+        return res;
+      })
+      .catch(err => {
+        toast({
+            title: 'Error creating new user details',
+            description: err.message,
+            status: 'error',
+            duration: 9000,
+            isClosable: true,
+        })
+      });
     }
 
     // Get user from database
@@ -48,10 +80,7 @@ const UserDataProvider = (props) => {
 
         setUser(loggedInUser);
 
-        getBalance()
-        .then(res => {
-          setBalance(res/LAMPORTS_PER_SOL);
-        })
+        getBalance();
       })
       .catch(err => {
         toast({
@@ -85,40 +114,22 @@ const UserDataProvider = (props) => {
 
     useEffect(() => {
       if (connected) {
-        getUser(publicKey.toBase58());
+        if(!user){
+          getUser(publicKey.toBase58());
+        }else{
+          getMyBets(user);
+          getBalance();
+
+          window.getMyBetsInterval = setInterval(
+            () => getMyBets(user),
+            1000 * 60 * 10 //  1000 ms/s * 60 s/min * 10 min = 10 minutes
+          )
+          return () => {
+            clearInterval(window.getMyBetsInterval)
+          }
+        }
       } else{
         setUser(null);
-        setBalance(null);
-      }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [publicKey]);
-
-    useEffect(() => {
-      if (connected) {
-        getMyBets(user);
-        getBalance()
-        .then(res => {
-          setBalance(res/LAMPORTS_PER_SOL);
-        })
-        .catch(err => {
-          toast({
-              title: 'Error getting your balance',
-              description: err.message,
-              status: 'error',
-              duration: 9000,
-              isClosable: true,
-          })
-        });
-
-        window.getMyBetsInterval = setInterval(
-          () => getMyBets(user),
-          1000 * 60 * 10 //  1000 ms/s * 60 s/min * 10 min = 10 minutes
-        )
-        return () => {
-            clearInterval(window.getMyBetsInterval)
-        }
-
-      } else{
         setBalance(null);
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
