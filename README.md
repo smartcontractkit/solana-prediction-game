@@ -66,15 +66,23 @@ To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-1. Setup `gh` on your machine
+1. Install [Node.js 14 or higher][node.js-url]. Run `node --version` to verify which version you have installed:
+   ```sh
+    node --version
+   ```
+2. Setup `yarn` package manager.
+   ```sh
+   npm i -g yarn
+   ```
+3. Setup `gh` on your machine
    ```sh
    npm install -g gh
    ```
-2. Fork and clone the repo
+4. Fork and clone the repo
    ```sh
    gh repo fork https://github.com/thisdot/blockchain-prediction-game.git --clone
    ```
-3. Setup Solana CLI
+5. Setup Solana CLI
    1. Install the latest Mainnet version of the Solana CLI and export the path to the CLI:
    ```sh 
     sh -c "$(curl -sSfL https://release.solana.com/v1.9.28/install)" && export PATH="~/.local/share/solana/install/active_release/bin:$PATH"
@@ -82,12 +90,8 @@ To get a local copy up and running follow these simple example steps.
    2. Run `solana --version` to make sure the Solana CLI is installed correctly.
    ```sh
     solana --version
-   ```
-4. Install [Node.js 14 or higher][node.js-url]. Run `node --version` to verify which version you have installed:
-   ```sh
-    node --version
-   ```
-5. Setup vercel
+   ``` 
+6. Setup vercel
    1. To install the latest version of Vercel CLI, run this command:
     ```sh
     npm i -g vercel
@@ -465,6 +469,11 @@ In order to automate creation of predictions and getting results of bets, we int
 - Mongo DB is a document database used to build highly available and scalable internet applications. With its flexible schema approach, it allows us to quickly setup database schemas located at `models` folder to store `predictions`, `bets` and `users`.
 - Mongoose is Object Data Modeling (ODM) library for MongoDB and Node. js. It manages relationships between data, provides schema validation, and is used to translate between objects in code and the representation of those objects in MongoDB.
 - Mongoose allows for us to connect to our MongoDB cluster quickly and easily using a cached connection. [How to setup a Cached Mongoose Connection »](/lib/mongoose.js)
+
+- MongoDB is a document database used to build highly available and scalable internet applications. With its flexible schema approach, it allows us to quickly set up database schemas located in the `models` folder to store `predictions`, `bets`, and `users`.
+- Mongoose is Object Data Modeling (ODM) library for MongoDB and Node.js. It manages relationships between data, provides schema validation, and is used to translate between objects in code and the representation of those objects in MongoDB.
+- Mongoose allows us to connect to our MongoDB cluster quickly and easily using a cached connection. [How to set up a Cached Mongoose Connection »](/lib/mongoose.js)
+
 
 [Learn more about Mongoose »](https://mongoosejs.com/docs/guide.html)
 
