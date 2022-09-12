@@ -124,13 +124,14 @@ export default function CreateBetButton(
                 isClosable: true,
             })
         })
+        // retry in case itt fails 
         .catch(err => {
             setIsSaving(false);
             setBetslip(null);
             toast({
                 title: 'Error creating bet.',
                 description: err.message,
-                status: 'success',
+                status: 'error',
                 duration: 9000,
                 isClosable: true,
             })
