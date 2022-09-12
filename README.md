@@ -118,10 +118,10 @@ To get a local copy up and running follow these simple example steps.
    Copy the contents of the array in `./id.json` to `WALLET_PRIVATE_KEY=` in `.env`
 5. Download a wallet extension on your browser, preferably [Phantom](https://phantom.app/download). Follow instructions to setup your wallet.
 6. Setup MongoDB database
-   1. Setup a Mongodb account via the following tutorial: [Create Mongodb Account](https://www.mongodb.com/docs/guides/atlas/account/). 
-   2. Setup Mongodb cluster. [Create Cluster](https://www.mongodb.com/docs/guides/atlas/cluster/)
-   3. Setup Mongodb User. [Create User](https://www.mongodb.com/docs/guides/atlas/db-user/)
-   4. After the account has been setup get the connection url via this tutorial: [Get Mongodb Connection Uri](https://www.mongodb.com/docs/guides/atlas/connection-string/)
+   1. Setup a MongoDB account via the following tutorial: [Create MongoDB Account](https://www.mongodb.com/docs/guides/atlas/account/). 
+   2. Setup MongoDB cluster. [Create Cluster](https://www.mongodb.com/docs/guides/atlas/cluster/)
+   3. Setup MongoDB User. [Create User](https://www.mongodb.com/docs/guides/atlas/db-user/)
+   4. After the account has been setup get the connection url via this tutorial: [Get MongoDB Connection Uri](https://www.mongodb.com/docs/guides/atlas/connection-string/)
    5. Copy connection uri string to `MONGODB_URI=`
    6. Copy database name to `MONGODB_DB=`
    
