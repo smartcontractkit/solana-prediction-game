@@ -316,24 +316,19 @@ const Banner = () => {
                                 Prediction Game is built on top of Solana, that enables users from any corner of the world to trade and interact markets using trustless solutions.
                             </Text>
 
-                            <Button 
-                                leftIcon={<GithubIcon 
-                                    boxSize='24px'
-                                />} 
-                                colorScheme='gray'
-                                variant='ghost'
-                                padding='0px !important'
-                                margin='16px 0 !important'
-                                size='sm'
-                                onClick={() => {
-                                    window.open("https://github.com/thisdot/blockchain-prediction-game", "_blank");
-                                }}
-                                _hover={{
-                                    color:"gray.300"
-                                }}
-                            >
-                                Contribute
-                            </Button>
+                            <Link href={"https://github.com/thisdot/blockchain-prediction-game"} isExternal>
+                                <HStack 
+                                    border="1px solid"
+                                    borderColor="gray.200"
+                                    borderRadius="md"
+                                    padding="8px"
+                                >
+                                    <GithubIcon 
+                                        boxSize='24px'
+                                    />
+                                    <Text fontWeight="bold">Contribute</Text>
+                                </HStack>
+                            </Link>
 
                         </VStack>
                         <Box>
