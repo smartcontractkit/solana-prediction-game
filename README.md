@@ -50,7 +50,6 @@ This Project utilizes [Off-Chain Chainlink Price Feeds](https://docs.chain.link/
             <li><a href="#mongodb-mongoose">MongoDB and Mongoose</a>
           </ul>
         </li>
-        <li><a href="#constraints-assumptions">Constraints & Assumptions</a></li> 
         <li><a href="#additional-considerations">Additional Considerations</a></li>
       </ul>
     </li>
@@ -471,16 +470,6 @@ In order to automate creation of predictions and getting results of bets, we int
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-### Constraints & Assumptions
-- [@chainlink/solana-sdk[Chainlink-url] Provider ,`const provider = anchor.AnchorProvider.env()`, can only be called in node.js (backend) which constraints us from using it in vercel serverless functions or the frontend. This is done to prevent the exposure of our wallet private key to the browser. A (custom provider)[#chainlink-data-feeds] to allow us to load OCR feeds from chainlink
-- Lack of a dedicated server prevents us from using (sockets)[https://www.npmjs.com/package/socket.io] that would provide accurate price data on the frontend. We implemented (getLatestDataRound)[/api/feed/getLatestDataRound.js] that is called every few minutes causing timeouts and inaccurate price feed.
-- Lack of resources & tutorials from the Solana Web3.js community. This is a fairly new technology that has only pottential to grow in the future. 
-- Solana Web3.js does not allow us to create our own programs without the use of rust hence limiting us from storing data on-chain. We store predictions and bets on MongoDB.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 ### Additional considerations
 - Store data on-chain to ensure integrity and rigidity of bets and predictions. 
