@@ -500,7 +500,6 @@ Don't forget to give the project a star! Thanks again!
 
 * [Chainlink Docs](https://docs.chain.link/docs)
 * [Solana Cookbook](https://solanacookbook.com/)
-* [Daniel Pyrathon](https://twitter.com/pirosb3?s=21&t=tPkrge52yFaTl0e6Lg9W5w) For help understanding solana transactions, instructions and the Memo program to save data.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
