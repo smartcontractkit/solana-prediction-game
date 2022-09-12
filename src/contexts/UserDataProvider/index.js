@@ -21,6 +21,18 @@ const UserDataProvider = (props) => {
     // Get user balance from solana network based on public key
     const getBalance = async () => {
       return await connection.getBalance(publicKey)
+      .then((res) => {
+        setBalance(res/LAMPORTS_PER_SOL);
+        return res
+      }).catch(err => {
+        toast({
+          title: 'Error getting user details',
+          description: err.message,
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+        })
+      })
     }
 
     // Add User to database
@@ -48,10 +60,7 @@ const UserDataProvider = (props) => {
 
         setUser(loggedInUser);
 
-        getBalance()
-        .then(res => {
-          setBalance(res/LAMPORTS_PER_SOL);
-        })
+        getBalance();
       })
       .catch(err => {
         toast({
@@ -96,19 +105,7 @@ const UserDataProvider = (props) => {
     useEffect(() => {
       if (connected) {
         getMyBets(user);
-        getBalance()
-        .then(res => {
-          setBalance(res/LAMPORTS_PER_SOL);
-        })
-        .catch(err => {
-          toast({
-              title: 'Error getting your balance',
-              description: err.message,
-              status: 'error',
-              duration: 9000,
-              isClosable: true,
-          })
-        });
+        getBalance();
 
         window.getMyBetsInterval = setInterval(
           () => getMyBets(user),
