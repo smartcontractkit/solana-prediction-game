@@ -1,7 +1,6 @@
+import { useToast } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
-import { CURRENCY_PAIRS } from "../lib/constants";
 import axiosInstance from "../lib/axiosInstance";
-
 /**
  * 
  * @returns price feeds from getLatestDataRound api every 30 seconds
@@ -9,31 +8,26 @@ import axiosInstance from "../lib/axiosInstance";
 const useDataFeeds = () => {
     const [dataFeeds, setDataFeeds] = useState([]);
 
+    const toast = useToast();
 
-    const getDataFeeds = () => {
-        let promises = CURRENCY_PAIRS.map((pair) => {
+    const getDataFeeds = () => { 
+        let queryParams = new URLSearchParams({
+            cached: true,
+        });
 
-            let queryParams = new URLSearchParams({
-                pair: pair.pair,
-                address: pair.feedAddress
-            });
-
-            return new Promise(async (res, rej) => {
-                return axiosInstance.get(`/api/feed/getLatestDataRound?${queryParams}`)
-                .then(response => {
-                    res(response.data)
-                })
-                .catch(err => {
-                    rej(err)
-                })
-            });
+        axiosInstance.get(`/api/feed/getLatestDataRound?${queryParams}`)
+        .then(response => {
+            setDataFeeds(response.data);
         })
-
-        Promise.all(promises)
-        .then(data => {
-            setDataFeeds(data);
-        })
-        .catch(console.error);
+        .catch(err => {
+            toast({
+                title: 'Error getting Price Feeds. Retrying...',
+                description: err.message,
+                status: 'error',
+                duration: 9000,
+                isClosable: true,
+            })
+        });
     }
 
     useEffect(() => {
