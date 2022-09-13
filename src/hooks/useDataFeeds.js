@@ -30,10 +30,13 @@ const useDataFeeds = () => {
 
         axiosInstance.get(`/api/feed/getLatestDataRound?${queryParams}`)
         .then(response => {
-            console.log(response)
             response.data.map(res => {
-                if(res.status === 'fulfilled'){
-                    handleDataFeedUpdate(res.value);
+                if(cached){
+                    handleDataFeedUpdate(res)
+                }else{
+                    if(res.status === 'fulfilled'){
+                        handleDataFeedUpdate(res.value);
+                    }
                 }
                 return res;
             });
