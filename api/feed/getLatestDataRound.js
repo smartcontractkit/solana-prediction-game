@@ -3,6 +3,8 @@ const chainlink = require("@chainlink/solana-sdk");
 const solanaWeb3 = require("@solana/web3.js");
 const { Wallet } = require("../../models/wallet.model");
 const { CURRENCY_PAIRS } = require("../../lib/constants");
+const Feed = require("../../models/feed.model");
+const User = require("../../models/user.model");
 
 // creation of wallett using your private key
 const secret = Uint8Array.from(process.env.WALLET_PRIVATE_KEY.split(','));
@@ -83,21 +85,52 @@ const getLatestDataRound = async (address, pair) => {
  */
 module.exports = async (req, res) => {
 
-    // const { cached } = req.query;
-    // if(!cached) {
-    //     // TODO add get from db
-    //     return;
-    // }
+    const { cached } = req.query;
 
-    try {
+    const addRoundCache = async (round) => {
+        const feedObject = new Feed(round);
+        await feedObject.save()
+        .then(res => {
+            console.log(res);
+            console.log(`Feed was inserted with the _id: ${res._id}`);
+            return res;
+        })
+        .catch(err => {
+            console.error(err);
+        })
+    }
+
+    const getRoundCache = (feedAddress) => {
+        return Feed
+            .findOne({ address: feedAddress })
+            .sort({ created_at: -1 })
+            .then(res => {
+                console.log(res);
+                return res;
+            })
+            .catch(err => {
+                console.error(err);
+            })
+    }
+
+    const getRoundsCache = () => {
+        let promises = CURRENCY_PAIRS.map(pair => {
+            return getRoundCache(pair.feedAddress)
+        })
+
+        return Promise.allSettled(promises)
+    }
+
+    const getCurrentRounds = async () => {
         let promises = await CURRENCY_PAIRS.map(pair => {
             return new Promise(async (resolve, reject) => {
                 return getLatestDataRound(pair.feedAddress, pair.pair)
-                .then(res => {
+                .then(async (res) => {
+                    await addRoundCache(res);
                     resolve(res);
                 })
                 .catch((err) => {
-                    console.err(err);
+                    console.error(err);
                     reject(err)
                 });
             });
@@ -109,6 +142,14 @@ module.exports = async (req, res) => {
         .catch(err => {
             res.status(500).send(err);
         })
+    }
+
+    try {
+        if(cached){
+            getRoundsCache();
+            return;
+        }
+        getCurrentRounds();
     }
 
     catch(err) {

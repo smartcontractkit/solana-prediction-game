@@ -10,14 +10,33 @@ const useDataFeeds = () => {
 
     const toast = useToast();
 
-    const getDataFeeds = () => { 
+    const handleDataFeedUpdate = (round) => {
+        setDataFeeds(oldDataFeeds => {
+            let foundIndex = oldDataFeeds.findIndex(df => (df.feed === round.feed));
+            if(foundIndex === -1) {
+                oldDataFeeds.push(round);
+                return oldDataFeeds;
+            }else {
+                oldDataFeeds[foundIndex] = round;
+                return oldDataFeeds;
+            }
+        })
+    }
+
+    const getDataFeeds = (cached) => { 
         let queryParams = new URLSearchParams({
-            cached: true,
+            cached
         });
 
         axiosInstance.get(`/api/feed/getLatestDataRound?${queryParams}`)
         .then(response => {
-            setDataFeeds(response.data);
+            console.log(response)
+            response.data.map(res => {
+                if(res.status === 'fulfilled'){
+                    handleDataFeedUpdate(res.value);
+                }
+                return res;
+            });
         })
         .catch(err => {
             toast({
@@ -31,13 +50,13 @@ const useDataFeeds = () => {
     }
 
     useEffect(() => {
-        getDataFeeds();
-        window.interval30Sec = setInterval(
-            () => getDataFeeds(),
-            30000 // every 30 seconds
+        getDataFeeds(false);
+        window.dataFeedInterval = setInterval(
+            () => getDataFeeds(true),
+            60000 // every 60 seconds
         )
         return () => {
-            clearInterval(window.interval30Sec)
+            clearInterval(window.dataFeedInterval)
         }
         // eslint-disable-next-line
     }, []);
