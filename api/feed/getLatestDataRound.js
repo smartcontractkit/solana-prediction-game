@@ -2,6 +2,7 @@ const anchor = require("@project-serum/anchor");
 const chainlink = require("@chainlink/solana-sdk");
 const solanaWeb3 = require("@solana/web3.js");
 const { Wallet } = require("../../models/wallet.model");
+const { CURRENCY_PAIRS } = require("../../lib/constants");
 
 // creation of wallett using your private key
 const secret = Uint8Array.from(process.env.WALLET_PRIVATE_KEY.split(','));
@@ -82,15 +83,32 @@ const getLatestDataRound = async (address, pair) => {
  */
 module.exports = async (req, res) => {
 
-    const { address, pair } = req.query;
-    if(!address || !pair) {
-        res.status(400).send('Missing address or pair');
-        return;
-    }
+    // const { cached } = req.query;
+    // if(!cached) {
+    //     // TODO add get from db
+    //     return;
+    // }
 
     try {
-        const round = await getLatestDataRound(address, pair);
-        res.status(200).send(round);
+        let promises = await CURRENCY_PAIRS.map(pair => {
+            return new Promise(async (resolve, reject) => {
+                return getLatestDataRound(pair.feedAddress, pair.pair)
+                .then(res => {
+                    resolve(res);
+                })
+                .catch((err) => {
+                    console.err(err);
+                    reject(err)
+                });
+            });
+        })
+        Promise.allSettled(promises)
+        .then(response => {
+            res.status(200).send(response);
+        })
+        .catch(err => {
+            res.status(500).send(err);
+        })
     }
 
     catch(err) {
