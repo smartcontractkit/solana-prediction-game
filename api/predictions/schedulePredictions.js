@@ -3,8 +3,11 @@ const anchor = require("@project-serum/anchor");
 const chainlink = require("@chainlink/solana-sdk");
 const { connectToDatabase } = require("../../lib/mongoose");
 const Prediction = require("../../models/prediction.model");
+const Bet = require("../../models/bet.model");
+const User = require("../../models/user.model");
 const { Wallet } = require("../../models/wallet.model");
 const { addMinutes } = require("date-fns");
+const { CURRENCY_PAIRS } = require("../../lib/constants");
 
 // Create a wallet for the prediction owner
 const secret = Uint8Array.from(process.env.WALLET_PRIVATE_KEY.split(','));
@@ -94,30 +97,6 @@ const createPrediction = async (prediction) => {
   
 }
 
-// token pairs on chainlink solana data feeds
-const pairs = [
-    {
-        pair: 'SOL/USD',
-        feedAddress: process.env.REACT_APP_SOL_USD
-    },
-    {
-        pair: 'BTC/USD',
-        feedAddress: process.env.REACT_APP_BTC_USD
-    },
-    {
-        pair: 'ETH/USD',
-        feedAddress: process.env.REACT_APP_ETH_USD
-    },
-    {
-        pair: 'LINK/USD',
-        feedAddress: process.env.REACT_APP_LINK_USD
-    },
-    {
-        pair: 'USDT/USD',
-        feedAddress: process.env.REACT_APP_USDT_USD
-    }
-];
-
 /** 
  * 
  * @param date Date object
@@ -128,14 +107,122 @@ const addMinutesToDate = (date, minutes) => {
     return addMinutes(date, minutes);//  1000 ms/s * 60 s/min * min = # ms
 }
 
+
 /**
- * This function is deployed as a standalone endpoint via Vercel Cloud Functions. 
- * The request is expected to come in as a POST request to `/api/predictions/add`. 
- * Creates 2 predictions for each pair in the pairs array.
+ * This function creates 2 predictions for each pair in the pairs array.
  * One prediction is one percent above the current price and the other is one percent below the current price.
  * The expiry time is set to the next hour.
  * The deadline is set to the 10 minutes before the expiry time.
  *
+*/
+const schedulePredictions = () => {
+    
+    let promises = CURRENCY_PAIRS.map(async (pair) => {
+
+        const latestRound = await getLatestDataRound(pair.feedAddress, pair.pair);
+    
+        const { answerToNumber, observationsTS, slot, roundId } = latestRound;
+    
+        var date = new Date();
+
+        const predictionData = {
+            owner: wallet.publicKey,
+            account: pair.feedAddress,
+            pair: pair.pair,
+            expiryTime: addMinutesToDate(date, 120),
+            predictionDeadline: addMinutesToDate(date, 60),
+            openingPredictionPrice: answerToNumber,
+            openingPredictionTime: observationsTS,
+            openingPredictionSlot: slot,
+            openingPredictionRoundId: roundId,
+            ROI: 2,
+        };
+    
+        const plusOnePercent = await createPrediction({
+            ...predictionData,
+            predictionPrice: latestRound.answerToNumber * 1.01,
+            direction: true,
+        });
+        const minusOnePercent = await createPrediction({
+            ...predictionData,
+            predictionPrice: latestRound.answerToNumber * 0.99,
+            direction: false,
+        });
+    
+        return [plusOnePercent, minusOnePercent];
+    });
+
+    return Promise.all(promises)
+}
+
+
+/**
+ * It updates all bet entities from MongoDB with a 'status' of 'ongoing' via the Mongoose driver. 
+ * Checks if the bet expiryTime has passed
+ * if so, updates the bet status based on the direction of the prediction and opening prediction price to 'won' or 'lost'.
+ * 
+ */
+const updateBetStatus = async () => {
+    const bets = await Bet
+        .find({ status: "ongoing" }) // casts a filter based on the query object and returns a list of bets with status 'ongoing'
+        .populate("prediction"); // Populate prediction data to each bet
+
+    let promises = bets.map(async (bet) => {
+        // Check if the bet expiryTime has passed if not the function returns
+        if(bet.prediction.expiryTime < new Date().toISOString()) {
+            return bet;
+        }
+        
+        let currentStatus = 'ongoing';
+
+        if(bet.prediction.direction){
+            bet.prediction.predictionPrice > bet.prediction.openingPredictionPrice 
+            ? currentStatus = 'won' 
+            : currentStatus = 'lost';
+        }else{
+            bet.prediction.predictionPrice < bet.prediction.openingPredictionPrice 
+            ? currentStatus = 'won' 
+            : currentStatus = 'lost';
+        }
+
+        const result = await Bet
+            .findOneAndUpdate({ _id: bet._id }, { status: currentStatus }, { new: true })
+            .populate("user");
+        console.log(`Bet was inserted with the _id: ${result._id}`);
+
+        const user = result.user;
+        let totalWonBets = user.wonTotalBets; 
+        let winRate = user.winRate;
+
+        if(currentStatus === 'won') {
+            totalWonBets += 1;
+        }
+
+        winRate = (totalWonBets / user.totalBets) * 100;
+
+        const userUpdated = await User
+        .findByIdAndUpdate(
+            user._id, 
+            { winRate: winRate, wonTotalBets: totalWonBets }, 
+            { new: true }
+        );
+        console.log(`User was updated with the _id: ${userUpdated._id}`);
+
+        return result;
+    })
+    
+    return Promise.all(promises)
+}
+
+/**
+ * This function is deployed as a standalone endpoint via Vercel Cloud Functions. 
+ * The request is expected to come in as a POST request to `/api/predictions/schedulePredictions`. 
+ * 
+ * This function is used in conjuction with github actions to schedule predictions and update the status 
+ * of all bets on a hourly basis using cron.
+ * Checkout .github/workflows/bet-status-cron.yml for more details
+ * This function can be used AWS SQS or Lambda as well
+ * 
  * @param req NextApiRequest HTTP request object wrapped by Vercel function helpers
  * @param res NextApiResponse HTTP response object wrapped by Vercel function helpers
 */
@@ -150,47 +237,12 @@ module.exports = async (req, res) => {
         }
 
         try{
-
-            let promises = pairs.map(async (pair) => {
-
-                const latestRound = await getLatestDataRound(pair.feedAddress, pair.pair);
-            
-                const { answerToNumber, observationsTS, slot, roundId } = latestRound;
-            
-                var date = new Date();
-
-                const predictionData = {
-                    owner: wallet.publicKey,
-                    account: pair.feedAddress,
-                    pair: pair.pair,
-                    expiryTime: addMinutesToDate(date, 120),
-                    predictionDeadline: addMinutesToDate(date, 60),
-                    openingPredictionPrice: answerToNumber,
-                    openingPredictionTime: observationsTS,
-                    openingPredictionSlot: slot,
-                    openingPredictionRoundId: roundId,
-                    ROI: 2,
-                };
-            
-                const plusOnePercent = await createPrediction({
-                    ...predictionData,
-                    predictionPrice: latestRound.answerToNumber * 1.01,
-                    direction: true,
-                });
-                const minusOnePercent = await createPrediction({
-                    ...predictionData,
-                    predictionPrice: latestRound.answerToNumber * 0.99,
-                    direction: false,
-                });
-            
-                return [plusOnePercent, minusOnePercent];
-            });
-            Promise.all(promises).then((predictions) => {
-                res.status(200).send(predictions.flat(Infinity));
+            res.status(200).send({
+                predictions: await schedulePredictions(),
+                betStatus: await updateBetStatus()
             });
         }
         catch(err) {
-            console.error("Failed to create new predictions, with error code: " + err.message);
             res.status(500).send(err);
         }
     
