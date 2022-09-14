@@ -1,6 +1,5 @@
 name: schedule-predictions-cron
 on:
-  pull_request:
   schedule:
     - cron: '0 * * * *'
 jobs:
