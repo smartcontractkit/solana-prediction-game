@@ -1,16 +1,15 @@
-import { Flex, Image, Text, useToast, VStack } from "@chakra-ui/react";
+import { Flex, Heading, Image, Text, useToast, VStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import axiosInstance from "../../lib/axiosInstance";
-import useDataFeeds from "../../hooks/useDataFeeds";
-import BetCard from "../BetCard";
 import CardSKeleton from "../BetCardSkeleton";
 import emptyPredictions from '../../assets/icons/empty-predictions.svg';
+import { isExpired } from "../../lib/helpers";
+import Predictions from "../Predictions";
 
-const ActivePredictions = () => {
+const AllPredictions = () => {
     const [ isFetching, setIsFetching ] = useState(true);
-    const [ predictions, setPredictions ] = useState([]);
-
-    const dataFeeds = useDataFeeds();
+    const [ activePredictions, setActivePredictions ] = useState([]);
+    const [inactivePredictions, setInActivePredictions] = useState([]);
 
     const toast = useToast();
 
@@ -18,12 +17,15 @@ const ActivePredictions = () => {
         const getPredictions = async () => {
             axiosInstance.get('/api/predictions', {
                 params: {
-                  active: true
+                  active: false
                 }
               })
             .then(res => res.data)
             .then(data => {
-                setPredictions(data);
+                const active = data.filter(res => !isExpired(res.predictionDeadline));
+                const in_active = data.filter(res => isExpired(res.predictionDeadline));
+                setActivePredictions(active);
+                setInActivePredictions(in_active);
                 setIsFetching(false);
             })
             .catch(err => {
@@ -50,7 +52,7 @@ const ActivePredictions = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    if(!isFetching && predictions.length === 0) {
+    if (!isFetching && (activePredictions.length === 0 && inactivePredictions.length === 0)) {
         return (
             <VStack 
                 w="100%"
@@ -84,23 +86,14 @@ const ActivePredictions = () => {
     return (
         <Flex
             gap="1.5rem"
-            flexWrap="wrap"
-            justifyContent={["center", "center", "flex-start", "flex-start"]}
+            w="100%"
+            flexDirection="column"
         >
-            {
-                predictions.map(prediction => {
-                    const { _id, pair } = prediction;
-                    const feed = dataFeeds.find(data => data.pair === pair);
-                    return (
-                        <BetCard
-                            prediction={prediction}
-                            feed={feed}
-                            key={_id}
-                        />
-                    );
-                })
-            }
+            <Predictions predictions={activePredictions} />
+              <Heading as="h2" size="md" alignSelf="flex-start">Previous predictions</Heading>
+            <Predictions predictions={inactivePredictions} />
+
         </Flex>
     );
 }
-export default ActivePredictions;
+export default AllPredictions;

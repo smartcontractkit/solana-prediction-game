@@ -1,4 +1,4 @@
-import ActivePredictions from './components/ActivePredictions';
+import AllPredictions from './components/AllPredictions';
 import BetTabs from './components/BetTabs';
 import { Flex, VStack } from '@chakra-ui/react';
 import Subheader from './components/Subheader';
@@ -29,7 +29,7 @@ function App() {
               gap={4}
             >
               <Subheader />
-              <ActivePredictions />
+              <AllPredictions />
             </VStack>
             <VStack
               width={['100%', '100%', '100%', '38%', '25%']}
