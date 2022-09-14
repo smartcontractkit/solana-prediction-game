@@ -87,11 +87,13 @@ module.exports = async (req, res) => {
 
     const { cached } = req.query;
 
-    const addRoundCache = async (round) => {
-        const feedObject = new Feed(round);
-        await feedObject.save()
+    const updateRoundCache = async (round) => {
+        await Feed.findOneAndUpdate({ feed: round.feed }, round, {upsert: true})
         .then(res => {
-            console.log(`Feed was inserted with the _id: ${res._id}`);
+            if(res){
+                console.log(`Feed was inserted with the _id: ${res._id}`);
+                return;
+            }
             return res;
         })
         .catch(err => {
@@ -99,32 +101,27 @@ module.exports = async (req, res) => {
         })
     }
 
-    const getRoundCache = (feedAddress) => {
-        return Feed
-            .findOne({ address: feedAddress })
-            .sort({ created_at: -1 })
-            .then(res => {
-                return res;
-            })
-            .catch(err => {
-                console.error(err);
-            })
+    const getRoundsCache = async () => {
+        const feed = await Feed
+        .find()
+        .catch(err => {
+            console.log(err);
+        });
+
+        if(feed.length === 0 ){
+            getLatestDataRounds(); 
+            return;
+        }
+
+        res.status(200).send(feed);
     }
 
-    const getRoundsCache = () => {
-        const promises = CURRENCY_PAIRS.map(pair => {
-            return getRoundCache(pair.feedAddress)
-        })
-
-        return Promise.allSettled(promises)
-    }
-
-    const getCurrentRounds = async () => {
+    const getLatestDataRounds = async () => {
         const promises = await CURRENCY_PAIRS.map(pair => {
-            return new Promise(async (resolve, reject) => {
+            return new Promise((resolve, reject) => {
                 return getLatestDataRound(pair.feedAddress, pair.pair)
                 .then(async (res) => {
-                    await addRoundCache(res);
+                    await updateRoundCache(res);
                     resolve(res);
                 })
                 .catch((err) => {
@@ -132,23 +129,25 @@ module.exports = async (req, res) => {
                     reject(err)
                 });
             });
-        })
+        });
+
         Promise.allSettled(promises)
         .then(response => {
             res.status(200).send(response);
         })
         .catch(err => {
             res.status(500).send(err);
-        })
+        });
     }
 
     try {
         await connectToDatabase();
-        if(cached){
+        if(cached === 'true'){
             getRoundsCache();
-            return;
+        }else{
+            getLatestDataRounds();
         }
-        getCurrentRounds();
+        
     }
 
     catch(err) {
