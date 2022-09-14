@@ -6,9 +6,6 @@ import { GithubIcon } from "./GithubIcon";
 const {
     REACT_APP_GITHUB_URL:GITHUB_URL
 } = process.env;
-console.log('====================================');
-console.log(GITHUB_URL);
-console.log('====================================');
 
 const Banner = () => {
 
