@@ -3,8 +3,8 @@ const chainlink = require("@chainlink/solana-sdk");
 const solanaWeb3 = require("@solana/web3.js");
 const { Wallet } = require("../../models/wallet.model");
 const { CURRENCY_PAIRS } = require("../../lib/constants");
+const { connectToDatabase } = require("../../lib/mongoose");
 const Feed = require("../../models/feed.model");
-const User = require("../../models/user.model");
 
 // creation of wallett using your private key
 const secret = Uint8Array.from(process.env.WALLET_PRIVATE_KEY.split(','));
@@ -91,7 +91,6 @@ module.exports = async (req, res) => {
         const feedObject = new Feed(round);
         await feedObject.save()
         .then(res => {
-            console.log(res);
             console.log(`Feed was inserted with the _id: ${res._id}`);
             return res;
         })
@@ -105,7 +104,6 @@ module.exports = async (req, res) => {
             .findOne({ address: feedAddress })
             .sort({ created_at: -1 })
             .then(res => {
-                console.log(res);
                 return res;
             })
             .catch(err => {
@@ -114,7 +112,7 @@ module.exports = async (req, res) => {
     }
 
     const getRoundsCache = () => {
-        let promises = CURRENCY_PAIRS.map(pair => {
+        const promises = CURRENCY_PAIRS.map(pair => {
             return getRoundCache(pair.feedAddress)
         })
 
@@ -122,7 +120,7 @@ module.exports = async (req, res) => {
     }
 
     const getCurrentRounds = async () => {
-        let promises = await CURRENCY_PAIRS.map(pair => {
+        const promises = await CURRENCY_PAIRS.map(pair => {
             return new Promise(async (resolve, reject) => {
                 return getLatestDataRound(pair.feedAddress, pair.pair)
                 .then(async (res) => {
@@ -145,6 +143,7 @@ module.exports = async (req, res) => {
     }
 
     try {
+        await connectToDatabase();
         if(cached){
             getRoundsCache();
             return;
