@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import axiosInstance from "../lib/axiosInstance";
 /**
  * 
- * @returns price feeds from getLatestDataRound api every 30 seconds
+ * @returns price feeds from getLatestDataRound api every 60 seconds
  */
 const useDataFeeds = () => {
     const [dataFeeds, setDataFeeds] = useState([]);
@@ -20,7 +20,7 @@ const useDataFeeds = () => {
                 oldDataFeeds[foundIndex] = round;
                 return oldDataFeeds;
             }
-        })
+        });
     }
 
     const getDataFeeds = (cached) => { 
@@ -30,15 +30,15 @@ const useDataFeeds = () => {
 
         axiosInstance.get(`/api/feed/getLatestDataRound?${queryParams}`)
         .then(response => {
-            response.data.map(res => {
-                if(cached){
-                    handleDataFeedUpdate(res)
+            response.data.map(feed => {
+                if(!('status' in feed)){
+                    handleDataFeedUpdate(feed);
                 }else{
-                    if(res.status === 'fulfilled'){
-                        handleDataFeedUpdate(res.value);
+                    if(feed.status === 'fulfilled'){
+                        handleDataFeedUpdate(feed.value);
                     }
                 }
-                return res;
+                return feed;
             });
         })
         .catch(err => {
@@ -53,9 +53,9 @@ const useDataFeeds = () => {
     }
 
     useEffect(() => {
-        getDataFeeds(false);
+        getDataFeeds(true);
         window.dataFeedInterval = setInterval(
-            () => getDataFeeds(true),
+            () => getDataFeeds(false),
             60000 // every 60 seconds
         )
         return () => {
