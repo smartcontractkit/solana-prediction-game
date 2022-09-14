@@ -3,8 +3,12 @@ import logo from "../../assets/logos/logo.svg";
 import solanaLogo from "../../assets/logos/sol.png";
 import { capitalize } from "../../lib/helpers";
 import { GithubIcon } from "./GithubIcon";
+const {
+    REACT_APP_GITHUB_URL:GITHUB_URL
+} = process.env;
 
 const Banner = () => {
+
     const wallets = [ 
         {
             name: 'phantom',
@@ -58,11 +62,11 @@ const Banner = () => {
 
     const devLinks = [
         {
-            href: "https://github.com/thisdot/blockchain-prediction-game/blob/main/README.md",
+            href: `${GITHUB_URL}/blob/main/README.md`,
             text: "How to get started"
         },
         {
-            href: "https://github.com/thisdot/blockchain-prediction-game",
+            href: `${GITHUB_URL}`,
             text: "Browse the Code"
         },
         {
@@ -316,7 +320,7 @@ const Banner = () => {
                                 Prediction Game is built on top of Solana, that enables users from any corner of the world to trade and interact markets using trustless solutions.
                             </Text>
 
-                            <Link href={"https://github.com/thisdot/blockchain-prediction-game"} isExternal>
+                            <Link href={GITHUB_URL} isExternal>
                                 <HStack 
                                     border="1px solid"
                                     borderColor="gray.200"
