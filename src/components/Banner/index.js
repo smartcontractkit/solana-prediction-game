@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Heading, HStack, Image, Link, ListItem, Text, Tooltip, UnorderedList, VStack } from "@chakra-ui/react"
+import { Box, Flex, Heading, HStack, Image, Link, ListItem, Text, Tooltip, UnorderedList, VStack } from "@chakra-ui/react"
 import logo from "../../assets/logos/logo.svg";
 import solanaLogo from "../../assets/logos/sol.png";
 import { capitalize } from "../../lib/helpers";

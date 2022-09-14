@@ -45,7 +45,7 @@ const UserDataProvider = (props) => {
       .then(res => res.data)
       .then(res => {
         toast({
-            title: 'New user add',
+            title: 'New user created',
             description: `User ID: ${res._id}`,
             status: 'info',
             duration: 9000,

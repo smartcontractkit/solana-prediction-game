@@ -112,18 +112,9 @@ const WalletButton = ({ children, ...props }) => {
             direction="row"
             w="100%"
           >
-            {
-              balance 
-              ? (
-              <Text fontWeight="bold">
-                { `${roundOff(balance, 3)} SOL` }
-              </Text>
-              )
-              : ( <Text fontWeight="bold">
-                0 SOL
-              </Text>
-              )
-            }
+            <Text fontWeight="bold">
+              { balance ? roundOff(balance, 3) : 0} SOL
+            </Text>
             <HStack>
               <Text color="gray.400" fontWeight={400}>
                 { content }
