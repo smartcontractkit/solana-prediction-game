@@ -12,6 +12,7 @@ const UserDataProvider = (props) => {
 
     const [betSlip, setBetslip] = useState(null);
     const [balance, setBalance] = useState(null);
+    const [balanceLoading, setBalanceLoading] = useState(true);
     const [user, setUser] = useState(null);
     const [myBets, setMyBets] = useState(null);
     const [betPlaced, setBetPlaced] = useState(false);
@@ -20,8 +21,10 @@ const UserDataProvider = (props) => {
 
     // Get user balance from solana network based on public key
     const getBalance = async () => {
+      setBalanceLoading(true);
       return await connection.getBalance(publicKey)
       .then((res) => {
+        setBalanceLoading(false);
         setBalance(res/LAMPORTS_PER_SOL);
         return res
       }).catch(err => {
@@ -155,7 +158,9 @@ const UserDataProvider = (props) => {
         betSlip, 
         setBetslip,
         betPlaced,
-        setBetPlaced
+        setBetPlaced,
+        balanceLoading,
+        setBalanceLoading
       };
     }
     
@@ -175,6 +180,8 @@ export const UserDataContext = createContext({
   setBetslip: (betSlip) => {},
   betPlaced: false,
   setBetPlaced: (betPlaced) => {},
+  balanceLoading: false,
+  setBalanceLoading: (balanceLoading) => {}
 }); 
 
 export default UserDataProvider;
