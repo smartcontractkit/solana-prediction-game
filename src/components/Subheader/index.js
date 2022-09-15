@@ -1,42 +1,16 @@
 import { ArrowUpIcon } from "@chakra-ui/icons";
 import { Button, Flex, Hide, HStack, Image, Stack, Text } from "@chakra-ui/react";
-import CountdownTimer from "./CountdownTimer";
 import chainlinkLogo from "../../assets/logos/chainlink.svg";
-import { useEffect, useState } from "react";
 
 const NextPredictionTimer = () => {
-    const date = new Date();
-    const [predictionTime, setPredictionTime] = useState(date.getTime() + (60000 * (60 - (date.getMinutes() % 60))));
-
-    useEffect(() => {
-        window.nextPredictionInterval = setInterval(
-            () => {
-                let currentDate = new Date();
-                if(currentDate.getMinutes() % 60 === 0) {
-                    setPredictionTime(new Date(new Date().getTime() + (60000 * 60)));
-                    return
-                }
-                return
-            },
-            60000 
-        )
-        return () => {
-            clearInterval(window.nextPredictionInterval)
-        }
-    }, []);
-  
     return (
       <Flex
         w="100%"
         justifyContent={["space-between", "space-between", "flex-start", "flex-start"]}
       >
-        <Text>
-          Next prediction in:&nbsp;
+        <Text display={"flex"}>
+            New prediction live <Text color="yellow.400" ml="0.2rem" fontWeight="bold">every hour</Text>, place your bet <Text color="yellow.400" ml="0.2rem" fontWeight="bold">now</Text>
         </Text>
-        <CountdownTimer 
-          targetDate={predictionTime} 
-          color={"yellow.400"} 
-          fontWeight={"bold"} />
       </Flex>
     );
 }

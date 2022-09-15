@@ -32,3 +32,5 @@ export const formatDate = (date) => {
 export const capitalize = (string) => {
     return string ? string.charAt(0).toUpperCase() + string.slice(1) : "";
 }
+
+export const isExpired = (date) => new Date(date) < Date.now();
