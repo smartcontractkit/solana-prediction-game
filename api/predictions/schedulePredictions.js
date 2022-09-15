@@ -117,13 +117,13 @@ const addMinutesToDate = (date, minutes) => {
 */
 const schedulePredictions = () => {
     
-    let promises = CURRENCY_PAIRS.map(async (pair) => {
+    const promises = CURRENCY_PAIRS.map(async (pair) => {
 
         const latestRound = await getLatestDataRound(pair.feedAddress, pair.pair);
     
         const { answerToNumber, observationsTS, slot, roundId } = latestRound;
     
-        var date = new Date();
+        const date = new Date();
 
         const predictionData = {
             owner: wallet.publicKey,
@@ -167,7 +167,7 @@ const updateBetStatus = async () => {
         .find({ status: "ongoing" }) // casts a filter based on the query object and returns a list of bets with status 'ongoing'
         .populate("prediction"); // Populate prediction data to each bet
 
-    let promises = bets.map(async (bet) => {
+    const promises = bets.map(async (bet) => {
         // Check if the bet expiryTime has passed if not the function returns
         if(bet.prediction.expiryTime < new Date().toISOString()) {
             return bet;
