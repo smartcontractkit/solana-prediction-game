@@ -89,24 +89,10 @@ module.exports = async (req, res) => {
 
     const updateRoundCache = async (round) => {
         await Feed.findOneAndUpdate({ feed: round.feed }, round, {upsert: true})
-        .then(res => {
-            if(res){
-                console.log(`Feed was inserted with the _id: ${res._id}`);
-                return;
-            }
-            return res;
-        })
-        .catch(err => {
-            console.error(err);
-        })
     }
 
     const getRoundsCache = async () => {
-        const feed = await Feed
-        .find()
-        .catch(err => {
-            console.log(err);
-        });
+        const feed = await Feed.find();
 
         if(feed.length === 0 ){
             getLatestDataRounds(); 
@@ -123,10 +109,6 @@ module.exports = async (req, res) => {
                 .then(async (res) => {
                     await updateRoundCache(res);
                     resolve(res);
-                })
-                .catch((err) => {
-                    console.error(err);
-                    reject(err)
                 });
             });
         });

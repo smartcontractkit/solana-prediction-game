@@ -12,19 +12,18 @@ const useDataFeeds = () => {
 
     const handleDataFeedUpdate = (round) => {
         setDataFeeds(oldDataFeeds => {
-            let foundIndex = oldDataFeeds.findIndex(df => (df.feed === round.feed));
+            const foundIndex = oldDataFeeds.findIndex(df => (df.feed === round.feed));
             if(foundIndex === -1) {
                 oldDataFeeds.push(round);
-                return oldDataFeeds;
             }else {
                 oldDataFeeds[foundIndex] = round;
-                return oldDataFeeds;
             }
+            return oldDataFeeds
         });
     }
 
     const getDataFeeds = (cached) => { 
-        let queryParams = new URLSearchParams({
+        const queryParams = new URLSearchParams({
             cached
         });
 
