@@ -1,5 +1,5 @@
 import { Flex, Heading, Image, Text, useToast, VStack } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import axiosInstance from "../../lib/axiosInstance";
 import CardSKeleton from "../BetCardSkeleton";
 import emptyPredictions from '../../assets/icons/empty-predictions.svg';
@@ -8,8 +8,8 @@ import Predictions from "../Predictions";
 
 const AllPredictions = () => {
     const [ isFetching, setIsFetching ] = useState(true);
-    const [ activePredictions, setActivePredictions ] = useState([]);
-    const [inactivePredictions, setInActivePredictions] = useState([]);
+    const activePredictions = useRef([]);
+    const inactivePredictions = useRef([]);
 
     const toast = useToast();
 
@@ -24,8 +24,8 @@ const AllPredictions = () => {
             .then(data => {
                 const active = data.filter(res => !isExpired(res.predictionDeadline));
                 const in_active = data.filter(res => isExpired(res.predictionDeadline));
-                setActivePredictions(active);
-                setInActivePredictions(in_active);
+                activePredictions.current = active;
+                inactivePredictions.current = in_active;
                 setIsFetching(false);
             })
             .catch(err => {
@@ -52,7 +52,7 @@ const AllPredictions = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    if (!isFetching && (activePredictions.length === 0 && inactivePredictions.length === 0)) {
+    if (!isFetching && (activePredictions.current.length === 0 && inactivePredictions.current.length === 0)) {
         return (
             <VStack 
                 w="100%"
@@ -89,9 +89,9 @@ const AllPredictions = () => {
             w="100%"
             flexDirection="column"
         >
-            <Predictions predictions={activePredictions} />
+            <Predictions predictions={activePredictions.current} />
               <Heading as="h2" size="md" alignSelf="flex-start">Previous predictions</Heading>
-            <Predictions predictions={inactivePredictions} />
+            <Predictions predictions={inactivePredictions.current} />
 
         </Flex>
     );
