@@ -2,7 +2,7 @@ const anchor = require("@project-serum/anchor");
 const chainlink = require("@chainlink/solana-sdk");
 const solanaWeb3 = require("@solana/web3.js");
 const { Wallet } = require("../../models/wallet.model");
-const { CURRENCY_PAIRS } = require("../../lib/constants");
+const { CURRENCY_PAIRS } = require("../../src/lib/constants");
 const { connectToDatabase } = require("../../lib/mongoose");
 const Feed = require("../../models/feed.model");
 

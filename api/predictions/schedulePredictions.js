@@ -7,7 +7,7 @@ const Bet = require("../../models/bet.model");
 const User = require("../../models/user.model");
 const { Wallet } = require("../../models/wallet.model");
 const { addMinutes } = require("date-fns");
-const { CURRENCY_PAIRS } = require("../../lib/constants");
+const { CURRENCY_PAIRS } = require("../../src/lib/constants");
 
 // Create a wallet for the prediction owner
 const secret = Uint8Array.from(process.env.WALLET_PRIVATE_KEY.split(','));
