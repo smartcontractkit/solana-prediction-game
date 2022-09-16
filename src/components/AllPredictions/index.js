@@ -13,6 +13,8 @@ const AllPredictions = () => {
 
     const toast = useToast();
 
+    const hasPreviousPredictions = (data) => data.length > 0 ? true : false;
+
     useEffect(() => {
         const getPredictions = async () => {
             axiosInstance.get('/api/predictions', {
@@ -90,7 +92,7 @@ const AllPredictions = () => {
             flexDirection="column"
         >
             <Predictions predictions={activePredictions.current} />
-              <Heading as="h2" size="md" alignSelf="flex-start">Previous predictions</Heading>
+              {hasPreviousPredictions(inactivePredictions.current) && <Heading as="h2" size="md" alignSelf="flex-start">Previous predictions</Heading> }
             <Predictions predictions={inactivePredictions.current} />
 
         </Flex>
