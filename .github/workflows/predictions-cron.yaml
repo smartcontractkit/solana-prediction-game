@@ -1,13 +1,12 @@
-name: schedule-predictions-cron
+name: schedule-predictions-bet-status-cron
 on:
-  pull_request:
   schedule:
     - cron: '0 * * * *'
 jobs:
   cron:
     runs-on: ubuntu-latest
     steps:
-      - name: Schedule Predictions every 1 hr
+      - name: Schedule Predictions & Update Bet Status every 1 hr
         run: |
           curl --request POST \
           --url '${{ secrets.API_URL }}/predictions/schedulePredictions' \
