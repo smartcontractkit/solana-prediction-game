@@ -1,49 +1,64 @@
+import { useToast } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
-import { CURRENCY_PAIRS } from "../lib/constants";
 import axiosInstance from "../lib/axiosInstance";
-
 /**
  * 
- * @returns price feeds from getLatestDataRound api every 30 seconds
+ * @returns price feeds from getLatestDataRound api every 60 seconds
  */
 const useDataFeeds = () => {
     const [dataFeeds, setDataFeeds] = useState([]);
 
+    const toast = useToast();
 
-    const getDataFeeds = () => {
-        let promises = CURRENCY_PAIRS.map((pair) => {
+    const handleDataFeedUpdate = (round) => {
+        setDataFeeds(oldDataFeeds => {
+            const foundIndex = oldDataFeeds.findIndex(df => (df.feed === round.feed));
+            if(foundIndex === -1) {
+                oldDataFeeds.push(round);
+            }else {
+                oldDataFeeds[foundIndex] = round;
+            }
+            return oldDataFeeds
+        });
+    }
 
-            let queryParams = new URLSearchParams({
-                pair: pair.pair,
-                address: pair.feedAddress
-            });
+    const getDataFeeds = (cached) => { 
+        const queryParams = new URLSearchParams({
+            cached
+        });
 
-            return new Promise(async (res, rej) => {
-                return axiosInstance.get(`/api/feed/getLatestDataRound?${queryParams}`)
-                .then(response => {
-                    res(response.data)
-                })
-                .catch(err => {
-                    rej(err)
-                })
+        axiosInstance.get(`/api/feed/getLatestDataRound?${queryParams}`)
+        .then(response => {
+            response.data.map(feed => {
+                if(!('status' in feed)){
+                    handleDataFeedUpdate(feed);
+                }else{
+                    if(feed.status === 'fulfilled'){
+                        handleDataFeedUpdate(feed.value);
+                    }
+                }
+                return feed;
             });
         })
-
-        Promise.all(promises)
-        .then(data => {
-            setDataFeeds(data);
-        })
-        .catch(console.error);
+        .catch(err => {
+            toast({
+                title: 'Error getting Price Feeds. Retrying...',
+                description: err.message,
+                status: 'error',
+                duration: 9000,
+                isClosable: true,
+            })
+        });
     }
 
     useEffect(() => {
-        getDataFeeds();
-        window.interval30Sec = setInterval(
-            () => getDataFeeds(),
-            30000 // every 30 seconds
+        getDataFeeds(true);
+        window.dataFeedInterval = setInterval(
+            () => getDataFeeds(false),
+            60000 // every 60 seconds
         )
         return () => {
-            clearInterval(window.interval30Sec)
+            clearInterval(window.dataFeedInterval)
         }
         // eslint-disable-next-line
     }, []);

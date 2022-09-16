@@ -2,6 +2,9 @@ const anchor = require("@project-serum/anchor");
 const chainlink = require("@chainlink/solana-sdk");
 const solanaWeb3 = require("@solana/web3.js");
 const { Wallet } = require("../../models/wallet.model");
+const { CURRENCY_PAIRS } = require("../../lib/constants");
+const { connectToDatabase } = require("../../lib/mongoose");
+const Feed = require("../../models/feed.model");
 
 // creation of wallett using your private key
 const secret = Uint8Array.from(process.env.WALLET_PRIVATE_KEY.split(','));
@@ -82,15 +85,51 @@ const getLatestDataRound = async (address, pair) => {
  */
 module.exports = async (req, res) => {
 
-    const { address, pair } = req.query;
-    if(!address || !pair) {
-        res.status(400).send('Missing address or pair');
-        return;
+    const { cached } = req.query;
+
+    const updateRoundCache = async (round) => {
+        await Feed.findOneAndUpdate({ feed: round.feed }, round, {upsert: true})
+    }
+
+    const getRoundsCache = async () => {
+        const feed = await Feed.find();
+
+        if(feed.length === 0 ){
+            getLatestDataRounds(); 
+            return;
+        }
+
+        res.status(200).send(feed);
+    }
+
+    const getLatestDataRounds = async () => {
+        const promises = await CURRENCY_PAIRS.map(pair => {
+            return new Promise((resolve, reject) => {
+                return getLatestDataRound(pair.feedAddress, pair.pair)
+                .then(async (res) => {
+                    await updateRoundCache(res);
+                    resolve(res);
+                });
+            });
+        });
+
+        Promise.allSettled(promises)
+        .then(response => {
+            res.status(200).send(response);
+        })
+        .catch(err => {
+            res.status(500).send(err);
+        });
     }
 
     try {
-        const round = await getLatestDataRound(address, pair);
-        res.status(200).send(round);
+        await connectToDatabase();
+        if(cached === 'true'){
+            getRoundsCache();
+        }else{
+            getLatestDataRounds();
+        }
+        
     }
 
     catch(err) {

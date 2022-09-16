@@ -109,3 +109,6 @@ dist
 
 # Solana Wallet
 id.json
+
+# build
+build
