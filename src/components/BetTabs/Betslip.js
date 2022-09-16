@@ -13,7 +13,7 @@ import WalletModalButton from "../WalletModalButton";
 const Betslip = () => {
 
     const { connected } = useWallet();
-    const { balance, betSlip, setBetslip, betPlaced, setBetPlaced } = useContext(UserDataContext);
+    const { balance, balanceLoading, betSlip, setBetslip, betPlaced, setBetPlaced } = useContext(UserDataContext);
 
     const [ amount, setAmount ] = useState(1);
 
@@ -75,6 +75,12 @@ const Betslip = () => {
         : (<WalletModalButton {...props} />)
         
     };
+
+    const getBalance = () => {
+        return balanceLoading 
+        ? 'Loading...'
+        : balance ? `${roundOff(balance, 3)} SOL` : `0 SOL`
+    }
 
     return (
         <ScaleFade in={betSlip} initialScale={0.5}>
@@ -188,7 +194,7 @@ const Betslip = () => {
                                 Balance:
                             </Text>
                             <Text fontSize="14px" fontWeight={700} color="whiteAlpha.800">
-                                {balance ? `${roundOff(balance, 3)} SOL` : 'Loading...'}
+                                {getBalance()}
                             </Text>
                         </HStack>
                         )

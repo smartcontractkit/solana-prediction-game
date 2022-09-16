@@ -11,7 +11,7 @@ import WalletConnectButton from "../WalletConnectButton";
 const WalletButton = ({ children, ...props }) => {
     const { publicKey, wallet, disconnect } = useWallet();
     const { setVisible } = useWalletModal();
-    const { balance } = useContext(UserDataContext);
+    const { balance, balanceLoading } = useContext(UserDataContext);
     const [copied, setCopied] = useState(false);
     const [active, setActive] = useState(false);
     const ref = useRef(null);
@@ -93,6 +93,12 @@ const WalletButton = ({ children, ...props }) => {
       </WalletConnectButton>
     );
 
+    const getBalance = () => {
+      return balanceLoading 
+      ? 'Loading...'
+      : balance ? `${roundOff(balance, 3)} SOL` : `0 SOL`
+    }
+
     return (
       <div className="wallet-adapter-dropdown" style={{ width: '100%' }}>
         <Button 
@@ -112,18 +118,9 @@ const WalletButton = ({ children, ...props }) => {
             direction="row"
             w="100%"
           >
-            {
-              balance 
-              ? (
-              <Text fontWeight="bold">
-                { `${roundOff(balance, 3)} SOL` }
-              </Text>
-              )
-              : ( <Text fontWeight="bold">
-                0 SOL
-              </Text>
-              )
-            }
+            <Text fontWeight="bold">
+              {getBalance()}
+            </Text>
             <HStack>
               <Text color="gray.400" fontWeight={400}>
                 { content }
