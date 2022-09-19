@@ -119,7 +119,9 @@ const schedulePredictions = () => {
     
     const promises = CURRENCY_PAIRS.map(async (pair) => {
 
-        const latestRound = await getLatestDataRound(pair.feedAddress, pair.pair);
+        const { feedAddress, pair: currency} = pair;
+
+        const latestRound = await getLatestDataRound(feedAddress, currency);
     
         const { answerToNumber, observationsTS, slot, roundId } = latestRound;
     
@@ -127,8 +129,8 @@ const schedulePredictions = () => {
 
         const predictionData = {
             owner: wallet.publicKey,
-            account: pair.feedAddress,
-            pair: pair.pair,
+            account: feedAddress,
+            pair: currency,
             expiryTime: addMinutesToDate(date, 120),
             predictionDeadline: addMinutesToDate(date, 60),
             openingPredictionPrice: answerToNumber,
@@ -140,12 +142,12 @@ const schedulePredictions = () => {
     
         const plusOnePercent = await createPrediction({
             ...predictionData,
-            predictionPrice: latestRound.answerToNumber * 1.01,
+            predictionPrice: answerToNumber * 1.01,
             direction: true,
         });
         const minusOnePercent = await createPrediction({
             ...predictionData,
-            predictionPrice: latestRound.answerToNumber * 0.99,
+            predictionPrice: answerToNumber * 0.99,
             direction: false,
         });
     
@@ -167,23 +169,29 @@ const updateBetStatus = async () => {
         .find({ status: "ongoing" }) // casts a filter based on the query object and returns a list of bets with status 'ongoing'
         .populate("prediction"); // Populate prediction data to each bet
 
-    const promises = bets.map(async (bet) => {
-        // Check if the bet expiryTime has passed if not the function returns
-        if(bet.prediction.expiryTime < new Date().toISOString()) {
-            return bet;
-        }
-        
-        let currentStatus = 'ongoing';
 
-        if(bet.prediction.direction){
-            bet.prediction.predictionPrice > bet.prediction.openingPredictionPrice 
-            ? currentStatus = 'won' 
-            : currentStatus = 'lost';
-        }else{
-            bet.prediction.predictionPrice < bet.prediction.openingPredictionPrice 
-            ? currentStatus = 'won' 
-            : currentStatus = 'lost';
-        }
+        const promises = bets.map(async (bet) => {
+            const { prediction } = bet;
+            const { pair, account, direction, openingPredictionPrice, expiryTime } =  prediction;
+            
+            const { answerToNumber } = await getLatestDataRound(account, pair);
+            
+            // Check if the bet expiryTime has passed if not the function returns
+            if(expiryTime < new Date().toISOString()) {
+                return bet;
+            }
+
+            let currentStatus = 'ongoing';
+
+            if(direction){
+                openingPredictionPrice < answerToNumber
+                ? currentStatus = 'won' 
+                : currentStatus = 'lost';
+            }else{
+                openingPredictionPrice > answerToNumber
+                ? currentStatus = 'won' 
+                : currentStatus = 'lost';
+            }
 
         const result = await Bet
             .findOneAndUpdate({ _id: bet._id }, { status: currentStatus }, { new: true })
@@ -191,19 +199,25 @@ const updateBetStatus = async () => {
         console.log(`Bet was inserted with the _id: ${result._id}`);
 
         const user = result.user;
-        let totalWonBets = user.wonTotalBets; 
-        let winRate = user.winRate;
+        const {
+            wonTotalBets,
+            winRate,
+            totalBets,
+        } = user;
+
+        let totalWonBets = wonTotalBets; 
+        let win_rate = winRate;
 
         if(currentStatus === 'won') {
             totalWonBets += 1;
         }
 
-        winRate = (totalWonBets / user.totalBets) * 100;
+        win_rate = (totalWonBets / totalBets) * 100;
 
         const userUpdated = await User
         .findByIdAndUpdate(
             user._id, 
-            { winRate: winRate, wonTotalBets: totalWonBets }, 
+            { winRate: win_rate, wonTotalBets: totalWonBets }, 
             { new: true }
         );
         console.log(`User was updated with the _id: ${userUpdated._id}`);
