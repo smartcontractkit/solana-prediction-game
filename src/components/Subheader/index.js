@@ -70,7 +70,7 @@ const Subheader = () => {
         >
             <NextPredictionTimer />
             <Hide below="sm">
-            <ChainlinkFeedButton />
+                <ChainlinkFeedButton />
             </Hide>
         </HStack>
     );
