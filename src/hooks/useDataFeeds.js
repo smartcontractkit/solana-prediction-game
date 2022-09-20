@@ -41,13 +41,18 @@ const useDataFeeds = () => {
             });
         })
         .catch(err => {
-            toast({
-                title: 'Error getting Price Feeds. Retrying...',
-                description: err.message,
-                status: 'error',
-                duration: 9000,
-                isClosable: true,
-            })
+            const queryParams = new URLSearchParams({
+                cached: true
+            });
+    
+            axiosInstance.get(`/api/feed/getLatestDataRound?${queryParams}`)
+            .then(response => {
+                response.data.map(feed => {
+                    if(!('status' in feed)){
+                        handleDataFeedUpdate(feed);
+                    }
+                })
+            });
         });
     }
 
