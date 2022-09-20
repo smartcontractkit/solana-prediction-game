@@ -107,7 +107,7 @@ To get a local copy up and running follow these simple example steps.
    Warning: DO NOT share your Secret Recovery Phrase with anyone! If someone has access to your secret phrase, they will have access to your wallet
 
    - Setup Phnatom wallet extension:
-     - Visit https://phantom.app/download and select your browser type. Follow steps in your respective extension store to add Phantom to your browser. After installing, you should see Phantom start-up in a new tab.
+     - Visit https://phantom.app/download and select your browser type. Follow the steps in your respective extension store to add Phantom to your browser. After installing, you should see Phantom start-up in a new tab.
      - If you are a brand new Solana user, select "Create New Wallet" and create a password.  If you are an existing Solana user, you can follow the steps [here](https://phantom.app/help/migrating-from-sollet-to-phantom) to migrate your existing wallets to Phantom. 
      - Store your "Secret Recovery Phrase" in a safe and secure location, it is the only way to recover your wallet. Whoever has access to this phrase has access to your funds.  There is an [integration with 1Password](https://blog.1password.com/phantom-crypto-wallet-1password/?utm_medium=social&utm_source=twitter&utm_campaign=phantom&utm_ref=social) for the safe storage of your secret recovery phrase.
 
@@ -117,7 +117,7 @@ To get a local copy up and running follow these simple example steps.
   
    - Setup Phnatom mobile app.
      - Visit https://phantom.app/download and select the app marketplace according to your device type (iOS/Android). You will be redirected to the Phantom application on your device app store, follow the steps to download and install the application on your device. After installing, open the app and you should see the Phantom onboarding screen to set up a new wallet. 
-     - If you are a brand new user, select "Create a new wallet" and enable the device authentication (may vary according to the device type) to protect your wallet from unauthorized access. If you are an existing Solana user, you can select "I already have a wallet" and enter your seed phrase to restore your wallets.
+     - If you are a brand new user, select "Create a new wallet" and enable the device authentication (which may vary according to the device type) to protect your wallet from unauthorized access. If you are an existing Solana user, you can select "I already have a wallet" and enter your seed phrase to restore your wallets.
      - You can add additional security, e.g: enabling bio-metric security or face recognition, in Settings (Upper left corner), Security & Privacy.
 
     <div align="left">
@@ -134,7 +134,7 @@ To get a local copy up and running follow these simple example steps.
    - Airdrop yourself Devnet Solana Tokens.
      - Open the faucet: https://solfaucet.com/
      - Copy your Phantom Wallet address
-     - Paste your wallet address into the text field and then click 'DEVNET' to send tthe Solana token
+     - Paste your wallet address into the text field and then click 'DEVNET' to send the Solana token
 
      <div align="left">
       <img src="src/assets/screenshots/airdrop-sol.png" alt="Airdrop Solana" height="auto">
