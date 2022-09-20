@@ -14,7 +14,7 @@ jobs:
           --header 'Authorization: Bearer ${{ secrets.API_SECRET_KEY }}'
         uses: nick-fields/retry@v2
         with:
-          timeout_seconds: 15
+          timeout_minutes: 1
           max_attempts: 3
           retry_on: timeout
           command: |
