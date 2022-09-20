@@ -96,7 +96,6 @@ const AllPredictions = () => {
             <Predictions predictions={activePredictions} dataFeeds={dataFeeds}/>
               {hasPreviousPredictions(inactivePredictions) && <Heading as="h2" size="md" alignSelf="flex-start">Previous predictions</Heading> }
             <Predictions predictions={inactivePredictions} dataFeeds={dataFeeds} />
-
         </Flex>
     );
 }
