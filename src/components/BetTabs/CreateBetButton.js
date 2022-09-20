@@ -76,7 +76,7 @@ export default function CreateBetButton(
             if(err.message.includes('Blockhash not found')) {
                 toast({
                     title: "Wrong Network",
-                    description: "Please swittch your wallet's network to devnet. Please follow the instructions on the Readme",
+                    description: "Please switch your wallet's network to devnet. Please follow the instructions on the Readme",
                     status: 'error',
                     duration: 15000,
                     isClosable: true,
