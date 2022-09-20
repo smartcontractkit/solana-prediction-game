@@ -115,7 +115,7 @@ To get a local copy up and running follow these simple example steps.
       <img src="src/assets/screenshots/create-wallet-extension.gif" alt="Setup Wallet Extension Demo" height="auto">
     </div>
   
-   - Setup Phatom mobile app.
+   - Setup Phantom mobile app.
      - Visit https://phantom.app/download and select the app marketplace according to your device type (iOS/Android). You will be redirected to the Phantom application on your device app store, follow the steps to download and install the application on your device. After installing, open the app and you should see the Phantom onboarding screen to set up a new wallet. 
      - If you are a brand new user, select "Create a new wallet" and enable the device authentication (which may vary according to the device type) to protect your wallet from unauthorized access. If you are an existing Solana user, you can select "I already have a wallet" and enter your seed phrase to restore your wallets.
      - You can add additional security, e.g: enabling bio-metric security or face recognition, in Settings (Upper left corner), Security & Privacy.
