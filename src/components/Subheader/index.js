@@ -8,8 +8,8 @@ const NextPredictionTimer = () => {
         w={{base: "100%", "md": "auto"}}
         justifyContent={["space-between", "space-between", "flex-start", "flex-start"]}
       >
-        <Text display={"flex"}>
-            New prediction live <Text color="yellow.400" ml="0.2rem" fontWeight="bold">every hour</Text>, place your bet <Text color="yellow.400" ml="0.2rem" fontWeight="bold">now</Text>
+        <Text w="100%">
+            New prediction live <Text color="yellow.400" ml="0.2rem" fontWeight="bold" as="span">every hour</Text>, place your bet <Text color="yellow.400" ml="0.2rem" fontWeight="bold" as="span">now</Text>
         </Text>
       </Flex>
     );
