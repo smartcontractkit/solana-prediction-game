@@ -5,9 +5,8 @@ import { useContext } from "react";
 import { UserDataContext } from "../../contexts/UserDataProvider";
 import { ArrowDownIcon, ArrowUpIcon } from "@chakra-ui/icons";
 import placeholder from "../../assets/logos/placeholder.png";
-import { memo } from "react";
 
-const BetCard = memo(({ prediction, feed }) => {
+const BetCard = ({ prediction, feed }) => {
     const { pair, predictionPrice, predictionDeadline, expiryTime, ROI, direction, createdAt } = prediction;
     
     // get currencies from pair and link to their respective data feeds on https://data.chain.link/ 
@@ -179,6 +178,6 @@ const BetCard = memo(({ prediction, feed }) => {
             </ScaleFade>
         </Box>
     )
-});
+};
 
 export default BetCard;
