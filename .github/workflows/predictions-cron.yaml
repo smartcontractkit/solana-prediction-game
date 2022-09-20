@@ -1,6 +1,5 @@
 name: schedule-predictions-bet-status-cron
 on:
-  pull_request:
   schedule:
     - cron: '0 * * * *'
 jobs:
@@ -16,4 +15,4 @@ jobs:
           command: |
             curl --request POST \
                   --url '${{ secrets.API_URL }}/predictions/schedulePredictions' \
-                  --header 'Authorization: Bearer ${{ secrets.API_SECRET_KEY }}'exit 1
+                  --header 'Authorization: Bearer ${{ secrets.API_SECRET_KEY }}'
