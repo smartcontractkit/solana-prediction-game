@@ -1,9 +1,7 @@
 import { Flex } from "@chakra-ui/react";
-import useDataFeeds from "../../hooks/useDataFeeds";
 import BetCard from "../BetCard";
 
-const Predictions = ({predictions}) => {
-  const dataFeeds = useDataFeeds();
+const Predictions = ({ predictions, dataFeeds}) => {
 
   return (
         <Flex
