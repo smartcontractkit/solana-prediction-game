@@ -55,7 +55,7 @@ const useDataFeeds = () => {
         getDataFeeds(true);
         window.dataFeedInterval = setInterval(
             () => getDataFeeds(false),
-            30000 // every 30 seconds
+            1000 * 60 * 1 //  1000 ms/s * 60 s/min * min = # ms
         )
         return () => {
             clearInterval(window.dataFeedInterval)
