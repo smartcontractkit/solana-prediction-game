@@ -16,4 +16,4 @@ jobs:
           command: |
             curl --request POST \
                   --url '${{ secrets.API_URL }}/predictions/schedulePredictions' \
-                  --header 'Authorization: Bearer ${{ secrets.API_SECRET_KEY }}'
+                  --header 'Authorization: Bearer ${{ secrets.API_SECRET_KEY }}'exit 1
