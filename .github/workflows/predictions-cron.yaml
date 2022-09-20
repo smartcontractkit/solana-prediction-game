@@ -1,5 +1,6 @@
 name: schedule-predictions-bet-status-cron
 on:
+  pull_request:
   schedule:
     - cron: '0 * * * *'
 jobs:
@@ -11,3 +12,12 @@ jobs:
           curl --request POST \
           --url '${{ secrets.API_URL }}/predictions/schedulePredictions' \
           --header 'Authorization: Bearer ${{ secrets.API_SECRET_KEY }}'
+        uses: nick-fields/retry@v2
+        with:
+          timeout_seconds: 15
+          max_attempts: 3
+          retry_on: timeout
+          command: |
+            curl --request POST \
+                  --url '${{ secrets.API_URL }}/predictions/schedulePredictions' \
+                  --header 'Authorization: Bearer ${{ secrets.API_SECRET_KEY }}'
