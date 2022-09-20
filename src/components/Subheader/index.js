@@ -5,7 +5,7 @@ import chainlinkLogo from "../../assets/logos/chainlink.svg";
 const NextPredictionTimer = () => {
     return (
       <Flex
-        w="100%"
+        w={{base: "100%", "md": "auto"}}
         justifyContent={["space-between", "space-between", "flex-start", "flex-start"]}
       >
         <Text display={"flex"}>
@@ -18,10 +18,12 @@ const NextPredictionTimer = () => {
 const ChainlinkFeedButton = () => {
     return (
         <Button
+            flex={{base: 1, md: 0, lg: 1, xl: 0}}
             size="md"
             rounded="md"
             bg="whiteAlpha.50"
             minWidth="min-content"
+            style={{marginInlineStart: 'unset'}}
             _hover={{
                 bg: "whiteAlpha.300",
             }}
@@ -61,11 +63,13 @@ const Subheader = () => {
     return (
         <HStack
             alignItems="center"
-            justifyContent="space-between"
+            justifyContent={"space-between"}
+            flexFlow={['row', 'wrap']}
+            gap={4}
             width="100%"
         >
             <NextPredictionTimer />
-            <Hide below="md">
+            <Hide below="sm">
                 <ChainlinkFeedButton />
             </Hide>
         </HStack>
