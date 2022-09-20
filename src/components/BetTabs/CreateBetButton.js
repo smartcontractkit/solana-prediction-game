@@ -73,13 +73,24 @@ export default function CreateBetButton(
             maxRetries: 5
         })
         .catch(err => {
-            toast({
-                title: 'Transaction error:',
-                description: err.message,
-                status: 'error',
-                duration: 9000,
-                isClosable: true,
-            })
+            if(err.message.includes('Blockhash not found')) {
+                toast({
+                    title: "Wrong Network",
+                    description: "Please swittch your wallet's network to devnet. Please follow the instructions on the Readme",
+                    status: 'error',
+                    duration: 15000,
+                    isClosable: true,
+                });
+            }else {
+                toast({
+                    title: "Transaction error:",
+                    description: err.message,
+                    status: 'error',
+                    duration: 9000,
+                    isClosable: true,
+                });
+            }
+            setIsSaving(false);
         })
 
         // confirm transaction was sent
