@@ -6,8 +6,10 @@ import Banner from './components/Banner';
 import BetWonNotifications from './components/BetWonNotifications';
 import Leaderboard from './components/Leaderboard';
 import WalletButton from './components/WalletButton';
+import useGoogleTagManager from './hooks/useGoogleTagManager';
 
 function App() {
+  useGoogleTagManager(process.env.REACT_APP_PUBLIC_GOOGLE_ANALYTICS_TRACKING);
 
   return (
     <VStack>
