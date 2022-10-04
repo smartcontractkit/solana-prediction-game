@@ -42,21 +42,6 @@ const Banner = () => {
             name: 'spl-token-faucet',
             extension: '.png',
             link: 'https://spl-token-faucet.com/'
-        },
-        {
-            name: 'solfare',
-            extension: '.svg',
-            link: 'https://solflare.com'
-        },
-        {
-            name: 'glow',
-            extension: '.svg',
-            link: 'https://glow.app/'
-        },
-        {
-            name: 'slope',
-            extension: '.svg',
-            link: 'https://slope.finance/'
         }
     ]
 
@@ -124,8 +109,8 @@ const Banner = () => {
                                 letterSpacing="-0.03em" 
                                 fontWeight="600"
                             >
-                                Prediction <br/>
-                                Game
+                                Solana<br/>
+                                Prediction Game
                             </Heading>
                         </HStack>
                         <VStack
