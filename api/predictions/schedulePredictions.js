@@ -177,7 +177,7 @@ const updateBetStatus = async () => {
             const { answerToNumber } = await getLatestDataRound(account, pair);
             
             // Check if the bet expiryTime has passed if not the function returns
-            if(expiryTime < new Date().toISOString()) {
+            if(expiryTime > new Date().toISOString()) {
                 return bet;
             }
 
