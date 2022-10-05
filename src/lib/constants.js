@@ -14,10 +14,6 @@ export const CURRENCY_PAIRS = [
     {
         pair: 'LINK/USD',
         feedAddress: process.env.REACT_APP_LINK_USD
-    },
-    {
-        pair: 'USDT/USD',
-        feedAddress: process.env.REACT_APP_USDT_USD
     }
 ];
 

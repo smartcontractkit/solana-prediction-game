@@ -43,6 +43,9 @@ const getLatestDataRound = async (address, pair) => {
     anchor.setProvider(provider);
 
     const CHAINLINK_FEED_ADDRESS = address; 
+    console.log('Fetching pair:', pair);
+    console.log('Fetching address:', address);
+
     const feedAddress = new anchor.web3.PublicKey(CHAINLINK_FEED_ADDRESS);
 
     // load the data feed account using the predefined chainlink program ID
