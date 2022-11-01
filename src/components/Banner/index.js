@@ -1,7 +1,7 @@
-import { Box, Flex, Heading, HStack, Image, Link, ListItem, Text, Tooltip, UnorderedList, VStack } from "@chakra-ui/react"
+import { Box, Flex, Heading, HStack, Image, Link, ListItem, Text, UnorderedList, VStack } from "@chakra-ui/react"
 import logo from "../../assets/logos/logo.svg";
 import solanaLogo from "../../assets/logos/sol.png";
-import { capitalize } from "../../lib/helpers";
+import GetStartedList from "./GetStartedList";
 import { GithubIcon } from "./GithubIcon";
 const {
     REACT_APP_GITHUB_URL:GITHUB_URL
@@ -51,10 +51,6 @@ const Banner = () => {
             text: "How to get started"
         },
         {
-            href: `${GITHUB_URL}`,
-            text: "Browse the Code"
-        },
-        {
             href: "https://docs.chain.link/docs/solana/data-feeds-solana/",
             text: "Solana Chainlink Docs"
         },
@@ -63,14 +59,35 @@ const Banner = () => {
             text: "Solana Web3.js Javascript API"
         }
     ]
-
+    const getStarted = [
+        {
+            name: 'Wallets',
+            description: '1. Install & connect a wallet',
+            logos: wallets
+        },
+        {
+            name: 'Faucets',
+            description: '2. Get some dummy SOL from the faucets',
+            logos: faucets
+        },
+        {
+            name: null,
+            description: '3. Choose a prediction & make a bet',
+            logos: null
+        },
+        {
+            name: null,
+            description: '4. Withdraw your winning! If you were right :)',
+            logos: null
+        },
+    ]
     return (
         <Flex 
             w="100%"
             bg="gray.700"
             alignItems="center"
             justifyContent="center"
-            py={["32px", "32px", "32px", "96px"]}
+            py={["32px", "32px", "32px", "432x"]}
             px={["32px", "32px", "32px", "8px"]}
         >
             <Flex 
@@ -149,7 +166,6 @@ const Banner = () => {
                                 borderColor="purple.400"
                                 bg="whiteAlpha.100"
                                 p="12px"
-                                gap="8px"
                                 alignItems="flex-start"
                                 w="100%"
                             >
@@ -182,8 +198,7 @@ const Banner = () => {
                         alignItems="flex-start"
                         w="100%"
                         h="100%"
-                        pl={["0px", "0px", "0px", "40px"]}
-                        gap="8px"
+                        pl={["0px", "0px", "0px", "30px"]}
                     >
                         <Text 
                             size="lg" 
@@ -194,84 +209,11 @@ const Banner = () => {
                         >
                             How to get started?
                         </Text>
-                        <Text color="gray.300">1. Install & connect a wallet</Text>
-                        <HStack
-                            w="100%"
-                            bg="whiteAlpha.50"
-                            p="8px 12px"
-                            alignItems="center"
-                            borderRadius="6px"
-                            justifyContent="space-between"
-                        >
-                            <Text size="xs" color="gray.500">
-                                Wallets
-                            </Text>
-                            <HStack>
-                                {
-                                    wallets.map((wallet, i) => {
-                                        const walletImage = require(`../../assets/logos/${wallet.name}${wallet.extension}`);
-                                        return (
-                                            <Link 
-                                                key={i}
-                                                href={wallet.link} 
-                                                isExternal
-                                            >
-                                                <Tooltip 
-                                                    label={capitalize(wallet.name)}
-                                                >
-                                                    <Image
-                                                        borderRadius='full'
-                                                        boxSize='24px'
-                                                        src={walletImage}
-                                                        alt={`${wallet.name} logo`}
-                                                    />
-                                                </Tooltip>
-                                            </Link>
-                                        )
-                                    })
-                                }
-                            </HStack>
-                        </HStack>
-                        <Text color="gray.300">2. Get some dummy SOL from the faucets</Text>
-                        <HStack
-                            w="100%"
-                            bg="whiteAlpha.50"
-                            p="8px 12px"
-                            alignItems="center"
-                            borderRadius="6px"
-                            justifyContent="space-between"
-                        >
-                            <Text size="xs" color="gray.500">
-                                Faucets
-                            </Text>
-                            <HStack>
-                                {
-                                    faucets.map((faucet, i) => {
-                                        const faucetImage = require(`../../assets/logos/${faucet.name}${faucet.extension}`);
-                                        return (
-                                            <Link 
-                                                key={i}
-                                                href={faucet.link} 
-                                                isExternal
-                                            >
-                                                <Tooltip 
-                                                    label={capitalize(faucet.name)}
-                                                >
-                                                    <Image
-                                                        borderRadius='full'
-                                                        boxSize='24px'
-                                                        src={faucetImage}
-                                                        alt={`${faucet.name} logo`}
-                                                    />
-                                                </Tooltip>
-                                            </Link>
-                                        )
-                                    })
-                                }
-                            </HStack>
-                        </HStack>
-                        <Text color="gray.300">3. Choose a prediction & make a bet</Text>
-                        <Text color="gray.300">4. Withdraw your winning! If you were right :) </Text>
+                        {
+                            getStarted.map((list, i) => (
+                                <GetStartedList key={i} name={list.name} description={list.description} logos={list.logos} />
+                            ))
+                        }
                     </VStack>
                 </Flex>
                 {/* section 3 */}
@@ -287,7 +229,7 @@ const Banner = () => {
                         alignItems="flex-start"
                         w="100%"
                         h="100%"
-                        pl={["0px", "0px", "0px", "40px"]}
+                        pl={["0px", "0px", "0px", "30px"]}
                     >
                         <VStack
                             alignItems="flex-start"
