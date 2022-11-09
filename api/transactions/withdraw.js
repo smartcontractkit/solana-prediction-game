@@ -4,11 +4,18 @@ const solanaWeb3 = require("@solana/web3.js");
 const { clusterApiUrl, Connection, Keypair, PublicKey, sendAndConfirmTransaction, SystemProgram, Transaction, LAMPORTS_PER_SOL } = solanaWeb3;
 
 const checkBalanceAndFund = async (connection, publicKey) => {
-    const rawBalance = await connection.getBalance(publicKey);
-    const formattedBalance = rawBalance/LAMPORTS_PER_SOL;
-
-    if(formattedBalance < 10) {
-        await connection.requestAirdrop(publicKey, 2*LAMPORTS_PER_SOL);
+    try {
+        const rawBalance = await connection.getBalance(publicKey);
+        const formattedBalance = rawBalance/LAMPORTS_PER_SOL;
+        console.log('current balance is:', formattedBalance);
+    
+        if(formattedBalance < 10) {
+            console.log('Requesting airdrop');
+            await connection.requestAirdrop(publicKey, 2*LAMPORTS_PER_SOL);
+        }
+    } catch (error) {
+        // we do not break on purpose as sometimes the airdrop may fail, but we do not want to fail the full withdraw
+        console.log('airdrop failed', error);
     }
 }
 
