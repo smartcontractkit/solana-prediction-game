@@ -1,9 +1,23 @@
 const { connectToDatabase } = require("../../lib/mongoose");
 const Bet = require("../../models/bet.model");
-const Prediction = require("../../models/prediction.model");
 const solanaWeb3 = require("@solana/web3.js");
 const { clusterApiUrl, Connection, Keypair, PublicKey, sendAndConfirmTransaction, SystemProgram, Transaction, LAMPORTS_PER_SOL } = solanaWeb3;
 
+const checkBalanceAndFund = async (connection, publicKey) => {
+    try {
+        const rawBalance = await connection.getBalance(publicKey);
+        const formattedBalance = rawBalance/LAMPORTS_PER_SOL;
+        console.log('current balance is:', formattedBalance);
+    
+        if(formattedBalance < 10) {
+            console.log('Requesting airdrop');
+            await connection.requestAirdrop(publicKey, 2*LAMPORTS_PER_SOL);
+        }
+    } catch (error) {
+        // we do not break on purpose as sometimes the airdrop may fail, but we do not want to fail the full withdraw
+        console.log('airdrop failed', error);
+    }
+}
 
 /**
  * This function is deployed as a standalone endpoint via Vercel Cloud Functions. 
@@ -37,6 +51,9 @@ module.exports = async (req, res) => {
             const secret = Uint8Array.from(process.env.WALLET_PRIVATE_KEY.split(','));
             const escrowKeyPair = Keypair.fromSecretKey(secret);
 
+            //Check if the escow account as enough SOL to pay the bet otherwise fund it
+            await checkBalanceAndFund(connection, escrowKeyPair.publicKey);
+
             // create transaction to transfer funds from escrow account to bet owner address
             const transaction = new Transaction().add(
                 SystemProgram.transfer({
@@ -67,6 +84,7 @@ module.exports = async (req, res) => {
             })
             .catch(error => {
                 console.error("error", error);  
+                res.status(500).send(error);
             })
         } catch (err) {
             console.error("Failed to update bet, with error code: " + err.message);
