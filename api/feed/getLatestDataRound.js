@@ -22,8 +22,8 @@ const wallet = new Wallet(solanaWeb3.Keypair.fromSecretKey(secret));
  * 
  * Then retrieves the latest price feed data round from Chainlink Data Feeds.
  * 
- * For more info view How to get Data Feeds Off-Chain (Solana) via the link:
- * https://docs.chain.link/docs/solana/using-data-feeds-off-chain/
+ * For more info view How to get Data Feeds On-Chain (Solana) via the link:
+ * https://docs.chain.link/solana/overview
  * @param address Address of the token pair to retrieve the latest data round from
  * @param pair Pair of the token price feed to retrieve the latest data round from
  */
@@ -81,8 +81,8 @@ const getLatestDataRound = async (address, pair) => {
  * The request is expected to come in as a GET request to `/api/feed/getLatestDataRound`. 
  * The request body should have the shape: 
  * { address: "0x...", pair: "XXX-USD" }
- * For more info view How to get Data Feeds Off-Chain (Solana) via the link:
- * https://docs.chain.link/docs/solana/using-data-feeds-off-chain/
+ * For more info view How to get Data Feeds On-Chain (Solana) via the link:
+ * https://docs.chain.link/solana/overview
  * @param req NextApiRequest HTTP request object wrapped by Vercel function helpers
  * @param res NextApiResponse HTTP response object wrapped by Vercel function helpers
  */

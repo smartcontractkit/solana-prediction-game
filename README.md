@@ -15,7 +15,7 @@
 
 # Blockchain Prediction Game
 
-This Project utilizes [Off-Chain Chainlink Price Feeds](https://docs.chain.link/docs/solana/data-feeds-solana/#Solana%20Devnet) to demostrate how to build a simple Prediction Game using Solana. This project works on both Solana Mainnet Beta & Devnet.
+This Project utilizes [On-Chain Chainlink Price Feeds](https://docs.chain.link/solana/overview) to demostrate how to build a simple Prediction Game using Solana. This project works on both Solana Mainnet Beta & Devnet.
 
 [Explore the docs »](https://github.com/thisdot/blockchain-prediction-game)
 
