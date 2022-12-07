@@ -9,17 +9,17 @@
 
 <!-- PROJECT LOGO -->
 <br />
-<a href="https://github.com/thisdot/blockchain-prediction-game">
+<a href="https://github.com/thisdot/solana-prediction-game">
   <img src="src/assets/logos/logo.svg" alt="Logo" width="80" height="80">
 </a>
 
-# Blockchain Prediction Game
+# Solana Prediction Game
 
 This Project utilizes [On-Chain Chainlink Price Feeds](https://docs.chain.link/solana/overview) to demostrate how to build a simple Prediction Game using Solana. This project works on both Solana Mainnet Beta & Devnet.
 
-[Explore the docs »](https://github.com/thisdot/blockchain-prediction-game)
+[Explore the docs »](https://github.com/thisdot/solana-prediction-game)
 
-[View Demo](https://blockchain-prediction-game.vercel.app/) · [Report Bug](https://github.com/thisdot/blockchain-prediction-game/issues) · [Request Feature](https://github.com/thisdot/blockchain-prediction-game/issues)
+[View Demo](https://solana-prediction-game.vercel.app/) · [Report Bug](https://github.com/thisdot/solana-prediction-game/issues) · [Request Feature](https://github.com/thisdot/solana-prediction-game/issues)
 
 <!-- TABLE OF CONTENTS -->
 <details>
@@ -80,7 +80,7 @@ To get a local copy up and running follow these simple example steps.
    ```
 4. Fork and clone the repo
    ```sh
-   gh repo fork https://github.com/thisdot/blockchain-prediction-game.git --clone
+   gh repo fork https://github.com/smartcontractkit/solana-prediction-game.git --clone
    ```
 5. Setup Solana CLI
    1. Install the latest Mainnet version of the Solana CLI and export the path to the CLI:
@@ -98,7 +98,7 @@ To get a local copy up and running follow these simple example steps.
     ```
    2. To quickly start a new project, run the following commands:
     ```sh
-    cd blockchain-prediction-game    # Change directory to the project
+    cd solana-prediction-game    # Change directory to the project
     vercel          # Deploy to the cloud
     ```
    3. Finally, [connect your Git repository](https://vercel.com/docs/git) to Vercel and deploy with git push.
@@ -148,7 +148,7 @@ To get a local copy up and running follow these simple example steps.
 
 ### Installation
 
-1. Change to the project directory `cd blockchain-prediction-game`
+1. Change to the project directory `cd solana-prediction-game`
 2. Run `cp .env.example .env`
 3. Install NPM packages
    ```sh
@@ -182,7 +182,7 @@ To get a local copy up and running follow these simple example steps.
 ## About The Project
 
 <div>
-  <img src="src/assets/screenshots/product-screenshot.png" alt="Blockchain Prediction Game Demo" width="80%" height="auto">
+  <img src="src/assets/screenshots/product-screenshot.png" alt="Solana Prediction Game Demo" width="80%" height="auto">
 </div>
 
 
@@ -225,7 +225,7 @@ The application shows you how to setup a simple game that allows its users to do
 ### File Structure
 
 <div align="left">
-    <img src="src/assets/screenshots/file-structure.png" alt="Blockchain Prediction Game Demo" height="auto">
+    <img src="src/assets/screenshots/file-structure.png" alt="Solana Prediction Game Demo" height="auto">
 </div>
 
 **Image of the File Structure**
