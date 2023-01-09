@@ -103,7 +103,8 @@ To get a local copy up and running follow these simple example steps.
     ```
    3. Finally, [connect your Git repository](https://vercel.com/docs/git) to Vercel and deploy with git push.
 7. Setup wallet
-   I recommend using Phantom wallet for this project, but you can use the other wallets available namely: [Solfare](https://solflare.com/), [Glow](https://glow.app/), and [Slope](https://slope.finance/).
+   
+   We recommend using Phantom wallet for this project, but you can use others, namely: [Solfare](https://solflare.com/), [Glow](https://glow.app/), and [Slope](https://slope.finance/).
    Warning: DO NOT share your Secret Recovery Phrase with anyone! If someone has access to your secret phrase, they will have access to your wallet
 
    - Setup Phantom wallet extension:
