@@ -560,16 +560,16 @@ Don't forget to give the project a star! Thanks again!
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/smartcontractkit/blockchain-prediction-game.svg?style=for-the-badge
-[contributors-url]: https://github.com/smartcontractkit/blockchain-prediction-game/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/smartcontractkit/blockchain-prediction-game.svg?style=for-the-badge
-[forks-url]: https://github.com/smartcontractkit/blockchain-prediction-game/network/members
-[stars-shield]: https://img.shields.io/github/stars/smartcontractkit/blockchain-prediction-game.svg?style=for-the-badge
-[stars-url]: https://github.com/smartcontractkit/blockchain-prediction-game/stargazers
-[issues-shield]: https://img.shields.io/github/issues/smartcontractkit/blockchain-prediction-game.svg?style=for-the-badge
-[issues-url]: https://github.com/smartcontractkit/blockchain-prediction-game/issues
-[license-shield]: https://img.shields.io/github/license/smartcontractkit/blockchain-prediction-game.svg?style=for-the-badge
-[license-url]: https://github.com/smartcontractkit/blockchain-prediction-game/blob/master/LICENSE.txt
+[contributors-shield]: https://img.shields.io/github/contributors/smartcontractkit/solana-prediction-game.svg?style=for-the-badge
+[contributors-url]: https://github.com/smartcontractkit/solana-prediction-game/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/smartcontractkit/solana-prediction-game.svg?style=for-the-badge
+[forks-url]: https://github.com/smartcontractkit/solana-prediction-game/network/members
+[stars-shield]: https://img.shields.io/github/stars/smartcontractkit/solana-prediction-game.svg?style=for-the-badge
+[stars-url]: https://github.com/smartcontractkit/solana-prediction-game/stargazers
+[issues-shield]: https://img.shields.io/github/issues/smartcontractkit/solana-prediction-game.svg?style=for-the-badge
+[issues-url]: https://github.com/smartcontractkit/solana-prediction-game/issues
+[license-shield]: https://img.shields.io/github/license/smartcontractkit/solana-prediction-game.svg?style=for-the-badge
+[license-url]: https://github.com/smartcontractkit/solana-prediction-game/blob/master/LICENSE.txt
 [product-screenshot]: images/screenshot.png
 [node.js-url]: https://nodejs.org/en/download/
 [keypair-url]: https://docs.solana.com/terminology#keypair
