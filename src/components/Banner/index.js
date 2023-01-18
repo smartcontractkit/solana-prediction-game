@@ -244,7 +244,7 @@ const Banner = () => {
                             </Text>
 
                             <Text color="gray.300">
-                                Prediction Game is built on top of Solana, that enables users from any corner of the world to trade and interact markets using trustless solutions.
+                                This dApp is built on top of Solana and Chainlink. It enables users to interact with real-time markets using trustless solutions. Learn how to build a full-stack dApp with Solana and Chainlink.
                             </Text>
 
                             <Link href={GITHUB_URL} isExternal>
@@ -257,7 +257,7 @@ const Banner = () => {
                                     <GithubIcon 
                                         boxSize='24px'
                                     />
-                                    <Text fontWeight="bold">Contribute</Text>
+                                    <Text fontWeight="bold">Go to Repository</Text>
                                 </HStack>
                             </Link>
 
