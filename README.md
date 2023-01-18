@@ -9,7 +9,7 @@
 
 <!-- PROJECT LOGO -->
 <br />
-<a href="https://github.com/thisdot/solana-prediction-game">
+<a href="https://github.com/smartcontractkit/solana-prediction-game">
   <img src="src/assets/logos/logo.svg" alt="Logo" width="80" height="80">
 </a>
 
@@ -17,9 +17,9 @@
 
 This Project utilizes [On-Chain Chainlink Price Feeds](https://docs.chain.link/solana/overview) to demostrate how to build a simple Prediction Game using Solana. This project works on both Solana Mainnet Beta & Devnet.
 
-[Explore the docs »](https://github.com/thisdot/solana-prediction-game)
+[Explore the docs »](https://github.com/smartcontractkit/solana-prediction-game)
 
-[View Demo](https://solana-prediction-game.vercel.app/) · [Report Bug](https://github.com/thisdot/solana-prediction-game/issues) · [Request Feature](https://github.com/thisdot/solana-prediction-game/issues)
+[View Demo](https://solana-prediction-game.vercel.app/) · [Report Bug](https://github.com/smartcontractkit/solana-prediction-game/issues) · [Request Feature](https://github.com/smartcontractkit/solana-prediction-game/issues)
 
 <!-- TABLE OF CONTENTS -->
 <details>
@@ -560,16 +560,16 @@ Don't forget to give the project a star! Thanks again!
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/thisdot/blockchain-prediction-game.svg?style=for-the-badge
-[contributors-url]: https://github.com/thisdot/blockchain-prediction-game/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/thisdot/blockchain-prediction-game.svg?style=for-the-badge
-[forks-url]: https://github.com/thisdot/blockchain-prediction-game/network/members
-[stars-shield]: https://img.shields.io/github/stars/thisdot/blockchain-prediction-game.svg?style=for-the-badge
-[stars-url]: https://github.com/thisdot/blockchain-prediction-game/stargazers
-[issues-shield]: https://img.shields.io/github/issues/thisdot/blockchain-prediction-game.svg?style=for-the-badge
-[issues-url]: https://github.com/thisdot/blockchain-prediction-game/issues
-[license-shield]: https://img.shields.io/github/license/thisdot/blockchain-prediction-game.svg?style=for-the-badge
-[license-url]: https://github.com/thisdot/blockchain-prediction-game/blob/master/LICENSE.txt
+[contributors-shield]: https://img.shields.io/github/contributors/smartcontractkit/blockchain-prediction-game.svg?style=for-the-badge
+[contributors-url]: https://github.com/smartcontractkit/blockchain-prediction-game/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/smartcontractkit/blockchain-prediction-game.svg?style=for-the-badge
+[forks-url]: https://github.com/smartcontractkit/blockchain-prediction-game/network/members
+[stars-shield]: https://img.shields.io/github/stars/smartcontractkit/blockchain-prediction-game.svg?style=for-the-badge
+[stars-url]: https://github.com/smartcontractkit/blockchain-prediction-game/stargazers
+[issues-shield]: https://img.shields.io/github/issues/smartcontractkit/blockchain-prediction-game.svg?style=for-the-badge
+[issues-url]: https://github.com/smartcontractkit/blockchain-prediction-game/issues
+[license-shield]: https://img.shields.io/github/license/smartcontractkit/blockchain-prediction-game.svg?style=for-the-badge
+[license-url]: https://github.com/smartcontractkit/blockchain-prediction-game/blob/master/LICENSE.txt
 [product-screenshot]: images/screenshot.png
 [node.js-url]: https://nodejs.org/en/download/
 [keypair-url]: https://docs.solana.com/terminology#keypair
