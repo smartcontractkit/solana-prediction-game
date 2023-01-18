@@ -67,7 +67,7 @@ const Banner = () => {
         },
         {
             name: 'Faucets',
-            description: '2. Get some dummy SOL from the faucets',
+            description: '2. Get some devnet SOL from the faucets',
             logos: faucets
         },
         {
@@ -77,7 +77,7 @@ const Banner = () => {
         },
         {
             name: null,
-            description: '4. Withdraw your winning! If you were right :)',
+            description: '4. Withdraw winnings or keep playing',
             logos: null
         },
     ]
