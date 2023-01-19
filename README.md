@@ -19,7 +19,7 @@ This Project utilizes [On-Chain Chainlink Price Feeds](https://docs.chain.link/s
 
 [Explore the docs »](https://github.com/smartcontractkit/solana-prediction-game)
 
-[View Demo](https://solana-prediction-game.vercel.app/) · [Report Bug](https://github.com/smartcontractkit/solana-prediction-game/issues) · [Request Feature](https://github.com/smartcontractkit/solana-prediction-game/issues)
+[View Demo](https://solanagame.dev/) · [Report Bug](https://github.com/smartcontractkit/solana-prediction-game/issues) · [Request Feature](https://github.com/smartcontractkit/solana-prediction-game/issues)
 
 <!-- TABLE OF CONTENTS -->
 <details>
