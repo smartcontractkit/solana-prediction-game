@@ -15,7 +15,9 @@
 
 # Solana Prediction Game
 
-This Project utilizes [On-Chain Chainlink Price Feeds](https://docs.chain.link/solana/overview) to demostrate how to build a simple Prediction Game using Solana. This project works on both Solana Mainnet Beta & Devnet.
+This Project utilizes [On-Chain Chainlink Price Feeds](https://docs.chain.link/solana/overview) to demostrate how to build a simple Prediction Game using Solana. This project works on both Solana Devnet and Testnet.
+
+> :warning: **Disclaimer**: The code used in sample application comes from Chainlink community members and has not been audited. The Chainlink team disclaims and shall have no liability with respect to any loss, malfunction, or any other result of its deployment. By electing to deploy this template you hereby acknowledge and agree to the above.
 
 [Explore the docs »](https://github.com/smartcontractkit/solana-prediction-game)
 
@@ -61,8 +63,7 @@ This Project utilizes [On-Chain Chainlink Price Feeds](https://docs.chain.link/s
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+To deploy this project locally, follow these simple steps.
 
 ### Prerequisites
 
