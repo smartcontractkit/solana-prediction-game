@@ -1,6 +1,7 @@
 <a name="readme-top"></a>
 
 <!-- PROJECT SHIELDS -->
+
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
@@ -15,7 +16,7 @@
 
 # Solana Prediction Game
 
-This Project utilizes [On-Chain Chainlink Price Feeds](https://docs.chain.link/solana/overview) to demostrate how to build a simple Prediction Game using Solana. This project works on both Solana Devnet and Testnet.
+This Project utilizes [On-Chain Chainlink Price Feeds](https://docs.chain.link/solana/overview) to demonstrate how to build a simple Prediction Game using Solana. This project works on both Solana Devnet and Testnet.
 
 > :warning: **Disclaimer**: The code used in sample application comes from Chainlink community members and has not been audited. The Chainlink team disclaims and shall have no liability with respect to any loss, malfunction, or any other result of its deployment. By electing to deploy this template you hereby acknowledge and agree to the above.
 
@@ -47,7 +48,7 @@ This Project utilizes [On-Chain Chainlink Price Feeds](https://docs.chain.link/s
             <li><a href="#chainlink-data-feeds">Chainlink Data Feeds</a>
             <li><a href="#solana-wallet-adapter">Solana Wallet Adapter</a>
             <li><a href="#solana-web3.js">Solana/web3.js</a>
-            <li><a href="#vercel-serverless-functions">Vercel Serveless Functions</a>
+            <li><a href="#vercel-serverless-functions">Vercel Serverless Functions</a>
             <li><a href="#github-actions-and-cron-jobs">Github Actions and Cron Jobs</a>
             <li><a href="#mongodb-mongoose">MongoDB and Mongoose</a>
           </ul>
@@ -61,6 +62,7 @@ This Project utilizes [On-Chain Chainlink Price Feeds](https://docs.chain.link/s
 </details>
 
 <!-- GETTING STARTED -->
+
 ## Getting Started
 
 To deploy this project locally, follow these simple steps.
@@ -71,11 +73,11 @@ To deploy this project locally, follow these simple steps.
    ```sh
     node --version
    ```
-2. Setup `yarn` package manager.
+2. Set up `yarn` package manager.
    ```sh
    npm i -g yarn
    ```
-3. Setup `gh` on your machine
+3. Set up `gh` on your machine
    ```sh
    npm install -g gh
    ```
@@ -83,70 +85,68 @@ To deploy this project locally, follow these simple steps.
    ```sh
    gh repo fork https://github.com/smartcontractkit/solana-prediction-game.git --clone
    ```
-5. Setup Solana CLI
-   1. Install the latest Mainnet version of the Solana CLI and export the path to the CLI:
-   ```sh 
-    sh -c "$(curl -sSfL https://release.solana.com/v1.9.28/install)" && export PATH="~/.local/share/solana/install/active_release/bin:$PATH"
-   ```
-   2. Run `solana --version` to make sure the Solana CLI is installed correctly.
+5. Set up Solana CLI
+   - [MacOS & Linux](https://docs.solana.com/cli/install-solana-cli-tools#macos--linux)
+   - [Windows](https://docs.solana.com/cli/install-solana-cli-tools#windows)
+6. Run `solana --version` to make sure the Solana CLI is installed correctly.
    ```sh
-    solana --version
-   ``` 
-6. Setup vercel
+     solana --version
+   ```
+7. Set up Vercel
    1. To install the latest version of Vercel CLI, run this command:
-    ```sh
-    npm i -g vercel
-    ```
+      ```sh
+      npm i -g vercel
+      ```
    2. To quickly start a new project, run the following commands:
-    ```sh
-    cd solana-prediction-game    # Change directory to the project
-    vercel          # Deploy to the cloud
-    ```
+      ```sh
+      cd solana-prediction-game    # Change directory to the project
+      vercel          # Deploy to the cloud
+      ```
    3. Finally, [connect your Git repository](https://vercel.com/docs/git) to Vercel and deploy with git push.
-7. Setup wallet
-   
-   We recommend using Phantom wallet for this project, but you can use others, namely: [Solfare](https://solflare.com/), [Glow](https://glow.app/), and [Slope](https://slope.finance/).
+8. Set up wallet
+
+   We recommend using a Phantom wallet for this project, but you can use others, namely: [Solfare](https://solflare.com/), [Glow](https://glow.app/), and [Slope](https://slope.finance/).
    Warning: DO NOT share your Secret Recovery Phrase with anyone! If someone has access to your secret phrase, they will have access to your wallet
 
-   - Setup Phantom wallet extension:
+   - Set up Phantom wallet extension:
      - Visit https://phantom.app/download and select your browser type. Follow the steps in your respective extension store to add Phantom to your browser. After installing, you should see Phantom start-up in a new tab.
-     - If you are a brand new Solana user, select "Create New Wallet" and create a password.  If you are an existing Solana user, you can follow the steps [here](https://phantom.app/help/migrating-from-sollet-to-phantom) to migrate your existing wallets to Phantom. 
-     - Store your "Secret Recovery Phrase" in a safe and secure location, it is the only way to recover your wallet. Whoever has access to this phrase has access to your funds.  There is an [integration with 1Password](https://blog.1password.com/phantom-crypto-wallet-1password/?utm_medium=social&utm_source=twitter&utm_campaign=phantom&utm_ref=social) for the safe storage of your secret recovery phrase.
+     - If you are a brand new Solana user, select "Create New Wallet" and create a password. If you are an existing Solana user, you can follow the steps [here](https://phantom.app/help/migrating-from-sollet-to-phantom) to migrate your existing wallets to Phantom.
+     - Store your "Secret Recovery Phrase" in a safe and secure location, it is the only way to recover your wallet. Whoever has access to this phrase has access to your funds. There is an [integration with 1Password](https://blog.1password.com/phantom-crypto-wallet-1password/?utm_medium=social&utm_source=twitter&utm_campaign=phantom&utm_ref=social) for the safe storage of your secret recovery phrase.
 
-    <div align="left">
-      <img src="src/assets/screenshots/create-wallet-extension.gif" alt="Setup Wallet Extension Demo" height="auto">
+    <div align="s">
+      <img src="src/assets/screenshots/create-wallet-extension.gif" alt="Set up Wallet Extension Demo" height="auto">
     </div>
-  
-   - Setup Phantom mobile app.
-     - Visit https://phantom.app/download and select the app marketplace according to your device type (iOS/Android). You will be redirected to the Phantom application on your device app store, follow the steps to download and install the application on your device. After installing, open the app and you should see the Phantom onboarding screen to set up a new wallet. 
+
+   - Set up Phantom mobile app.
+     - Visit https://phantom.app/download and select the app marketplace according to your device type (iOS/Android). You will be redirected to the Phantom application on your device app store, follow the steps to download and install the application on your device. After installing, open the app and you should see the Phantom onboarding screen to set up a new wallet.
      - If you are a brand new user, select "Create a new wallet" and enable the device authentication (which may vary according to the device type) to protect your wallet from unauthorized access. If you are an existing Solana user, you can select "I already have a wallet" and enter your seed phrase to restore your wallets.
      - You can add additional security, e.g: enabling bio-metric security or face recognition, in Settings (Upper left corner), Security & Privacy.
 
     <div align="left">
-      <img src="src/assets/screenshots/create-wallet-mobile.gif" alt="Setup Wallet Mobile Demo" height="auto">
+      <img src="src/assets/screenshots/create-wallet-mobile.gif" alt="Set up Wallet Mobile Demo" height="auto">
     </div>
 
    - Switch to Solana Devnet
-     - Open your Phantom Wallet, click on the gear icon in the bottom right hand corner, scroll to Change Network and click on Devnet. 
-     
+
+     - Open your Phantom Wallet, click on the gear icon in the bottom right-hand corner, scroll to Change Network and click on Devnet.
+
      <div align="left">
       <img src="src/assets/screenshots/switch-network.png" alt="Switch Network" height="auto">
-     </div> 
+     </div>
 
    - Airdrop yourself Devnet Solana Tokens.
+
      - Open the faucet: https://solfaucet.com/
      - Copy your Phantom Wallet address
      - Paste your wallet address into the text field and then click 'DEVNET' to send the Solana token
 
      <div align="left">
       <img src="src/assets/screenshots/airdrop-sol.png" alt="Airdrop Solana" height="auto">
-     </div> 
-    
-  
+     </div>
 
+   - [Switch your network to `devnet` on your wallet](https://docs.realms.today/phantom-wallet).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 ### Installation
 
@@ -156,21 +156,28 @@ To deploy this project locally, follow these simple steps.
    ```sh
    yarn
    ```
-4. Create a temporary Solana wallet to use for this example. Alternatively, if you have an existing wallet that you want to use, locate the path to your [keypair][keypair-url] file and use it as the keypair for the rest of this guide.
-   ```sh 
-    solana-keygen new --outfile ./id.json
-   ```
-   Copy the contents of the array in `./id.json` to `WALLET_PRIVATE_KEY=` in `.env`
-5. Download a wallet extension on your browser, preferably [Phantom](https://phantom.app/download). Follow instructions to setup your wallet.
-6. Setup MongoDB database
-   1. Setup a MongoDB account via the following tutorial: [Create MongoDB Account](https://www.mongodb.com/docs/guides/atlas/account/). 
-   2. Setup MongoDB cluster. [Create Cluster](https://www.mongodb.com/docs/guides/atlas/cluster/)
-   3. Setup MongoDB User. [Create User](https://www.mongodb.com/docs/guides/atlas/db-user/)
-   4. After the account has been setup get the connection url via this tutorial: [Get MongoDB Connection Uri](https://www.mongodb.com/docs/guides/atlas/connection-string/)
-   5. Copy connection uri string to `MONGODB_URI=`
-   6. Copy database name to `MONGODB_DB=`
-   
-7. Generate a random API key:  `https://generate-random.org/api-key-generator` and copy it to `API_SECRET_KEY=`
+4. Download a wallet extension on your browser, preferably [Phantom](https://phantom.app/download). Follow the instructions to set up your wallet.
+5. You need an Escrow account to hold and pay out Solana to your users. There are two ways to acquire this:
+   1. Copy your private key from your Wallet. In this example, we will be using Phantom.
+      - Head to the Phantom browser extension menu
+      - Create a new account
+      - Select the menu and pick `Security and Privacy`
+      - Then `Export Private Key`
+      - Enter your password.
+      - Finally copy the contents to `WALLET_PRIVATE_KEY=` in `.env`
+   2. Create a temporary Solana wallet via `solana-keygen`. Alternatively, if you have an existing wallet that you want to use, locate the path to your [keypair][keypair-url] file and use it as the keypair for the rest of this guide.
+      ```sh
+        solana-keygen new --outfile ./id.json
+      ```
+      Copy the contents of the array in `./id.json` to `WALLET_PRIVATE_KEY=` in `.env`
+6. Set up MongoDB database
+   1. Set up a MongoDB account via the following tutorial: [Create MongoDB Account](https://www.mongodb.com/docs/guides/atlas/account/).
+   2. Set up MongoDB cluster. [Create Cluster](https://www.mongodb.com/docs/guides/atlas/cluster/)
+   3. Set up MongoDB User. [Create User](https://www.mongodb.com/docs/guides/atlas/db-user/)
+   4. After the account has been set up get the connection URL via this tutorial: [Get MongoDB Connection Uri](https://www.mongodb.com/docs/guides/atlas/connection-string/)
+   5. Copy connection URI string to `MONGODB_URI=`
+   6. Copy the database name to `MONGODB_DB=`
+7. Generate a random API key: `https://generate-random.org/api-key-generator` and copy it to `API_SECRET_KEY=`
 8. Finally, run the following command to start the application:
    ```sh
    yarn development
@@ -178,38 +185,37 @@ To deploy this project locally, follow these simple steps.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- ABOUT THE PROJECT -->
+
 ## About The Project
 
 <div>
   <img src="src/assets/screenshots/product-screenshot.png" alt="Solana Prediction Game Demo" width="80%" height="auto">
 </div>
 
-
 ### Built With
 
-[![React][React.js]][React-url]
-[![Create-React-App][Create-React]][Create-React-url]
-[![Chainlink Solana Sdk][Chainlink]][Chainlink-url]
-[![Chakra UI][Chakra-UI]][Chakra-UI-url]
-[![Project Serum Anchor][Anchor]][Anchor-url]
-[![Solana/web3.js][Solana/web3.js]][Solana/web3.js-url]
-[![Solana Wallet Adapter][Solana-Wallet-Adapter]][Solana-Wallet-Adapter-url]
-[![Mongoose][Mongoose]][Mongoose-url]
-[![Vercel][Vercel]][Vercel-url]
+[![React][react.js]][react-url]
+[![Create-React-App][create-react]][create-react-url]
+[![Chainlink Solana Sdk][chainlink]][chainlink-url]
+[![Chakra UI][chakra-ui]][chakra-ui-url]
+[![Project Serum Anchor][anchor]][anchor-url]
+[![Solana/web3.js][solana/web3.js]][solana/web3.js-url]
+[![Solana Wallet Adapter][solana-wallet-adapter]][solana-wallet-adapter-url]
+[![Mongoose][mongoose]][mongoose-url]
+[![Vercel][vercel]][vercel-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Context
 
-The application shows you how to setup a simple game that allows its users to do the following:
-1. Users can connect to solana wallet of choice (Solfare, Phantom etc.).
-2. Users can stake solana based on predefined predictions 
-3. The predictions state if the price of blockchain token pair will rise or fall below or above a certain price within a certain time frame (1hr). 
+The application shows you how to set up a simple game that allows its users to do the following:
+
+1. Users can connect to their Solana wallet of choice (Solfare, Phantom etc.).
+2. Users can stake Solana based on predefined predictions
+3. The predictions state if the price of blockchain token pair will rise or fall below or above a certain price within a certain time frame (1hr).
 4. Users get a notification if they win the prediction.
-5. Users are rewarded with double of their stake if their predictions are correct and allowed to withdraw these funds to their wallet.
+5. Users are rewarded with double their stake if their predictions are correct and allowed to withdraw these funds to their wallets.
 6. Users can view the top 5 users based on the percentage of predictions won.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -233,29 +239,33 @@ The application shows you how to setup a simple game that allows its users to do
 **Image of the File Structure**
 
 The major folders for the application are as follows:
-1. `.github` - This contains the application [github actions](https://docs.github.com/en/actions)
-2. `api` - This contains the [vercel serverless functions](https://vercel.com/docs/concepts/functions/serverless-functions) that act as our backend.
+
+1. `.github` - This contains the application's GitHub actions](https://docs.github.com/en/actions)](https://docs.github.com/en/actions)
+2. `api` - This contains the [Vercel serverless functions](https://vercel.com/docs/concepts/functions/serverless-functions) that act as our backend.
 3. `models` - This contains Mongoose Schemas
 4. `lib` - This contains the MongoDB connection
 5. `src` - This contains the `create-react-app` files
-6. `config-overrides.js` - This file overrrides `webpack` configurations for `react-app-rewired`
+6. `config-overrides.js` - This file overrides `webpack` configurations for `react-app-rewired`
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 ### Usage
 
 #### Chainlink Data Feeds
-- How to setup anchor provider in node.js backend 
+
+- How to set up anchor provider in node.js backend
+
   ```
   const anchor = require("@project-serum/anchor");
   const chainlink = require("@chainlink/solana-sdk");
   const provider = anchor.AnchorProvider.env();
-  
+
   // set up provider
   anchor.setProvider(provider);
   ```
-- How to setup custom anchor provider to use in serveless functions
+
+- How to set up a custom anchor provider to use in serverless functions
+
   ```
   const solanaWeb3 = require("@solana/web3.js");
   const anchor = require("@project-serum/anchor");
@@ -265,7 +275,7 @@ The major folders for the application are as follows:
         this.payer = payer
     }
 
-    // Asynchronous function that allows for signing a single transaction 
+    // Asynchronous function that allows for signing a single transaction
     async signTransaction(tx) {
         tx.partialSign(this.payer);
         return tx;
@@ -295,21 +305,23 @@ The major folders for the application are as follows:
   // creation of a new anchor client provider without use of node server & id.json
   const options = anchor.AnchorProvider.defaultOptions();
   const provider = new anchor.AnchorProvider(connection, wallet, options);
-  
+
   // set up provider
   anchor.setProvider(provider);
 
   ```
-- [How to setup get data feeds based on token pair address using custom anchor provider](/api/feed/getLatestDataRound.js)
-  
-  
+
+- [How to set up get data feeds based on token pair address using a custom anchor provider](/api/feed/getLatestDataRound.js)
 
 #### Solana Wallet Adapter
-- [How to setup solana wallet adapter](https://github.com/solana-labs/wallet-adapter#setup)
-- [How to setup custom wallet adapter modal and button with Chakra-UI](/src/components/)
+
+- [How to set up a Solana wallet adapter](https://github.com/solana-labs/wallet-adapter#set up)
+- [How to set up a custom wallet adapter modal and button with Chakra-UI](/src/components/)
 
 #### Solana/web3.js
-- How to transfer solana tokens to a public address triggered by a user on the browser (User to Escrow account)
+
+- How to transfer Solana tokens to a public address triggered by a user on the browser (User to an Escrow account)
+
   ```
   import { WalletNotConnectedError } from '@solana/wallet-adapter-base';
   import { useConnection, useWallet } from '@solana/wallet-adapter-react';
@@ -325,7 +337,7 @@ The major folders for the application are as follows:
 
       // if user is not connected to wallet, show error
       if (!publicKey) throw new WalletNotConnectedError();
-      
+
       // get public key from escrow account address
       const escrowPubKey = Keypair.generate(process.env.REACT_APP_WALLET_PUB_ADDRESS).publicKey;
 
@@ -372,8 +384,10 @@ The major folders for the application are as follows:
 
   }
   ```
-- How to transfer solana tokens from an escrow account(account with known private key) to public address (Escrow to User)
+
+- How to transfer Solana tokens from an escrow account(account with known private key) to a public address (Escrow to User)
   NB: this is to be done on the backend to ensure your Wallet Secret Key is unexposed.
+
   ```
   async function SendOneLamportToUserAddress(withdrawAddress, amount) {
     // connect to solana cluster
@@ -408,21 +422,24 @@ The major folders for the application are as follows:
         };
     })
     .catch(error => {
-        console.error("error", error);  
+        console.error("error", error);
     })
   }
   ```
-- How to save meta data on the solana for transactions. [Memo Program](https://spl.solana.com/memo) 
-  - Install `bs58` npm package, bs58 is a javaScript component to compute base 58 encoding. This encoding is typically used for crypto currencies such as Bitcoin. [bs58](https://github.com/cryptocoinjs/bs58#readme)
+
+- How to save metadata on the Solana for transactions. [Memo Program](https://spl.solana.com/memo)
+
+  - Install `bs58` npm package, bs58 is a JavaScript component to compute base58 encoding. This encoding is typically used for cryptocurrencies such as Bitcoin. [bs58](https://github.com/cryptocoinjs/bs58#readme)
     ```sh
       yarn add bs58
     ```
-  - Save and read data from the solana network
+  - Save and read data from the Solana network
+
     ```
     const web3 = require('@solana/web3.js');
     var bs58 = require('bs58');
     let keypair;
-    const memoProgramId = "MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr"; // 
+    const memoProgramId = "MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr"; //
     const memoProgramKey = new web3.PublicKey(memoProgramId);
     const programId = new web3.PublicKey("7bAt59dk7gSgxTG4pqMFKGuPcvV541NT9k1MnkbahFsm");
     let connection;
@@ -430,7 +447,7 @@ The major folders for the application are as follows:
 
     const establishConnection = async () =>{
         let rpcUrl = web3.clusterApiUrl('devnet')
-        connection = new web3.Connection(rpcUrl, 'confirmed');   
+        connection = new web3.Connection(rpcUrl, 'confirmed');
         console.log('Connection to cluster established:', rpcUrl);
     }
 
@@ -454,8 +471,8 @@ The major folders for the application are as follows:
         }))
 
         const transcationHash =  await web3.sendAndConfirmTransaction(
-            connection, 
-            transferTransaction, 
+            connection,
+            transferTransaction,
             [keypair]
         );
 
@@ -497,70 +514,69 @@ The major folders for the application are as follows:
     initTestReadSaveData();
     ```
 
-#### Vercel Serveless Functions
-Majorly act as our backend, providing an api to manipulate data from our MongoDB database and initiate transactions between our escrow account and users. These files are located at `/api` folder.
+#### Vercel Serverless Functions
+
+Majorly act as our backend, providing an API to manipulate data from our MongoDB database and initiate transactions between our escrow account and users. These files are located in the `/api` folder.
 
 [Explore More about serverless functions »](https://vercel.com/docs/concepts/functions/serverless-functions)
 
-#### Github Actions and Cron Jobs
-In order to automate creation of predictions and getting results of bets, we introduced github actions to initiate cron jobs that periodically run serveless functions. These files are located at `.github/workflows` folder and are written as `.yaml` files.
+#### GitHub Actions and Cron Jobs
 
-[To read more about cron jobs with vercel functions »](https://vercel.com/docs/concepts/solutions/cron-jobs)<br/>
+To automate the creation of predictions and getting results of bets, we introduced GitHub actions to initiate cron jobs that periodically run serverless functions. These files are located in `.github/workflows` folder and are written as `.yaml` files.
+
+[To read more about cron jobs with Vercel functions »](https://vercel.com/docs/concepts/solutions/cron-jobs)<br/>
 [Learn how to write cron expressions »](https://crontab.guru/)</br>
-[Learn more about github actions »](https://docs.github.com/en/actions/learn-github-actions)
-
+[Learn more about GitHub actions »](https://docs.github.com/en/actions/learn-github-actions)
 
 #### MongoDB and Mongoose
-- MongoDB is a document database used to build highly available and scalable internet applications. With its flexible schema approach, it allows us to quickly setup database schemas located at `models` folder to store `predictions`, `bets` and `users`.
+
+- MongoDB is a document database used to build highly available and scalable internet applications. With its flexible schema approach, it allows us to quickly set up database schemas located in the `models` folder to store `predictions`, `bets` and `users`.
 - Mongoose is Object Data Modeling (ODM) library for MongoDB and Node. js. It manages relationships between data, provides schema validation, and is used to translate between objects in code and the representation of those objects in MongoDB.
-- Mongoose allows for us to connect to our MongoDB cluster quickly and easily using a cached connection. [How to setup a Cached Mongoose Connection »](/lib/mongoose.js)
+- Mongoose allows us to connect to our MongoDB cluster quickly and easily using a cached connection. [How to set up a Cached Mongoose Connection »](/lib/mongoose.js)
 
 - MongoDB is a document database used to build highly available and scalable internet applications. With its flexible schema approach, it allows us to quickly set up database schemas located in the `models` folder to store `predictions`, `bets`, and `users`.
 - Mongoose is Object Data Modeling (ODM) library for MongoDB and Node.js. It manages relationships between data, provides schema validation, and is used to translate between objects in code and the representation of those objects in MongoDB.
 - Mongoose allows us to connect to our MongoDB cluster quickly and easily using a cached connection. [How to set up a Cached Mongoose Connection »](/lib/mongoose.js)
 
-
 [Learn more about Mongoose »](https://mongoosejs.com/docs/guide.html)
-
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Additional considerations
-- Store data on-chain to ensure integrity and rigidity of bets and predictions. 
+
+- Store data on-chain to ensure integrity and rigidity of bets and predictions.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
 <!-- CONTRIBUTING -->
+
 ## Contributing
 
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
 If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
 Don't forget to give the project a star! Thanks again!
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- ACKNOWLEDGMENTS -->
+
 ## Acknowledgments
 
-* [Chainlink Docs](https://docs.chain.link/docs)
-* [Solana Cookbook](https://solanacookbook.com/)
+- [Chainlink Docs](https://docs.chain.link/docs)
+- [Solana Cookbook](https://solanacookbook.com/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+
 [contributors-shield]: https://img.shields.io/github/contributors/smartcontractkit/solana-prediction-game.svg?style=for-the-badge
 [contributors-url]: https://github.com/smartcontractkit/solana-prediction-game/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/smartcontractkit/solana-prediction-game.svg?style=for-the-badge
@@ -574,21 +590,21 @@ Don't forget to give the project a star! Thanks again!
 [product-screenshot]: images/screenshot.png
 [node.js-url]: https://nodejs.org/en/download/
 [keypair-url]: https://docs.solana.com/terminology#keypair
-[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
-[React-url]: https://reactjs.org/
-[Create-React]: https://img.shields.io/badge/Create-React-09D3AC?style=for-the-badge&logo=create-react-app&logoColor=61DAFB
-[Create-React-url]: https://create-react-app.dev/
-[Chainlink]: https://img.shields.io/badge/Chainlink-375BD2?style=for-the-badge&logo=chainlink&logoColor=61DAFB
-[Chainlink-url]: https://www.npmjs.com/package/@chainlink/solana-sdk
-[Chakra-UI]: https://img.shields.io/badge/Chakra-UI-319795?style=for-the-badge&logo=chakra-ui&logoColor=61DAFB
-[Chakra-UI-url]: https://chakra-ui.com/
-[Anchor]: https://img.shields.io/badge/Anchor-5000B9?style=for-the-badge&logo=anchor&logoColor=61DAFB
-[Anchor-url]: https://github.com/coral-xyz/anchor#readme
-[Solana-Wallet-Adapter]: https://img.shields.io/badge/Wallet-Adapter-375BD2?style=for-the-badge&logo=web3.js&logoColor=61DAFB
-[Solana-Wallet-Adapter-url]: https://github.com/solana-labs/wallet-adapter#readme
-[Solana/web3.js]: https://img.shields.io/badge/Solana/web3.js-F16822?style=for-the-badge&logo=web3.js&logoColor=61DAFB
-[Solana/web3.js-url]: https://github.com/solana-labs/solana-web3.js
-[Mongoose]: https://img.shields.io/badge/Mongoose-47A248?style=for-the-badge&logo=mongodb&logoColor=61DAFB
-[Mongoose-url]: https://mongoosejs.com/
-[Vercel]: https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=61DAFB
-[Vercel-url]: https://vercel.com/
+[react.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
+[react-url]: https://reactjs.org/
+[create-react]: https://img.shields.io/badge/Create-React-09D3AC?style=for-the-badge&logo=create-react-app&logoColor=61DAFB
+[create-react-url]: https://create-react-app.dev/
+[chainlink]: https://img.shields.io/badge/Chainlink-375BD2?style=for-the-badge&logo=chainlink&logoColor=61DAFB
+[chainlink-url]: https://www.npmjs.com/package/@chainlink/solana-sdk
+[chakra-ui]: https://img.shields.io/badge/Chakra-UI-319795?style=for-the-badge&logo=chakra-ui&logoColor=61DAFB
+[chakra-ui-url]: https://chakra-ui.com/
+[anchor]: https://img.shields.io/badge/Anchor-5000B9?style=for-the-badge&logo=anchor&logoColor=61DAFB
+[anchor-url]: https://github.com/coral-xyz/anchor#readme
+[solana-wallet-adapter]: https://img.shields.io/badge/Wallet-Adapter-375BD2?style=for-the-badge&logo=web3.js&logoColor=61DAFB
+[solana-wallet-adapter-url]: https://github.com/solana-labs/wallet-adapter#readme
+[solana/web3.js]: https://img.shields.io/badge/Solana/web3.js-F16822?style=for-the-badge&logo=web3.js&logoColor=61DAFB
+[solana/web3.js-url]: https://github.com/solana-labs/solana-web3.js
+[mongoose]: https://img.shields.io/badge/Mongoose-47A248?style=for-the-badge&logo=mongodb&logoColor=61DAFB
+[mongoose-url]: https://mongoosejs.com/
+[vercel]: https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=61DAFB
+[vercel-url]: https://vercel.com/
