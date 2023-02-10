@@ -171,13 +171,44 @@ To deploy this project locally, follow these simple steps.
       ```
       Copy the contents of the array in `./id.json` to `WALLET_PRIVATE_KEY=` in `.env`
 6. Set up MongoDB database
+
    1. Set up a MongoDB account via the following tutorial: [Create MongoDB Account](https://www.mongodb.com/docs/guides/atlas/account/).
    2. Set up MongoDB cluster. [Create Cluster](https://www.mongodb.com/docs/guides/atlas/cluster/)
    3. Set up MongoDB User. [Create User](https://www.mongodb.com/docs/guides/atlas/db-user/)
-   4. After the account has been set up get the connection URL via this tutorial: [Get MongoDB Connection Uri](https://www.mongodb.com/docs/guides/atlas/connection-string/)
-   5. Copy connection URI string to `MONGODB_URI=`
-   6. Copy the database name to `MONGODB_DB=`
-7. Generate a random API key: `https://generate-random.org/api-key-generator` and copy it to `API_SECRET_KEY=`
+      ![Users Page](src/assets/screenshots/users_page.png)
+      ![Create User](src/assets/screenshots/add_user.png)
+   4. [Get the MongoDB Connection URI](https://www.mongodb.com/docs/guides/atlas/connection-string/).
+
+      - Navigate to the [Database Deployments](https://cloud.mongodb.com/v2?_ga=2.162842878.354261710.1675751201-506434847.1674149602) page for your project.
+      - Click the Connect button.
+        ![Connect](src/assets/screenshots/sample-data-cluster.png)
+      - Select `Connect your application`
+        ![Connection String](src/assets/screenshots/connection-string.png)
+      - Copy the connection URI string to `MONGODB_URI=` in your `.env`.
+        ![URI string](src/assets/screenshots/mongodb_uri.png)
+      - Replace the `<user>` and `<password>` to your `MONGODB_URI` with the username & password you created.
+        ![MONGODB_URI](src/assets/screenshots/mongo_uri.png)
+
+   5. Finally, [Configure your Network Connection](https://www.mongodb.com/docs/guides/atlas/network-connections/#configure-a-network-connection) for your local development and deployment
+
+      1. For Local development.
+
+         - On the left sidebar of your screen select `Network Access`
+         - Click on `Add IP Address`.
+         - Click `Add My Current IP Address`.
+         - Click `Confirm` and your IP address is added to the list of addresses.
+
+      2. For `Vercel` deployment.
+
+         - On the left sidebar of your screen select `Network Access`.
+         - Click on `Add IP Address`.
+         - In the box labeled `Access List Entry` add `0.0.0.0/0`.
+         - In the box labeled `	Required for your Cluster(s) linked to Vercel` add `Required for your Cluster(s) linked to Vercel`.
+         - Click `Confirm` and your IP address is added to the list of addresses.
+
+           ![Network Access](src/assets/screenshots/network_access.png)
+
+7. Generate a random API key [here](https://generate-random.org/api-key-generator) and copy it to `API_SECRET_KEY=`.
 8. Finally, run the following command to start the application:
    ```sh
    yarn development
