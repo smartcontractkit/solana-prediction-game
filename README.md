@@ -16,7 +16,7 @@
 
 # Solana Prediction Game
 
-This Project utilizes [On-Chain Chainlink Price Feeds](https://docs.chain.link/solana/overview) to demonstrate how to build a simple Prediction Game using Solana. This project works on both Solana Devnet and Testnet.
+This Project uses [On-Chain Chainlink Price Feeds](https://docs.chain.link/solana/overview) to demonstrate how to build a simple Prediction Game using Solana. This project works on both Solana Devnet and Testnet.
 
 > :warning: **Disclaimer**: The code used in sample application comes from Chainlink community members and has not been audited. The Chainlink team disclaims and shall have no liability with respect to any loss, malfunction, or any other result of its deployment. By electing to deploy this template you hereby acknowledge and agree to the above.
 
