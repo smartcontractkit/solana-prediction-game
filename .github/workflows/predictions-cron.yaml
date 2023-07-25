@@ -11,7 +11,7 @@ jobs:
       - name: Schedule Predictions & Update Bet Status every 1 hr
         uses: nick-fields/retry@v2
         with:
-          timeout_minutes: 1
+          timeout_minutes: 15
           max_attempts: 4
           retry_on: timeout
           command: |
